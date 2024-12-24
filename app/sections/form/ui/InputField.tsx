@@ -27,7 +27,7 @@ const InputField: React.FC<InputFieldProps> = ({
         {...register(name)}
         type={type}
         placeholder={placeholder}
-        className={`w-full text-base p-2 border ${
+        className={`w-full text-base p-2 border-b rounded-none ${
           error ? "border-red-500" : "border-gray-300"
         } rounded focus:outline-none focus:ring-1 focus:ring-[#98B14F]`}
       />

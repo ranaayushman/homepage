@@ -20,7 +20,7 @@ export default function Login() {
   };
 
   return (
-    <div className="m-6 mt-0 p-6 bg-white rounded-lg w-full h-full  drop-shadow-md">
+    <div className="m-6 mt-0 p-6 bg-white rounded-lg w-full h-[70vh]  drop-shadow-md">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
           <InputField

@@ -20,7 +20,7 @@ export const loginFormSchema = z.object({
     .string()
     .min(10, "Phone number must be at least 10 digits")
     .regex(/^\d+$/, "Must be a valid phone number"),
-  opt: z.string().length(6),
+  opt: z.string().length(6, "OPT is not valid"),
 });
 
 export type LoginFormValues = z.infer<typeof loginFormSchema>;
