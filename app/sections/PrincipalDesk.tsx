@@ -6,8 +6,8 @@ const PrincipalDesk = () => {
   return (
     <section className="bg-[#FFFFFF] p-10">
       <div>
-        <h2 className="text-center text-[#101010] text-4xl underline underline-offset-8">
-          From the Principle's Desk
+        <h2 className="text-center text-[#101010] text-4xl underline underline-offset-8 decoration-[#789336]">
+          From the Principle&apos;s Desk
         </h2>
         <div className="grid grid-cols-2 p-10">
           <div>
@@ -20,7 +20,7 @@ const PrincipalDesk = () => {
           </div>
           <div className="text-[#101010] text-sm">
             <p>
-              We at the Kalyani Public School endeavor to enhance the child's
+              We at the Kalyani Public School endeavor to enhance the child&apos;s
               emotional, Physical and intellectual development through a sound
               educational programme to meet the challenges. The faculty members
               are fully trained and dedicated professionals providing resources

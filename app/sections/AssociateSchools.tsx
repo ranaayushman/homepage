@@ -12,6 +12,9 @@ const AssociateSchools = () => {
 
   return (
     <section className="p-10">
+      <h2 className="text-[#101010] text-center text-4xl underline underline-offset-8 decoration-[#789336]">
+        Our Schools
+      </h2>
       <div className="flex justify-evenly">
         {schools.map((school, index) => (
           <SchoolCard
