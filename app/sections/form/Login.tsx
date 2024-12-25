@@ -8,6 +8,7 @@ import {
   type LoginFormValues,
 } from "@/app/lib/validations/form";
 import InputField from "./ui/InputField";
+import { DateField } from "./ui/DateField";
 
 export default function Login() {
   const methods = useForm<LoginFormValues>({
@@ -28,8 +29,8 @@ export default function Login() {
             placeholder="Phone Number"
             type="tel"
           />
-          <InputField name="opt" placeholder="Enter OPT here" />
-
+          <InputField name="otp" placeholder="Enter OTP here" />
+          {/* <DateField placeholder="date" name="date" /> */}
           <button
             type="submit"
             className="w-full text-base py-2 px-4 bg-[#98B14F] text-white rounded hover:bg-[#87a03f] transition-colors"

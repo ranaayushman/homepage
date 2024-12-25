@@ -3,6 +3,7 @@ import Home from "./Home";
 import Navbar from "./sections/Navbar";
 import PrincipalDesk from "./sections/PrincipalDesk";
 import AssociateSchools from "./sections/AssociateSchools";
+import Perks from "./sections/Perks";
 
 const page = () => {
   return (
@@ -11,6 +12,7 @@ const page = () => {
       <Home />
       <PrincipalDesk />
       <AssociateSchools />
+      <Perks />
     </div>
   );
 };

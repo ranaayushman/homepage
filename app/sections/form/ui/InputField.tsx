@@ -1,7 +1,9 @@
 "use client";
 
 import React from "react";
+import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
+import { cn } from "@/lib/utils";
 
 interface InputFieldProps {
   name: string;
@@ -22,18 +24,17 @@ const InputField: React.FC<InputFieldProps> = ({
   const error = errors[name]?.message as string | undefined;
 
   return (
-    <div className="mb-4">
-      <input
+    <div className="space-y-2">
+      <Input
         {...register(name)}
         type={type}
         placeholder={placeholder}
-        className={`w-full text-base p-2 border-b rounded-none ${
-          error ? "border-red-500" : "border-gray-300"
-        } rounded focus:outline-none focus:ring-1 focus:ring-[#98B14F]`}
+        className={cn(
+          "focus:ring-2 focus:ring-green-500",
+          error && "border-red-500 focus:ring-red-500"
+        )}
       />
-      <div className="h-5">
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-      </div>
+      {error && <p className="text-sm font-medium text-red-500">{error}</p>}
     </div>
   );
 };
