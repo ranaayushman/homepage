@@ -34,8 +34,15 @@ const Perks = () => {
     },
   ];
 
+  const achievementsData = [
+    { imgSrc: "/img/one.png", imgHeight: 400, imgWidth: 400 },
+    { imgSrc: "/img/two.png", imgHeight: 400, imgWidth: 400 },
+    { imgSrc: "/img/three.png", imgHeight: 400, imgWidth: 400 },
+  ];
+
   return (
-    <section className=" p-10 pt-0">
+    <section className="p-10 pt-0">
+      {/* Perks Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {perksData.map((perk, index) => (
           <PerksComponent
@@ -47,27 +54,24 @@ const Perks = () => {
           />
         ))}
       </div>
-      <div className="bg-[#E3E5DD] p-4 ">
+
+      {/* Achievements Section */}
+      <div className="bg-[#E3E5DD] p-4 mt-10">
         <div className="mb-4">
-          <h2 className="text-[#101010] text-2xl underline decoration-[#789336]">Our Achievements</h2>
+          <h2 className="text-[#101010] text-2xl underline decoration-[#789336]">
+            Our Achievements
+          </h2>
           <hr />
         </div>
-        <div className="flex justify-between gap-x-4">
-          <AchievementCard
-            imgHeight={400}
-            imgSrc="/img/one.png"
-            imgWidth={400}
-          />
-          <AchievementCard
-            imgHeight={400}
-            imgSrc="/img/two.png"
-            imgWidth={400}
-          />
-          <AchievementCard
-            imgHeight={400}
-            imgSrc="/img/three.png"
-            imgWidth={400}
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {achievementsData.map((achievement, index) => (
+            <AchievementCard
+              key={index}
+              imgHeight={achievement.imgHeight}
+              imgSrc={achievement.imgSrc}
+              imgWidth={achievement.imgWidth}
+            />
+          ))}
         </div>
       </div>
     </section>
