@@ -47,8 +47,28 @@ const Perks = () => {
           />
         ))}
       </div>
-      <div>
-        <AchievementCard />
+      <div className="bg-[#E3E5DD] p-4 ">
+        <div className="mb-4">
+          <h2 className="text-[#101010] text-2xl underline decoration-[#789336]">Our Achievements</h2>
+          <hr />
+        </div>
+        <div className="flex justify-between gap-x-4">
+          <AchievementCard
+            imgHeight={400}
+            imgSrc="/img/one.png"
+            imgWidth={400}
+          />
+          <AchievementCard
+            imgHeight={400}
+            imgSrc="/img/two.png"
+            imgWidth={400}
+          />
+          <AchievementCard
+            imgHeight={400}
+            imgSrc="/img/three.png"
+            imgWidth={400}
+          />
+        </div>
       </div>
     </section>
   );
