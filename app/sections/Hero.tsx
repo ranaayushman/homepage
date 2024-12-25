@@ -8,7 +8,6 @@ const Hero = () => {
       <div></div>
       <div>
         <Form />
-    
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ const Form = () => {
   );
 
   return (
-    <div className=" w-full bg flex flex-col text-black">
+    <div className=" w-1/2 bg flex flex-col text-black">
       {/* Buttons div */}
       <div className="flex justify-center mt-6 w-3/4">
         <button
