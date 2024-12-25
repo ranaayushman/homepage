@@ -9,7 +9,7 @@ const PrincipalDesk = () => {
         <h2 className="text-center text-[#101010] text-4xl underline underline-offset-8 decoration-[#789336]">
           From the Principle&apos;s Desk
         </h2>
-        <div className="grid grid-cols-2 p-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 p-10 gap-y-4 md:gap-y-0">
           <div>
             <ProfileCard
               imageSrc="/img/principal.png"
@@ -20,13 +20,13 @@ const PrincipalDesk = () => {
           </div>
           <div className="text-[#101010] text-sm">
             <p>
-              We at the Kalyani Public School endeavor to enhance the child&apos;s
-              emotional, Physical and intellectual development through a sound
-              educational programme to meet the challenges. The faculty members
-              are fully trained and dedicated professionals providing resources
-              for learners and enabling them to decide how to learn and why to
-              learn. Our aim is to hold the leading torch and to become the
-              pioneers in all aspect of education.
+              We at the Kalyani Public School endeavor to enhance the
+              child&apos;s emotional, Physical and intellectual development
+              through a sound educational programme to meet the challenges. The
+              faculty members are fully trained and dedicated professionals
+              providing resources for learners and enabling them to decide how
+              to learn and why to learn. Our aim is to hold the leading torch
+              and to become the pioneers in all aspect of education.
             </p>
             <p>
               We help the young minds grow in a harmonious environment resulting

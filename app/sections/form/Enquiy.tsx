@@ -20,7 +20,7 @@ export default function EnquiryForm() {
   };
 
   return (
-    <div className="m-6 mt-0 p-6 bg-white rounded-lg w-full h-[60vh]  drop-shadow-md">
+    <div className="h-[50vh]">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
           <InputField name="studentName" placeholder="Student Name" />
@@ -29,7 +29,7 @@ export default function EnquiryForm() {
             placeholder="Phone Number"
             type="tel"
           />
-          <InputField name="emailId" placeholder="Email ID" type="email" />
+          <InputField name="emailId" placeholder="Email" type="email" />
           <InputField name="pinCode" placeholder="Pin code" />
 
           <button

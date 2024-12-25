@@ -15,7 +15,7 @@ const AssociateSchools = () => {
       <h2 className="text-[#101010] text-center text-4xl underline underline-offset-8 decoration-[#789336]">
         Our Schools
       </h2>
-      <div className="flex justify-evenly">
+      <div className=" flex flex-col md:flex-row md:justify-evenly">
         {schools.map((school, index) => (
           <SchoolCard
             key={index}
@@ -24,7 +24,7 @@ const AssociateSchools = () => {
           />
         ))}
       </div>
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-y-0">
         <div>
           <h2 className="text-[#101010] text-4xl underline underline-offset-8 decoration-[#789336]">
             Get to Know Us
