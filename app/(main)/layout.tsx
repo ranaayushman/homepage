@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/toaster";
 import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 
 export default function RootLayout({
   children,
@@ -8,11 +9,18 @@ export default function RootLayout({
 }>) {
   return (
     <div className="bg-gray-200">
-      <div className="mb-4 ">
-        <Navbar />
+      <div className="flex">
+        <div>
+          <Sidebar />
+        </div>
+        <div>
+          <div className="mb-4 ">
+            <Navbar />
+          </div>
+          {children}
+          <Toaster />
+        </div>
       </div>
-      {children}
-      <Toaster />
     </div>
   );
 }
