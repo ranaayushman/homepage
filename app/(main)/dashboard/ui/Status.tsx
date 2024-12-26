@@ -14,9 +14,9 @@ const Status = () => {
   };
 
   return (
-    <div className="bg-[#FFFFFF] px-10 rounded-md mx-10">
+    <div className="bg-[#FFFFFF] px-10 rounded-md mx-10 py-5">
       <div>
-        <h2 className="text-xl py-5">Kalyani Public School, Barasat</h2>
+        <h2 className="text-xl pb-5">Kalyani Public School, Barasat</h2>
         <table className="w-full text-center">
           <thead>
             <tr>
@@ -28,7 +28,7 @@ const Status = () => {
               <th></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-sm">
             <tr>
               <td></td>
               <td>Kabir Kumar</td>

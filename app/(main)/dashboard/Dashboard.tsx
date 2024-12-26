@@ -6,7 +6,7 @@ import Footer from "@/app/sections/Footer";
 const Dashboard = () => {
   return (
     <section >
-      <div >
+      <div className="my-10" >
         <NewForm />
         <Status />
       </div>

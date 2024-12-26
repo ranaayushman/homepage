@@ -1,9 +1,16 @@
-import React from 'react'
+import React from "react";
+import Status from "./ui/Status";
+import Footer from "@/app/sections/Footer";
 
-const Payment = () => {
+const payment = () => {
   return (
-    <div>payment</div>
-  )
-}
+    <section >
+      <div className="my-10" >
+        <Status />
+      </div>
+      <Footer />
+    </section>
+  );
+};
 
-export default Payment
+export default payment;
