@@ -38,8 +38,8 @@ const Sidebar = () => {
         <hr className="bg-black border border-gray-200 w-full" />
         <ul className="pt-0">
           {[
-            { title: "Dashboard", href: "/" },
-            { title: "Payments", href: "/payments" },
+            { title: "Dashboard", href: "/dashboard" },
+            { title: "Payments", href: "/payment" },
           ].map((menu, index) => {
             const isActive =
               (pathname === "/" && menu.href === "/") ||
