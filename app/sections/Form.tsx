@@ -10,10 +10,9 @@ const Form = () => {
 
   return (
     <div className="w-full md:w-1/2 bg flex flex-col text-black items-center mt-4 md:mt-10 px-4 md:px-0">
-      {/* Wrapper div to ensure proper form width and alignment */}
-      <div className="w-full max-w-md">
+      <div className="w-96 max-w-md">
         {/* Buttons div - styled to match design */}
-        <div className="flex w-full">
+        <div className="flex w-1/2">
           <button
             className={`flex-1 px-4 md:px-8 py-2 text-base md:text-lg rounded-tl-lg transition-colors ${
               activeComponent === "enquiry"

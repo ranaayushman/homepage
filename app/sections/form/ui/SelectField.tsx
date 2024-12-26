@@ -12,6 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
+import { cn } from "@/lib/utils";
 
 interface Option {
   value: string;
@@ -22,9 +23,20 @@ interface SelectFieldProps {
   name: string;
   placeholder: string;
   options: Option[];
+  className?: {
+    trigger?: string;
+    content?: string;
+    item?: string;
+    formItem?: string;
+  };
 }
 
-export function SelectField({ name, placeholder, options }: SelectFieldProps) {
+export function SelectField({
+  name,
+  placeholder,
+  options,
+  className = {},
+}: SelectFieldProps) {
   const { control } = useFormContext();
 
   return (
@@ -32,16 +44,25 @@ export function SelectField({ name, placeholder, options }: SelectFieldProps) {
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={cn(className.formItem)}>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger className="rounded-md border-gray-300 focus:border-green-500 focus:ring-green-500">
+              <SelectTrigger
+                className={cn(
+                  "rounded-md border-gray-300 border-b h-12",
+                  className.trigger
+                )}
+              >
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>
-            <SelectContent>
+            <SelectContent className={cn(className.content)}>
               {options.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  className={cn(className.item)}
+                >
                   {option.label}
                 </SelectItem>
               ))}

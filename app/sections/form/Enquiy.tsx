@@ -8,6 +8,7 @@ import {
   type EnquiryFormValues,
 } from "@/app/lib/validations/form";
 import InputField from "./ui/InputField";
+import { SelectField } from "./ui/SelectField";
 
 export default function EnquiryForm() {
   const methods = useForm<EnquiryFormValues>({
@@ -20,7 +21,7 @@ export default function EnquiryForm() {
   };
 
   return (
-    <div className="h-[50vh]">
+    <div className="">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
           <InputField name="studentName" placeholder="Student Name" />
@@ -28,6 +29,17 @@ export default function EnquiryForm() {
             name="phoneNumber"
             placeholder="Phone Number"
             type="tel"
+          />
+          <SelectField
+            name="school"
+            placeholder="Select School"
+            options={[]}
+            className={{
+              trigger: "bg-white border-x-0 border-t-0 border-b-2 rounded-none",
+              content: "bg-gray-50",
+              item: "hover:bg-blue-100",
+              formItem: "mb-4",
+            }}
           />
           <InputField name="emailId" placeholder="Email" type="email" />
           <InputField name="pinCode" placeholder="Pin code" />

@@ -11,6 +11,12 @@ export const enquiryFormSchema = z.object({
     .string()
     .length(6, "Pin code must be 6 digits")
     .regex(/^\d+$/, "Must be a valid pin code"),
+  school: z
+    .string({
+      required_error: "Please select a school", 
+      invalid_type_error: "Please select a valid school", 
+    })
+    .min(1, "School selection is required"),
 });
 
 export type EnquiryFormValues = z.infer<typeof enquiryFormSchema>;
