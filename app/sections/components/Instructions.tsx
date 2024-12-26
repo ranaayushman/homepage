@@ -7,13 +7,13 @@ const Instructions = () => {
         <h2 className="text-[#FF7245] text-2xl">Instructions</h2>
         <p>
           1. For any difficulty/ query, parents can also mail us to
-          kps.admissions111@gmail.com or Call
+          kps.admissions111@gmail.com or <br /> Call
           to +91-9748215457 / +91-7384130790 / +91-9875333264
         </p>
         <p>
-          2. Admission Form: Rs.500/- , you will be redirected to Payment
-          Gateway after submission and follow steps to complete the Admission
-          Form Process
+          2. <span className="font-semibold">Admission Form: Rs.500/- </span>,
+          you will be redirected to Payment Gateway after submission and follow
+          steps to complete the Admission Form Process
         </p>
         <p>
           <span className="font-semibold">Parent Declaration:</span> I do hereby
@@ -26,7 +26,6 @@ const Instructions = () => {
           authority.
         </p>
       </div>
-     
     </div>
   );
 };

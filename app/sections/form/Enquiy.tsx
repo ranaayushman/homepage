@@ -9,11 +9,15 @@ import {
 } from "@/app/lib/validations/form";
 import InputField from "./ui/InputField";
 import { SelectField } from "./ui/SelectField";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 export default function EnquiryForm() {
   const methods = useForm<EnquiryFormValues>({
     resolver: zodResolver(enquiryFormSchema),
   });
+
+  const { toast } = useToast();
 
   const onSubmit = (data: EnquiryFormValues) => {
     console.log(data);
@@ -33,7 +37,15 @@ export default function EnquiryForm() {
           <SelectField
             name="school"
             placeholder="Select School"
-            options={[]}
+            options={[
+              { label: "Greenwood High", value: "greenwood_high" },
+              {
+                label: "Oakridge International",
+                value: "oakridge_international",
+              },
+              { label: "DPS Bangalore", value: "dps_bangalore" },
+              { label: "National Public School", value: "nps" },
+            ]}
             className={{
               trigger: "bg-white border-x-0 border-t-0 border-b-2 rounded-none",
               content: "bg-gray-50",
@@ -41,15 +53,21 @@ export default function EnquiryForm() {
               formItem: "mb-4",
             }}
           />
+
           <InputField name="emailId" placeholder="Email" type="email" />
           <InputField name="pinCode" placeholder="Pin code" />
 
-          <button
+          <Button
+            onClick={() =>
+              toast({
+                title: "Form submitted successfully",
+              })
+            }
             type="submit"
             className="w-full text-base py-2 px-4 bg-[#98B14F] text-white rounded hover:bg-[#87a03f] transition-colors"
           >
             SUBMIT
-          </button>
+          </Button>
         </form>
       </FormProvider>
     </div>

@@ -10,7 +10,7 @@ const Form = () => {
 
   return (
     <div className="w-full md:w-1/2 bg flex flex-col text-black items-center mt-4 md:mt-10 px-4 md:px-0">
-      <div className="w-96 max-w-md">
+      <div className="w-11/12 md:w-96 max-w-md">
         {/* Buttons div - styled to match design */}
         <div className="flex w-1/2">
           <button
