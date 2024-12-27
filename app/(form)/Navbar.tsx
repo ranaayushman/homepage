@@ -6,8 +6,8 @@ const Navbar = () => {
     <section className="bg-[#FFFFFF]">
       <div className="flex justify-between items-center py-4 px-10">
         <div>
-          <p className="text-sm">Welcome</p>
-          <h2 className="text-md">Mayank</h2>
+          <h2>Welcome</h2>
+          <p>Mayank</p>
         </div>
         <div>
           <Image alt="query" height={30} width={30} src={"/svg/query.svg"} />

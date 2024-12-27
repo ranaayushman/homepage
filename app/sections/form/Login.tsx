@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -14,9 +14,15 @@ export default function Login() {
     resolver: zodResolver(loginFormSchema),
   });
 
+  const [isOtpVisible, setIsOtpVisible] = useState(false);
+
   const onSubmit = (data: LoginFormValues) => {
     console.log(data);
     // Handle form submission
+  };
+
+  const handleGetOtpClick = () => {
+    setIsOtpVisible(true); 
   };
 
   return (
@@ -32,10 +38,17 @@ export default function Login() {
               placeholder="Phone Number"
               type="tel"
             />
-            <button className="w-full text-base py-2 px-4 bg-[#98B14F] text-white rounded hover:bg-[#87a03f] transition-colors mt-4">
+            <button
+              type="button"
+              onClick={handleGetOtpClick}
+              className="w-full text-base py-2 px-4 bg-[#98B14F] text-white rounded hover:bg-[#87a03f] transition-colors mt-4"
+            >
               Get OTP
             </button>
-            <InputField name="otp" placeholder="Enter OTP here" />
+
+            {isOtpVisible && (
+              <InputField name="otp" placeholder="Enter OTP here" />
+            )}
           </div>
 
           <button

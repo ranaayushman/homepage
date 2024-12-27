@@ -36,7 +36,7 @@ const Sidebar = () => {
           </div>
         </div>
         <hr className="bg-black border border-gray-200 w-full" />
-        <ul className="pt-0">
+        <ul className="pt-5 px-5">
           {[
             { title: "Dashboard", href: "/dashboard" },
             { title: "Payments", href: "/payment" },

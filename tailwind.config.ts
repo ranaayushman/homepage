@@ -12,6 +12,7 @@ export default {
   		backgroundImage: {
   			hero: 'url("/img/heroback.jpg")'
   		},
+		
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
