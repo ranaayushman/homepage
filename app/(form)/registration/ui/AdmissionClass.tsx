@@ -25,12 +25,16 @@ function AdmissionClass() {
   const { toast } = useToast();
 
   const onSubmit = (data: RegisterFormValues) => {
+    console.log("Form data submitted:", data);
     dispatch(updateFormData(data));
 
     // Check if all fields are filled to move to next step
     const allFieldsFilled = Object.values(data).every(Boolean);
     if (allFieldsFilled) {
+      console.log("All fields are filled, moving to next step");
       dispatch(setStep("basic"));
+    } else {
+      console.log("Some fields are empty, not moving to next step");
     }
 
     toast({
