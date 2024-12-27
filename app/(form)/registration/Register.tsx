@@ -1,13 +1,20 @@
 "use client";
-import React, { useState } from "react";
-import FormNavbar, { FormStep } from "./ui/FormNavbar";
+import React from "react";
+import FormNavbar from "./ui/FormNavbar";
+import AdmissionClass from "./ui/AdmissionClass";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/lib/store/store";
 
 const Register = () => {
-  const [currentStep, setCurrentStep] = useState<FormStep>("basic");
+  const { currentStep, progress } = useSelector(
+    (state: RootState) => state.form
+  );
+
   return (
     <div className="bg-[#FFFFFF]">
       <div>
-        <FormNavbar currentStep={currentStep} />
+        <FormNavbar currentStep={currentStep} progress={progress} />
+        <AdmissionClass />
       </div>
     </div>
   );
