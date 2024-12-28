@@ -9,7 +9,7 @@ const PrincipalDesk = () => {
         <h2 className="text-center text-[#101010] text-4xl underline underline-offset-8 decoration-[#789336]">
           From the Principle&apos;s Desk
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 p-10 gap-y-4 md:gap-y-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 p-2 pt-10 md:p-10 gap-y-4 md:gap-y-0">
           <div>
             <ProfileCard
               imageSrc="/img/principal.png"
