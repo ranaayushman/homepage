@@ -11,7 +11,7 @@ const sfProDisplay = localFont({
       style: "italic",
     },
     {
-      path: "./fonts/SFproDisplay-Semibold.ttf",
+      path: "./fonts/SFProDisplay-Semibold.ttf",
       weight: "600",
       style: "normal",
     },
