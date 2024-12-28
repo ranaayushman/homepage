@@ -1,14 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FormStep } from "@/app/(form)/registration/ui/FormNavbar";
+import { registerFormSchema, RegisterFormValues } from "@/app/lib/validations/registerSchema";
 
 interface FormState {
   currentStep: FormStep;
   progress: number;
-  formData: {
-    admissionClass?: string;
-    schoolingMode?: string;
-    admissionSession?: string;
-  };
+  formData: Partial<RegisterFormValues>;
 }
 
 const initialState: FormState = {
@@ -26,11 +23,11 @@ const formSlice = createSlice({
     },
     updateFormData: (
       state,
-      action: PayloadAction<Partial<FormState["formData"]>>
+      action: PayloadAction<Partial<RegisterFormValues>>
     ) => {
       state.formData = { ...state.formData, ...action.payload };
       // Calculate progress based on filled fields
-      const totalFields = 3;
+      const totalFields = Object.keys(registerFormSchema.shape).length;
       const filledFields = Object.values(state.formData).filter(Boolean).length;
       state.progress = Math.round((filledFields / totalFields) * 100);
     },

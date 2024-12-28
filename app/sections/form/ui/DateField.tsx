@@ -1,8 +1,14 @@
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { useFormContext } from "react-hook-form";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   FormField,
-  FormItem,
   FormControl,
+  FormItem,
   FormMessage,
 } from "@/components/ui/form";
 import {
@@ -10,9 +16,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { useFormContext } from "react-hook-form";
 
 interface DateFieldProps {
   name: string;
@@ -27,19 +30,25 @@ export function DateField({ name, placeholder }: DateFieldProps) {
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="flex flex-col">
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
-                <button
-                  type="button"
-                  className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-2 text-sm text-muted-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full pl-3 text-left font-normal",
+                    !field.value && "text-muted-foreground"
+                  )}
+                  type="button" // Important to prevent form submission
                 >
-                  {field.value
-                    ? format(field.value, "dd/MM/yyyy")
-                    : placeholder}
-                  <CalendarIcon className="ml-2 h-4 w-4 opacity-50" />
-                </button>
+                  {field.value ? (
+                    format(field.value, "PPP")
+                  ) : (
+                    <span>{placeholder}</span>
+                  )}
+                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                </Button>
               </FormControl>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
@@ -47,6 +56,9 @@ export function DateField({ name, placeholder }: DateFieldProps) {
                 mode="single"
                 selected={field.value}
                 onSelect={field.onChange}
+                disabled={(date) =>
+                  date > new Date() || date < new Date("1900-01-01")
+                }
                 initialFocus
               />
             </PopoverContent>

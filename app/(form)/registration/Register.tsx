@@ -1,7 +1,8 @@
-"use client";
+"use client"
 import React from "react";
 import FormNavbar from "./ui/FormNavbar";
 import AdmissionClass from "./ui/AdmissionClass";
+import StudentDetails from "./ui/StudentDetails";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +10,7 @@ import { updateFormData, setStep } from "@/app/lib/store/features/formSlice";
 import {
   registerFormSchema,
   type RegisterFormValues,
-} from "@/app/lib/validations/register";
+} from "@/app/lib/validations/registerSchema";
 import { useToast } from "@/hooks/use-toast";
 import { RootState } from "@/app/lib/store/store";
 import { Button } from "@/components/ui/button";
@@ -38,13 +39,14 @@ const Register = () => {
   return (
     <div className="bg-[#FFFFFF]">
       <FormProvider {...methods}>
-        <FormNavbar currentStep={currentStep} progress={progress} />
-        <AdmissionClass onSubmit={methods.handleSubmit(onSubmit)} />
-        <div className="p-10">
-          <Button type="submit" onClick={methods.handleSubmit(onSubmit)}>
-            Submit
-          </Button>
-        </div>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <FormNavbar currentStep={currentStep} progress={progress} />
+          <AdmissionClass />
+          <StudentDetails />
+          <div className="p-10">
+            <Button type="submit">Submit</Button>
+          </div>
+        </form>
       </FormProvider>
     </div>
   );

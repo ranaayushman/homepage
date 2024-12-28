@@ -1,17 +1,12 @@
-"use client";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { SelectField } from "@/app/sections/form/ui/SelectField";
 
-interface AdmissionClassProps {
-  onSubmit: () => void;
-}
-
-function AdmissionClass({ onSubmit }: AdmissionClassProps) {
-  const methods = useFormContext();
+function AdmissionClass() {
+  const { register } = useFormContext();
 
   return (
-    <form onSubmit={methods.handleSubmit(onSubmit)} className="p-10">
+    <div className="p-10">
       <div className="grid grid-cols-2 gap-4">
         <SelectField
           name="admissionClass"
@@ -44,7 +39,7 @@ function AdmissionClass({ onSubmit }: AdmissionClassProps) {
         />
       </div>
       <hr className="my-4" />
-    </form>
+    </div>
   );
 }
 

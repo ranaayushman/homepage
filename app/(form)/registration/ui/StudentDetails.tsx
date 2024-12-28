@@ -1,42 +1,51 @@
 import React from "react";
-import { useForm, FormProvider } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  studentDetailsFormSchema,
-  type StudentDetailsFormValues,
-} from "@/app/lib/validations/studentDetails";
+import { useFormContext } from "react-hook-form";
 import InputField from "@/app/sections/form/ui/InputField";
 import RadioField from "@/app/sections/form/ui/RadioField";
-import { Button } from "@/components/ui/button";
+import { DateField } from "@/app/sections/form/ui/DateField";
 
 const StudentDetails = () => {
-  const methods = useForm<StudentDetailsFormValues>({
-    resolver: zodResolver(studentDetailsFormSchema),
-  });
+  const { register } = useFormContext();
 
-  const onSubmit = (data: StudentDetailsFormValues) => {
-    console.log("Form data submitted:", data);
-  };
   return (
     <div>
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <h2>Student’s Details</h2>
-          <div className="grid grid-cols-2 gap-x-4">
-            <InputField name="name" placeholder="Enter Full Name" />
-            <RadioField
-              name="gender"
-              label="Gender:"
-              options={[
-                { value: "Male", label: "Male" },
-                { value: "Female", label: "Female" },
-                { value: "Other", label: "Other" },
-              ]}
-            />
-          </div>
-          <Button type="submit">Submit</Button>
-        </form>
-      </FormProvider>
+      <div className="grid grid-cols-2 gap-x-4">
+        <InputField name="name" placeholder="Enter Full Name" />
+        <RadioField
+          label="Gender"
+          name="gender"
+          options={[
+            { value: "Male", label: "Male" },
+            { value: "Female", label: "Female" },
+            { value: "Other", label: "Other" },
+          ]}
+        />
+      </div>
+      <div className="grid grid-cols-4 gap-x-4">
+        <DateField name="dateOfBirth" placeholder="Date of Birth" />
+        <InputField name="age" placeholder="Age" />
+      </div>
+      <div className="flex gap-x-4">
+        <RadioField
+          name="castCategory"
+          label="Cast Category"
+          options={[
+            { value: "General", label: "General" },
+            { value: "OBC", label: "OBC" },
+            { value: "SC", label: "SC" },
+            { value: "ST", label: "ST" },
+            { value: "Other", label: "Other" },
+          ]}
+        />
+        <RadioField
+          name="specaillyAbled"
+          label="Specially Abled:"
+          options={[
+            { value: "Yes", label: "Yes" },
+            { value: "No", label: "No" },
+          ]}
+        />
+      </div>
     </div>
   );
 };
