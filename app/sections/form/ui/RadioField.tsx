@@ -3,7 +3,7 @@
 import React from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useFormContext } from "react-hook-form";
+import { useController, useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 
 interface RadioOption {
@@ -18,18 +18,18 @@ interface RadioFieldProps {
 }
 
 const RadioField: React.FC<RadioFieldProps> = ({ name, label, options }) => {
+  const { control } = useFormContext();
   const {
-    register,
-    formState: { errors },
-  } = useFormContext();
-
-  const error = errors[name]?.message as string | undefined;
+    field: { value, onChange },
+    fieldState: { error },
+  } = useController({ name, control });
 
   return (
     <div className="relative space-y-2">
       <Label className="text-md">{label}</Label>
       <RadioGroup
-        {...register(name)}
+        value={value}
+        onValueChange={onChange}
         className={cn("space-y-1", error && "text-red-500")}
       >
         {options.map((option) => (
@@ -48,7 +48,7 @@ const RadioField: React.FC<RadioFieldProps> = ({ name, label, options }) => {
           </div>
         ))}
       </RadioGroup>
-      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
+      {error && <p className="text-sm text-red-500 mt-1">{error.message}</p>}
     </div>
   );
 };

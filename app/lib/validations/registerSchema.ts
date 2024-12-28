@@ -8,7 +8,7 @@ export const registerFormSchema = z.object({
   gender: z.enum(["Male", "Female", "Other"]),
   dateOfBirth: z.date(),
   age: z.string().min(1, "Age is required"),
-  castCategory: z.enum(["General", "OBC", "SC", "ST", "Other"]),
+  castCategory: z.enum(["General", "OBC", "SC", "ST", "EWS"]),
   specaillyAbled: z.enum(["Yes", "No"]),
   lastSchoolAffiliated: z.enum(["CBSE", "ICSE", "IB", "State Board", "Other"]),
   lastClassAttended: z.string().min(1, "Last class attended is required"),
