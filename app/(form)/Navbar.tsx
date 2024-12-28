@@ -10,7 +10,7 @@ const Navbar = () => {
           <p>Mayank</p>
         </div>
         <div>
-          <Image alt="query" height={30} width={30} src={"/svg/query.svg"} />
+          <Image alt="query" height={30} width={30} src={"/svg/Query.svg"} />
         </div>
       </div>
     </section>
