@@ -6,7 +6,7 @@ export type FormStep = "basic" | "payment" | "additional";
 
 interface FormNavbarProps {
   currentStep: FormStep;
-  progress: number; // Changed from Number to number for TypeScript consistency
+  progress: number;
 }
 
 const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
