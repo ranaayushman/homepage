@@ -6,7 +6,7 @@ function AdmissionClass() {
   const { register } = useFormContext();
 
   return (
-    <div className="p-10">
+    <div className="">
       <div className="grid grid-cols-2 gap-4">
         <SelectField
           name="admissionClass"

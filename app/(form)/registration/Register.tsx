@@ -14,6 +14,8 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { RootState } from "@/app/lib/store/store";
 import { Button } from "@/components/ui/button";
+import PreviousAcademic from "./ui/PreviousAcademic";
+import Guardian from "./ui/Guardian";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -26,7 +28,6 @@ const Register = () => {
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
       ...formData,
-      // Convert stored string back to Date if it exists
       dateOfBirth: formData.dateOfBirth
         ? new Date(formData.dateOfBirth)
         : undefined,
@@ -34,7 +35,6 @@ const Register = () => {
   });
 
   const onSubmit = (data: RegisterFormValues) => {
-    // Create a new object with the date converted to ISO string
     const serializedData = {
       ...data,
       dateOfBirth:
@@ -52,12 +52,14 @@ const Register = () => {
   };
 
   return (
-    <div className="bg-[#FFFFFF]">
+    <div className="bg-[#FFFFFF] p-10">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <FormNavbar currentStep={currentStep} progress={progress} />
           <AdmissionClass />
           <StudentDetails />
+          <PreviousAcademic />
+          <Guardian />
           <div className="p-10">
             <Button type="submit">Submit</Button>
           </div>

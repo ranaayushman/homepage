@@ -6,15 +6,19 @@ import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 
 interface InputFieldProps {
+  label?: string;
   name: string;
   placeholder: string;
   type?: string;
+  className?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
+  label,
   name,
   placeholder,
   type = "text",
+  className,
 }) => {
   const {
     register,
@@ -25,18 +29,23 @@ const InputField: React.FC<InputFieldProps> = ({
 
   return (
     <div className="relative space-y-2">
-      <div className="relative">
-        <Input
-          {...register(name)}
-          type={type}
-          placeholder={error ? (error as string) : placeholder}
-          className={cn(
-            "border-0 border-b-2 rounded-none border-gray-700 h-12 bg-transparent px-0 py-2 focus:border-green-500 focus:ring-0 placeholder:text-sm",
-            error &&
-              "border-red-500 focus:border-red-500 placeholder:text-red-500"
-          )}
-        />
-      </div>
+      {label && (
+        <label htmlFor={name} className="text-md text-black">
+          {label}
+        </label>
+      )}
+      <Input
+        {...register(name)}
+        type={type}
+        placeholder={error ? (error as string) : placeholder}
+        className={cn(
+          "border rounded-md h-12 bg-transparent px-0 p-2 focus:border-green-500 focus:ring-0 placeholder:text-sm",
+          error &&
+            "border-red-500 focus:border-red-500 placeholder:text-red-500",
+          className
+        )}
+      />
+      {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   );
 };

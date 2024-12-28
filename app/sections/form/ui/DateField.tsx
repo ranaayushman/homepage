@@ -37,7 +37,7 @@ export function DateField({ name, placeholder }: DateFieldProps) {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full pl-3 text-left font-normal",
+                    "w-full pl-3 h-12 border text-left font-normal",
                     !field.value && "text-muted-foreground"
                   )}
                   type="button"
