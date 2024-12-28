@@ -21,7 +21,7 @@ const PreviousAcademic = () => {
           ]}
         />
       </div>
-      <div className="grid grid-cols-4 gap-x-4">
+      <div className="grid grid-cols-4 gap-x-4 ">
         <SelectField
           label="Last Class Attended:"
           name="lastClassAttended"
