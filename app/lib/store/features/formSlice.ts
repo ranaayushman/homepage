@@ -1,11 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FormStep } from "@/app/(form)/registration/ui/FormNavbar";
-import { registerFormSchema, RegisterFormValues } from "@/app/lib/validations/registerSchema";
+import {
+  registerFormSchema,
+  RegisterFormValues,
+} from "@/app/lib/validations/registerSchema";
+
+// Create a new type for serialized form data
+type SerializedFormData = Omit<RegisterFormValues, "dateOfBirth"> & {
+  dateOfBirth?: string;
+};
 
 interface FormState {
   currentStep: FormStep;
   progress: number;
-  formData: Partial<RegisterFormValues>;
+  formData: Partial<SerializedFormData>;
 }
 
 const initialState: FormState = {
@@ -23,17 +31,14 @@ const formSlice = createSlice({
     },
     updateFormData: (
       state,
-      action: PayloadAction<Partial<RegisterFormValues>>
+      action: PayloadAction<Partial<SerializedFormData>>
     ) => {
       state.formData = { ...state.formData, ...action.payload };
-      // Calculate progress based on filled fields
       const totalFields = Object.keys(registerFormSchema.shape).length;
       const filledFields = Object.values(state.formData).filter(Boolean).length;
       state.progress = Math.round((filledFields / totalFields) * 100);
     },
-    resetForm: (state) => {
-      return initialState;
-    },
+    resetForm: () => initialState,
   },
 });
 

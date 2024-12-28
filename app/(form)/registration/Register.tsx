@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import FormNavbar from "./ui/FormNavbar";
 import AdmissionClass from "./ui/AdmissionClass";
@@ -24,12 +24,27 @@ const Register = () => {
 
   const methods = useForm<RegisterFormValues>({
     resolver: zodResolver(registerFormSchema),
-    defaultValues: formData,
+    defaultValues: {
+      ...formData,
+      // Convert stored string back to Date if it exists
+      dateOfBirth: formData.dateOfBirth
+        ? new Date(formData.dateOfBirth)
+        : undefined,
+    },
   });
 
   const onSubmit = (data: RegisterFormValues) => {
-    console.log("Form data submitted:", data);
-    dispatch(updateFormData(data));
+    // Create a new object with the date converted to ISO string
+    const serializedData = {
+      ...data,
+      dateOfBirth:
+        data.dateOfBirth instanceof Date
+          ? data.dateOfBirth.toISOString()
+          : data.dateOfBirth,
+    };
+
+    console.log("Form data submitted:", serializedData);
+    dispatch(updateFormData(serializedData));
     toast({
       title: "Success!",
       description: "Form data has been submitted successfully.",
