@@ -6,7 +6,7 @@ import StudentDetails from "./ui/StudentDetails";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFormData, setStep } from "@/app/lib/store/features/formSlice";
+import { updateFormData } from "@/app/lib/store/features/formSlice";
 import {
   registerFormSchema,
   type RegisterFormValues,

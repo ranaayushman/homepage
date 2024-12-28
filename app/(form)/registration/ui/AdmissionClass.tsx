@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 import { SelectField } from "@/app/sections/form/ui/SelectField";
 
 function AdmissionClass() {
-  const { register } = useFormContext();
+  useFormContext();
 
   return (
     <div className="mt-5">

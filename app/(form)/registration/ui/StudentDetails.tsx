@@ -5,7 +5,7 @@ import RadioField from "@/app/sections/form/ui/RadioField";
 import { DateField } from "@/app/sections/form/ui/DateField";
 
 const StudentDetails = () => {
-  const { register } = useFormContext();
+  useFormContext();
 
   return (
     <div className="grid gap-y-4">

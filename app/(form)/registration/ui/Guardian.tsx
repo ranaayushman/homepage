@@ -3,10 +3,10 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 
 const Guardian = () => {
-  const { register } = useFormContext();
+  useFormContext();
   return (
     <div className="grid gap-y-4">
-      <h2>Parent/Guardian's Details</h2>
+      <h2>Parent/Guardian&apos;s Details</h2>
       <div className="grid grid-cols-2 gap-x-4">
         <InputField
           name="guardianName"
