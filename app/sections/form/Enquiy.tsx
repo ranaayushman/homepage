@@ -28,11 +28,12 @@ export default function EnquiryForm() {
     <div className="">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
-          <InputField name="studentName" placeholder="Student Name" />
+          <InputField name="studentName" placeholder="Student Name" className="rounded-none border-black border-t-0 border-x-0"/>
           <InputField
             name="phoneNumber"
             placeholder="Phone Number"
             type="tel"
+            className="rounded-none border-black border-t-0 border-x-0"
           />
           <SelectField
             name="school"
@@ -54,8 +55,17 @@ export default function EnquiryForm() {
             }}
           />
 
-          <InputField name="emailId" placeholder="Email" type="email" />
-          <InputField name="pinCode" placeholder="Pin code" />
+          <InputField
+            name="emailId"
+            placeholder="Email"
+            type="email"
+            className="rounded-none border-black border-t-0 border-x-0"
+          />
+          <InputField
+            name="pinCode"
+            placeholder="Pin code"
+            className="rounded-none border-black border-t-0 border-x-0"
+          />
 
           <Button
             onClick={() =>

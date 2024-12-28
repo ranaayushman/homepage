@@ -37,6 +37,7 @@ export default function Login() {
               name="phoneNumber"
               placeholder="Phone Number"
               type="tel"
+              className="rounded-none border-black border-t-0 border-x-0"
             />
             <button
               type="button"
@@ -47,7 +48,7 @@ export default function Login() {
             </button>
 
             {isOtpVisible && (
-              <InputField name="otp" placeholder="Enter OTP here" />
+              <InputField name="otp" placeholder="Enter OTP here" className="rounded-none border-black border-t-0 border-x-0"/>
             )}
           </div>
 
