@@ -8,7 +8,7 @@ const PreviousAcademic = () => {
   useFormContext();
   return (
     <div>
-      <h2>Previous Academic Information</h2>
+      <h2 className="text-xl my-5">Previous Academic Information</h2>
       <div className="my-5">
         <RadioField
           label="Last School affiliated is:"
@@ -23,6 +23,7 @@ const PreviousAcademic = () => {
       </div>
       <div className="grid grid-cols-4 gap-x-4">
         <SelectField
+          label="Last Class Attended:"
           name="lastClassAttended"
           placeholder="Last Class Attended"
           options={[
@@ -36,7 +37,11 @@ const PreviousAcademic = () => {
           ]}
         />
         <div className="col-span-2">
-          <InputField name="lastSchoolName" placeholder="Last School Name" />
+          <InputField
+            name="lastSchoolName"
+            label="Last School Attended:"
+            placeholder="Last School Name"
+          />
         </div>
       </div>
       <hr className="my-4" />

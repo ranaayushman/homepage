@@ -23,6 +23,7 @@ interface SelectFieldProps {
   name: string;
   placeholder: string;
   options: Option[];
+  label?: string; 
   className?: {
     trigger?: string;
     content?: string;
@@ -35,6 +36,7 @@ export function SelectField({
   name,
   placeholder,
   options,
+  label,
   className = {},
 }: SelectFieldProps) {
   const { control } = useFormContext();
@@ -45,6 +47,11 @@ export function SelectField({
       name={name}
       render={({ field }) => (
         <FormItem className={cn(className.formItem)}>
+          {label && (
+            <label htmlFor={name} className="text-md text-black mb-1">
+              {label}
+            </label>
+          )}
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
               <SelectTrigger

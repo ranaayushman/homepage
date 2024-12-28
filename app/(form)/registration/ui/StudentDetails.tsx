@@ -8,9 +8,10 @@ const StudentDetails = () => {
   const { register } = useFormContext();
 
   return (
-    <div>
+    <div className="grid gap-y-4">
+      <h2 className="text-xl my-4">Student&apos;s Details</h2>
       <div className="grid grid-cols-2 gap-x-4">
-        <InputField name="name" placeholder="Enter Full Name" />
+        <InputField name="name" placeholder="Enter Full Name" label="Name:" />
         <RadioField
           label="Gender"
           name="gender"
@@ -22,8 +23,8 @@ const StudentDetails = () => {
         />
       </div>
       <div className="grid grid-cols-4 gap-x-4">
-        <DateField name="dateOfBirth" placeholder="Date of Birth" />
-        <InputField name="age" placeholder="Age" />
+        <DateField name="dateOfBirth" placeholder="Date of Birth" label="Date Of Birth:"/>
+        <InputField name="age" placeholder="Age" label="Age:" />
       </div>
       <div className="flex gap-x-4">
         <RadioField

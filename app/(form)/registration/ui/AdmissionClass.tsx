@@ -6,9 +6,10 @@ function AdmissionClass() {
   const { register } = useFormContext();
 
   return (
-    <div className="">
+    <div className="mt-5">
       <div className="grid grid-cols-2 gap-4">
         <SelectField
+          label="Admission for Class:"
           name="admissionClass"
           placeholder="Select Admission Class"
           options={[
@@ -22,6 +23,7 @@ function AdmissionClass() {
           ]}
         />
         <SelectField
+          label="Mode of Schooling:"
           name="schoolingMode"
           placeholder="Select Schooling Mode"
           options={[
@@ -30,6 +32,7 @@ function AdmissionClass() {
           ]}
         />
         <SelectField
+          label="Select The Admission Session You Would Like To Apply For:"
           name="admissionSession"
           placeholder="Select Admission Session"
           options={[

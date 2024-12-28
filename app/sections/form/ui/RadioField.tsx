@@ -27,7 +27,7 @@ const RadioField: React.FC<RadioFieldProps> = ({ name, label, options }) => {
 
   return (
     <div className="relative space-y-2">
-      <Label className="text-sm font-medium">{label}</Label>
+      <Label className="text-md">{label}</Label>
       <RadioGroup
         {...register(name)}
         className={cn("space-y-1", error && "text-red-500")}

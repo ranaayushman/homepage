@@ -8,15 +8,28 @@ const Guardian = () => {
     <div className="grid gap-y-4">
       <h2>Parent/Guardian's Details</h2>
       <div className="grid grid-cols-2 gap-x-4">
-        <InputField name="guardianName" placeholder="Parent/Guardian's Name" label="Parent/Guardian's Name" />
+        <InputField
+          name="guardianName"
+          placeholder="Parent/Guardian's Name"
+          label="Parent/Guardian's Name"
+        />
       </div>
       <div className="grid grid-cols-3 gap-x-4">
         <InputField
+          label="Highest Qualification:"
           name="highestQualification"
           placeholder="Highest Qualification"
         />
-        <InputField name="occupation" placeholder="Occupation" />
-        <InputField name="yearlyIncome" placeholder="Enter Yearly Income" />
+        <InputField
+          name="occupation"
+          placeholder="Occupation"
+          label="Occupation:"
+        />
+        <InputField
+          name="yearlyIncome"
+          placeholder="Enter Yearly Income"
+          label="Yearly Income:"
+        />
       </div>
     </div>
   );

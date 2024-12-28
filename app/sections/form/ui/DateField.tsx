@@ -18,11 +18,22 @@ import {
 } from "@/components/ui/popover";
 
 interface DateFieldProps {
+  label?: string; // Optional label
   name: string;
   placeholder: string;
+  className?: {
+    container?: string; // Custom class for the container
+    label?: string; // Custom class for the label
+    button?: string; // Custom class for the button
+  };
 }
 
-export function DateField({ name, placeholder }: DateFieldProps) {
+export function DateField({
+  label,
+  name,
+  placeholder,
+  className = {},
+}: DateFieldProps) {
   const { control } = useFormContext();
 
   return (
@@ -30,7 +41,15 @@ export function DateField({ name, placeholder }: DateFieldProps) {
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-col">
+        <FormItem className={cn("flex flex-col", className.container)}>
+          {label && (
+            <label
+              htmlFor={name}
+              className={cn("text-md text-black", className.label)}
+            >
+              {label}
+            </label>
+          )}
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
@@ -38,7 +57,8 @@ export function DateField({ name, placeholder }: DateFieldProps) {
                   variant={"outline"}
                   className={cn(
                     "w-full pl-3 h-12 border text-left font-normal",
-                    !field.value && "text-muted-foreground"
+                    !field.value && "text-muted-foreground",
+                    className.button
                   )}
                   type="button"
                 >
