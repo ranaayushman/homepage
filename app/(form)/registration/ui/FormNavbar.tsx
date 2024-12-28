@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
@@ -10,7 +12,6 @@ interface FormNavbarProps {
 }
 
 const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
-  // Step configuration for better maintainability
   const STEPS: Record<FormStep, { title: string; icon: string }> = {
     basic: { title: "Basic Details", icon: "/svg/step1.svg" },
     payment: { title: "Payment", icon: "/svg/step2.svg" },
@@ -36,12 +37,17 @@ const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
 
   return (
     <div className="w-full bg-white py-6 shadow-sm">
-      <div className="flex justify-between items-center max-w-5xl mx-auto px-4">
-        <h2 className="font-semibold text-lg">Form- 2468</h2>
-        <h2 className="font-semibold text-lg text-center">
-          Kalyani Public School, Barasat Registration Form
-        </h2>
-        <div className="w-24" />
+      <div className="flex flex-col sm:flex-row justify-between items-center max-w-5xl mx-auto gap-y-5 sm:gap-y-0  px-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-y-5 sm:gap-y-0 sm:w-2/3">
+          <h2 className="font-semibold text-sm md:text-lg text-center sm:text-left">
+            Form- 2468
+          </h2>
+          <h2 className="font-semibold text-sm md:text-lg text-center sm:text-left">
+            Kalyani Public School, Barasat Registration Form
+          </h2>
+        </div>
+        {/* Empty div on larger screens */}
+        <div className="w-24 sm:w-auto" />
       </div>
 
       <div className="mx-auto mt-4 flex justify-evenly items-center">
@@ -62,7 +68,7 @@ const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
               {isStepCompleted(step) && (
                 <div className="absolute inset-0 flex items-center justify-center bg-[#789336] bg-opacity-20 rounded-full">
                   <svg
-                    className="w-6 h-6 text-[#789336]"
+                    className="w-6 h-6 text-[#789336] text-xs sm:text-sm"
                     fill="none"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -76,7 +82,7 @@ const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
               )}
             </div>
             <span
-              className={`text-sm font-medium ${
+              className={`text-xs sm:text-sm font-medium ${
                 isActiveStep(step)
                   ? "text-[#789336]"
                   : isStepCompleted(step)

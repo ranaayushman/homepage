@@ -7,17 +7,17 @@ const Guardian = () => {
   return (
     <div className="grid gap-y-4">
       <h2>Parent/Guardian&apos;s Details</h2>
-      <div className="grid grid-cols-2 gap-x-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
         <InputField
           name="guardianName"
           placeholder="Parent/Guardian's Name"
           label="Parent/Guardian's Name"
         />
       </div>
-      <div className="grid grid-cols-3 gap-x-4">
+      <div className="grid grid-cols-1 gap-y-4 md:grid-cols-3 md:gap-x-4">
         <InputField
           label="Highest Qualification:"
-          name="highestQualification"
+          name="highestQualification" 
           placeholder="Highest Qualification"
         />
         <InputField

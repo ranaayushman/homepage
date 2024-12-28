@@ -52,7 +52,7 @@ const Register = () => {
   };
 
   return (
-    <div className="bg-[#FFFFFF] p-10">
+    <div className="bg-[#FFFFFF] p-10 rounded-md">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <FormNavbar currentStep={currentStep} progress={progress} />
@@ -60,8 +60,8 @@ const Register = () => {
           <StudentDetails />
           <PreviousAcademic />
           <Guardian />
-          <div className="p-10">
-            <Button type="submit">Submit</Button>
+          <div className="p-10 flex justify-end">
+            <Button type="submit" className="bg-[#789336] hover:bg-[#85a23c] h-10 w-2/3 md:w-1/4">Submit</Button>
           </div>
         </form>
       </FormProvider>

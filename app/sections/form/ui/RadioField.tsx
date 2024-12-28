@@ -26,27 +26,30 @@ const RadioField: React.FC<RadioFieldProps> = ({ name, label, options }) => {
 
   return (
     <div className="relative space-y-2">
-      <Label className="text-md">{label}</Label>
+      <Label className="text-sm md:text-md">{label}</Label>
       <RadioGroup
         value={value}
         onValueChange={onChange}
         className={cn("space-y-1", error && "text-red-500")}
       >
-        {options.map((option) => (
-          <div key={option.value} className="flex items-center space-x-2">
-            <RadioGroupItem
-              value={option.value}
-              id={`${name}-${option.value}`}
-              className={cn(error && "border-red-500 text-red-500")}
-            />
-            <Label
-              htmlFor={`${name}-${option.value}`}
-              className={cn("text-sm font-normal", error && "text-red-500")}
-            >
-              {option.label}
-            </Label>
-          </div>
-        ))}
+        {/* Add responsive grid classes */}
+        <div className="grid grid-cols-1 sm:flex gap-4">
+          {options.map((option) => (
+            <div key={option.value} className="flex items-center space-x-2">
+              <RadioGroupItem
+                value={option.value}
+                id={`${name}-${option.value}`}
+                className={cn(error && "border-red-500 text-red-500")}
+              />
+              <Label
+                htmlFor={`${name}-${option.value}`}
+                className={cn("text-sm font-normal", error && "text-red-500")}
+              >
+                {option.label}
+              </Label>
+            </div>
+          ))}
+        </div>
       </RadioGroup>
       {error && <p className="text-sm text-red-500 mt-1">{error.message}</p>}
     </div>
