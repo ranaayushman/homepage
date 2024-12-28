@@ -40,10 +40,10 @@ export function DateField({ name, placeholder }: DateFieldProps) {
                     "w-full pl-3 text-left font-normal",
                     !field.value && "text-muted-foreground"
                   )}
-                  type="button" // Important to prevent form submission
+                  type="button"
                 >
                   {field.value ? (
-                    format(field.value, "PPP")
+                    format(field.value, "dd/MM/yyyy")
                   ) : (
                     <span>{placeholder}</span>
                   )}
