@@ -23,7 +23,7 @@ interface SelectFieldProps {
   name: string;
   placeholder: string;
   options: Option[];
-  label?: string; 
+  label?: string;
   className?: {
     trigger?: string;
     content?: string;
@@ -48,7 +48,10 @@ export function SelectField({
       render={({ field }) => (
         <FormItem className={cn(className.formItem)}>
           {label && (
-            <label htmlFor={name} className="text-sm md:text-md text-black mb-1">
+            <label
+              htmlFor={name}
+              className="text-sm md:text-md text-black mb-1"
+            >
               {label}
             </label>
           )}

@@ -1,8 +1,12 @@
 // Payment.tsx
 import React from "react";
 import { useFormContext } from "react-hook-form";
+// import {onNext} from ""
 
-const Payment = () => {
+interface PaymentProps {
+  onNext: () => void;
+}
+const Payment = ({ onNext }: PaymentProps) => {
   const { register } = useFormContext();
 
   return (
