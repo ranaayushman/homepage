@@ -1,3 +1,4 @@
+// Register.tsx
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import type { RegisterFormValues } from "@/app/lib/validations/registerSchema";
@@ -13,6 +14,7 @@ import AdmissionClass from "./ui/AdmissionClass";
 import StudentDetails from "./ui/StudentDetails";
 import PreviousAcademic from "./ui/PreviousAcademic";
 import Guardian from "./ui/Guardian";
+import DownloadPDFButton from "./DownloadPDFButton";
 
 interface RegisterProps {
   onNext: () => void;
@@ -23,7 +25,6 @@ const Register = ({ onNext }: RegisterProps) => {
   const [formData, setFormData] = React.useState<RegisterFormValues | null>(
     null
   );
-
   const { handleSubmit } = useFormContext<RegisterFormValues>();
 
   const onSubmit = (data: RegisterFormValues) => {
@@ -31,13 +32,11 @@ const Register = ({ onNext }: RegisterProps) => {
       ...data,
       dateOfBirth: new Date(data.dateOfBirth).toISOString(),
     };
-
     setFormData(formattedData);
     setShowConfirmDialog(true);
   };
 
   const handleConfirm = () => {
-    console.log("Submitting:", formData);
     setShowConfirmDialog(false);
     onNext();
   };
@@ -49,10 +48,12 @@ const Register = ({ onNext }: RegisterProps) => {
         <StudentDetails />
         <PreviousAcademic />
         <Guardian />
-
-        <Button type="submit" className="bg-primary w-full">
-          Save & Continue
-        </Button>
+        <div className="flex gap-4">
+          <Button type="submit" className="bg-primary flex-1">
+            Save & Continue
+          </Button>
+          <DownloadPDFButton formData={formData} />
+        </div>
       </form>
 
       <Dialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
@@ -70,7 +71,7 @@ const Register = ({ onNext }: RegisterProps) => {
             >
               Review
             </Button>
-            <Button onClick={handleConfirm}>Confirm & Continue</Button>
+            <Button onClick={handleConfirm}>Confirm</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
