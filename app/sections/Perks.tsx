@@ -55,7 +55,7 @@ const Perks = () => {
         ))}
       </div>
 
-      {/* Achievements Section */}
+      {/* Achievements Section
       <div className="bg-[#E3E5DD] p-4 mt-10">
         <div className="mb-4">
           <h2 className="text-[#101010] text-2xl underline decoration-[#789336]">
@@ -73,7 +73,7 @@ const Perks = () => {
             />
           ))}
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };

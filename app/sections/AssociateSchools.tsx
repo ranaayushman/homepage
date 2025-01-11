@@ -24,7 +24,7 @@ const AssociateSchools = () => {
           />
         ))}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-y-0">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-y-0">
         <div>
           <h2 className="text-[#101010] text-4xl underline underline-offset-8 decoration-[#789336]">
             Get to Know Us
@@ -51,7 +51,7 @@ const AssociateSchools = () => {
             altText="Principal's picture"
           />
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };
