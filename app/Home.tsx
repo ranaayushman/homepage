@@ -1,8 +1,8 @@
 import React from "react";
 import Hero from "./sections/Hero";
-import PrincipalDesk from "./sections/PrincipalDesk";
+// import PrincipalDesk from "./sections/PrincipalDesk";
 import AssociateSchools from "./sections/AssociateSchools";
-import Perks from "./sections/Perks";
+// import Perks from "./sections/Perks";
 
 const Home = () => {
   return (

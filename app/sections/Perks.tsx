@@ -1,6 +1,6 @@
 import React from "react";
 import PerksComponent from "./components/PerksComponent";
-import AchievementCard from "./components/AchievementCard";
+// import AchievementCard from "./components/AchievementCard";
 
 const Perks = () => {
   const perksData = [
@@ -34,11 +34,11 @@ const Perks = () => {
     },
   ];
 
-  const achievementsData = [
-    { imgSrc: "/img/one.png", imgHeight: 400, imgWidth: 400 },
-    { imgSrc: "/img/two.png", imgHeight: 400, imgWidth: 400 },
-    { imgSrc: "/img/three.png", imgHeight: 400, imgWidth: 400 },
-  ];
+  // const achievementsData = [
+  //   { imgSrc: "/img/one.png", imgHeight: 400, imgWidth: 400 },
+  //   { imgSrc: "/img/two.png", imgHeight: 400, imgWidth: 400 },
+  //   { imgSrc: "/img/three.png", imgHeight: 400, imgWidth: 400 },
+  // ];
 
   return (
     <section className="p-10 pt-0">

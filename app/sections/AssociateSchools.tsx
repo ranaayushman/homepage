@@ -1,6 +1,6 @@
 import React from "react";
 import SchoolCard from "./components/Schools";
-import ProfileCard from "./components/PrincipalCard";
+// import ProfileCard from "./components/PrincipalCard";
 
 const AssociateSchools = () => {
   const schools = [
