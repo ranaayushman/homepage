@@ -1,4 +1,3 @@
-// Register.tsx
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import type { RegisterFormValues } from "@/app/lib/validations/registerSchema";
@@ -32,6 +31,7 @@ const Register = ({ onNext }: RegisterProps) => {
       ...data,
       dateOfBirth: new Date(data.dateOfBirth).toISOString(),
     };
+    console.log(formattedData);
     setFormData(formattedData);
     setShowConfirmDialog(true);
   };

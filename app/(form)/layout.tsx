@@ -9,7 +9,7 @@ export default function FormLayout({
 }>) {
   return (
     <ReduxProvider>
-      <div className="bg-gray-200">
+      <div className="">
         <div>
           <div className="mb-4 ">
             <Navbar />

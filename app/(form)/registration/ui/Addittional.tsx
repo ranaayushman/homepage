@@ -1,51 +1,48 @@
-// Additional.tsx
+"use client";
+// import { SelectField } from "@/app/sections/form/ui/SelectField";
+import { Button } from "@/components/ui/button";
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import ClassOpt from "./AdditionalComponents/ClassOpt";
+import StudentDetailsAdd from "./AdditionalComponents/StudentDetailsAdd";
+import PreviousSchool from "./AdditionalComponents/PreviousSchoolAdd";
+import StudentOtherInformation from "./AdditionalComponents/StudentOtherInformation";
+import ParentsOrGuardian from "./AdditionalComponents/ParentsOrGuardian";
+import CommunicationDetail from "./AdditionalComponents/CommunicationDetail";
+import EconomicProfile from "./AdditionalComponents/EconomicProfile";
+import DocumentsPart from "./AdditionalComponents/DocumentsPart";
 
+// interface AdditionalProps {
+//   onNext: () => void;
+// }
 const Additional = () => {
-  const { register } = useFormContext();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useFormContext();
 
+  const onSubmitFinal = (data: any) => {
+    console.log("Final data:", data);
+  };
   return (
-    <div className="space-y-6 p-6">
+    <form onSubmit={handleSubmit(onSubmitFinal)} className="space-y-4 ">
       <div>
-        <h2 className="text-2xl font-bold mb-4">Additional Information</h2>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Emergency Contact
-            </label>
-            <input
-              {...register("emergencyContact")}
-              type="text"
-              className="w-full p-2 border rounded"
-              placeholder="Emergency Contact Name"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Emergency Contact Number
-            </label>
-            <input
-              {...register("emergencyPhone")}
-              type="tel"
-              className="w-full p-2 border rounded"
-              placeholder="Emergency Contact Phone"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Additional Notes
-            </label>
-            <textarea
-              {...register("additionalNotes")}
-              className="w-full p-2 border rounded"
-              rows={4}
-              placeholder="Any additional information..."
-            />
-          </div>
-        </div>
+        <ClassOpt />
+        <StudentDetailsAdd />
+        <PreviousSchool />
+        <StudentOtherInformation />
+        <ParentsOrGuardian />
+        <CommunicationDetail />
+        <EconomicProfile />
+        <DocumentsPart />
       </div>
-    </div>
+      <div className="flex justify-end space-x-4 mt-6">
+        <Button type="submit" className="" disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Complete Registration"}
+        </Button>
+      </div>
+    </form>
   );
 };
 

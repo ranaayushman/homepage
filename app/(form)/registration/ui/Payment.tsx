@@ -1,19 +1,28 @@
-// Payment.tsx
+import { Button } from "@/components/ui/button";
 import React from "react";
 import { useFormContext } from "react-hook-form";
-// import {onNext} from ""
 
 interface PaymentProps {
   onNext: () => void;
 }
+
 const Payment = ({ onNext }: PaymentProps) => {
-  const { register } = useFormContext();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useFormContext();
+
+  const onSubmitPayment = (data: any) => {
+    console.log("Payment data:", data);
+    onNext();
+  };
 
   return (
     <div className="space-y-6 p-6">
       <div>
         <h2 className="text-2xl font-bold mb-4">Payment Details</h2>
-        <div className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmitPayment)} className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">
               Card Number
@@ -47,7 +56,10 @@ const Payment = ({ onNext }: PaymentProps) => {
               />
             </div>
           </div>
-        </div>
+          <div className="flex justify-end mt-6">
+            <Button type="submit">Continue to Additional Details</Button>
+          </div>
+        </form>
       </div>
     </div>
   );
