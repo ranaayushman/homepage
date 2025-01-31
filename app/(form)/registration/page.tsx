@@ -1,13 +1,25 @@
+"use client";
+
 import React from "react";
-// import Register from "./Register";
+import { useForm, FormProvider } from "react-hook-form";
+// import Additional from "./ui/Addittional";
 import Form from "./Form";
 
-const page = () => {
+const Page = () => {
+  const methods = useForm({
+    defaultValues: {
+      admissionClass: "",
+      // add other default values here
+    },
+  });
+
   return (
-    <div className="bg-gray-200 md:p-5">
-      <Form />
+    <div className=" md:p-5">
+      <FormProvider {...methods}>
+        <Form />
+      </FormProvider>
     </div>
   );
 };
 
-export default page;
+export default Page;
