@@ -13,7 +13,7 @@ import AdmissionClass from "./ui/AdmissionClass";
 import StudentDetails from "./ui/StudentDetails";
 import PreviousAcademic from "./ui/PreviousAcademic";
 // import Guardian from "./ui/Guardian";
-import DownloadPDFButton from "./DownloadPDFButton";
+// import DownloadPDFButton from "./DownloadPDFButton";
 
 interface RegisterProps {
   onNext: () => void;
