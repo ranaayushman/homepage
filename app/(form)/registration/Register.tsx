@@ -52,7 +52,7 @@ const Register = ({ onNext }: RegisterProps) => {
           <Button type="submit" className="bg-[#789336] flex-1">
             Save & Continue
           </Button>
-          <DownloadPDFButton formData={formData} />
+          {/* <DownloadPDFButton formData={formData} /> */}
         </div>
       </form>
 
@@ -66,13 +66,14 @@ const Register = ({ onNext }: RegisterProps) => {
           </div>
           <DialogFooter>
             <Button
-              className="bg-[#789336]"
               variant="outline"
               onClick={() => setShowConfirmDialog(false)}
             >
               Review
             </Button>
-            <Button onClick={handleConfirm}>Confirm</Button>
+            <Button onClick={handleConfirm} className="bg-[#789336]">
+              Confirm
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -13,22 +13,22 @@ export const registerFormSchema = z.object({
   lastSchoolAffiliated: z.enum(["CBSE", "ICSE", "IB", "State Board", "Other"]),
   lastClassAttended: z.string().min(1, "Last class attended is required"),
   lastSchoolName: z.string().min(1, "Last school name is required"),
-  guardianName: z.string().min(1, "Guardian name is required"),
+  // guardianName: z.string().min(1, "Guardian name is required"),
 
-  highestQualification: z
-    .string()
-    .nullish()
-    .transform((val) => val?.trim() || null),
+  // highestQualification: z
+  //   .string()
+  //   .nullish()
+  //   .transform((val) => val?.trim() || null),
 
-  occupation: z
-    .string()
-    .nullish()
-    .transform((val) => val?.trim() || null),
+  // occupation: z
+  //   .string()
+  //   .nullish()
+  //   .transform((val) => val?.trim() || null),
 
-  yearlyIncome: z
-    .string()
-    .nullish()
-    .transform((val) => val?.trim() || null),
+  // yearlyIncome: z
+  //   .string()
+  //   .nullish()
+  //   .transform((val) => val?.trim() || null),
 });
 
 export type RegisterFormValues = z.infer<typeof registerFormSchema>;
