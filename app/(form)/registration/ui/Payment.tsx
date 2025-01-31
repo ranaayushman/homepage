@@ -57,7 +57,9 @@ const Payment = ({ onNext }: PaymentProps) => {
             </div>
           </div>
           <div className="flex justify-end mt-6">
-            <Button type="submit">Continue to Additional Details</Button>
+            <Button type="submit" className="bg-[#789336]">
+              Continue to Additional Details
+            </Button>
           </div>
         </form>
       </div>

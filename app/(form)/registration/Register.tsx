@@ -49,7 +49,7 @@ const Register = ({ onNext }: RegisterProps) => {
         <PreviousAcademic />
         <Guardian />
         <div className="flex gap-4">
-          <Button type="submit" className="bg-primary flex-1">
+          <Button type="submit" className="bg-[#789336] flex-1">
             Save & Continue
           </Button>
           <DownloadPDFButton formData={formData} />
@@ -66,6 +66,7 @@ const Register = ({ onNext }: RegisterProps) => {
           </div>
           <DialogFooter>
             <Button
+              className="bg-[#789336]"
               variant="outline"
               onClick={() => setShowConfirmDialog(false)}
             >

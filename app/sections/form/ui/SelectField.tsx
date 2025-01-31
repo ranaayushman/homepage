@@ -11,7 +11,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { useFormContext } from "react-hook-form";
+import { Control } from "react-hook-form";
 import { cn } from "@/lib/utils";
 
 interface Option {
@@ -24,6 +24,7 @@ interface SelectFieldProps {
   placeholder: string;
   options: Option[];
   label?: string;
+  control: Control<any>; // Add control prop
   className?: {
     trigger?: string;
     content?: string;
@@ -37,10 +38,9 @@ export function SelectField({
   placeholder,
   options,
   label,
+  control, // Destructure control from props
   className = {},
 }: SelectFieldProps) {
-  const { control } = useFormContext();
-
   return (
     <FormField
       control={control}

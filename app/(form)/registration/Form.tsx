@@ -5,7 +5,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerFormSchema } from "@/app/lib/validations/registerSchema";
 import { paymentFormSchema } from "@/app/lib/validations/paymentSchema";
-import { additionalFormSchema } from "@/app/lib/validations/additionalSchema";
+import { additionalSchema } from "@/app/lib/validations/additionalSchema";
 import FormNavbar from "./ui/FormNavbar";
 import Register from "./Register";
 import Payment from "./ui/Payment";
@@ -26,7 +26,7 @@ const Form = () => {
   });
 
   const additionalMethods = useForm({
-    resolver: zodResolver(additionalFormSchema),
+    resolver: zodResolver(additionalSchema),
     mode: "onChange",
   });
 
