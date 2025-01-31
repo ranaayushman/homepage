@@ -13,7 +13,7 @@ import AdmissionClass from "./ui/AdmissionClass";
 import StudentDetails from "./ui/StudentDetails";
 import PreviousAcademic from "./ui/PreviousAcademic";
 // import Guardian from "./ui/Guardian";
-// import DownloadPDFButton from "./DownloadPDFButton";
+import DownloadPDFButton from "./DownloadPDFButton";
 
 interface RegisterProps {
   onNext: () => void;
@@ -52,7 +52,7 @@ const Register = ({ onNext }: RegisterProps) => {
           <Button type="submit" className="bg-[#789336] flex-1">
             Save & Continue
           </Button>
-          {/* <DownloadPDFButton formData={formData} /> */}
+          <DownloadPDFButton formData={formData} />
         </div>
       </form>
 
