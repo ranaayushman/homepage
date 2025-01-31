@@ -35,7 +35,7 @@ export const generatePDF = async (formData: RegisterFormValues) => {
 
         <div class="mb-6">
           <h3 class="text-xl font-semibold mb-2">Guardian Details</h3>
-          <p><span class="font-medium">Name:</span> ${formData.guardianName}</p>
+         
         </div>
       </div>
     `;
