@@ -10,7 +10,7 @@ const Payment = ({ onNext }: PaymentProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useFormContext();
 
   const onSubmitPayment = (data: any) => {

@@ -47,7 +47,7 @@ export function FileUploadField({
     }
   };
 
-  const handleRemove = (onChange: (...event: any[]) => void) => {
+  const handleRemove = (onChange: (value: File | null) => void) => {
     setFileName("");
     setPreview(null);
     onChange(null);
@@ -79,8 +79,10 @@ export function FileUploadField({
                 }}
                 className="opacity-0 h-12 cursor-pointer"
               />
-              <div className="absolute inset-0 flex  border rounded-md border-slate-600 items-center justify-between px-3 pointer-events-none">
-                <span className="text-gray-500 text-xs">{fileName || placeholder}</span>
+              <div className="absolute inset-0 flex border rounded-md border-slate-600 items-center justify-between px-3 pointer-events-none">
+                <span className="text-gray-500 text-xs">
+                  {fileName || placeholder}
+                </span>
                 <div className="flex items-center gap-2">
                   {fileName && (
                     <Button

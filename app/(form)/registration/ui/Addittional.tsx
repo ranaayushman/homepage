@@ -2,7 +2,7 @@
 // import { SelectField } from "@/app/sections/form/ui/SelectField";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { useFormContext } from "react-hook-form";
+import { useForm, useFormContext } from "react-hook-form";
 import ClassOpt from "./AdditionalComponents/ClassOpt";
 import StudentDetailsAdd from "./AdditionalComponents/StudentDetailsAdd";
 import PreviousSchool from "./AdditionalComponents/PreviousSchoolAdd";
@@ -11,23 +11,29 @@ import ParentsOrGuardian from "./AdditionalComponents/ParentsOrGuardian";
 import CommunicationDetail from "./AdditionalComponents/CommunicationDetail";
 import EconomicProfile from "./AdditionalComponents/EconomicProfile";
 import DocumentsPart from "./AdditionalComponents/DocumentsPart";
+import {
+  AdditionalFormData,
+  additionalSchema,
+} from "@/app/lib/validations/additionalSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 // interface AdditionalProps {
 //   onNext: () => void;
 // }
 const Additional = () => {
+  const methods = useForm<AdditionalFormData>({
+    resolver: zodResolver(additionalSchema),
+  });
   const {
-    register,
-    handleSubmit,
     formState: { isSubmitting },
-  } = useFormContext();
+  } = methods;
 
-  const onSubmitFinal = (data: any) => {
-    console.log("Final data:", data);
+  const onSubmitFinal = (data: AdditionalFormData) => {
+    console.log("Validated data:", data);
   };
   return (
-    <form onSubmit={handleSubmit(onSubmitFinal)} className="space-y-4 ">
-      <div>
+    <form onSubmit={methods.handleSubmit(onSubmitFinal)} className="space-y-4 ">
+      <div className="p-10">
         <ClassOpt />
         <StudentDetailsAdd />
         <PreviousSchool />
