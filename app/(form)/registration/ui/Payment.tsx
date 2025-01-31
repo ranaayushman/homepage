@@ -2,18 +2,20 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 
+interface PaymentFormData {
+  cardNumber: string;
+  expiryDate: string;
+  cvv: string;
+}
+
 interface PaymentProps {
   onNext: () => void;
 }
 
 const Payment = ({ onNext }: PaymentProps) => {
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-  } = useFormContext();
+  const { register, handleSubmit } = useFormContext<PaymentFormData>(); // Use generics for type safety
 
-  const onSubmitPayment = (data: any) => {
+  const onSubmitPayment = (data: PaymentFormData) => {
     console.log("Payment data:", data);
     onNext();
   };

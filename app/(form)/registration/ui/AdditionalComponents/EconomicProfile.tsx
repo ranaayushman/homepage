@@ -1,8 +1,11 @@
 import InputField from "@/app/sections/form/ui/InputField";
 import { SelectField } from "@/app/sections/form/ui/SelectField";
 import React from "react";
+import { useFormContext } from "react-hook-form";
 
 const EconomicProfile = () => {
+  const { control } = useFormContext();
+
   return (
     <div className="grid gap-y-4">
       <h2>Economic Profile</h2>
@@ -25,6 +28,7 @@ const EconomicProfile = () => {
           label="Designation:"
         />
         <SelectField
+          control={control}
           name="dependentOnGuardian"
           placeholder="Select Number"
           label="No. of Dependents on the Guardians:"
@@ -36,6 +40,7 @@ const EconomicProfile = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <SelectField
+          control={control}
           name="earningMembers"
           placeholder="Select Number"
           label="No. of Earning Members in the Family:"
@@ -45,7 +50,7 @@ const EconomicProfile = () => {
           ]}
         />
       </div>
-      <hr className="my-4 border-black"/>
+      <hr className="my-4 border-black" />
     </div>
   );
 };

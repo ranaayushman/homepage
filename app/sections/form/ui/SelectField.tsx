@@ -11,7 +11,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { Control } from "react-hook-form";
+import { Control, FieldValues, Path } from "react-hook-form";
 import { cn } from "@/lib/utils";
 
 interface Option {
@@ -19,12 +19,12 @@ interface Option {
   label: string;
 }
 
-interface SelectFieldProps {
-  name: string;
+interface SelectFieldProps<T extends FieldValues> {
+  name: Path<T>; // Ensure name is a valid path in the form schema
   placeholder: string;
   options: Option[];
   label?: string;
-  control: Control<any>; // Add control prop
+  control?: Control<T>; // Strongly type the control prop
   className?: {
     trigger?: string;
     content?: string;
@@ -33,25 +33,22 @@ interface SelectFieldProps {
   };
 }
 
-export function SelectField({
+export function SelectField<T extends FieldValues>({
   name,
   placeholder,
   options,
   label,
-  control, // Destructure control from props
+  control,
   className = {},
-}: SelectFieldProps) {
+}: SelectFieldProps<T>) {
   return (
     <FormField
       control={control}
-      name={name}
+      name={name} 
       render={({ field }) => (
         <FormItem className={cn(className.formItem)}>
           {label && (
-            <label
-              htmlFor={name}
-              className="text-sm md:text-md text-black mb-1"
-            >
+            <label htmlFor={name} className="text-sm md:text-md text-black mb-1">
               {label}
             </label>
           )}
