@@ -12,7 +12,7 @@ import {
 import AdmissionClass from "./ui/AdmissionClass";
 import StudentDetails from "./ui/StudentDetails";
 import PreviousAcademic from "./ui/PreviousAcademic";
-import Guardian from "./ui/Guardian";
+// import Guardian from "./ui/Guardian";
 import DownloadPDFButton from "./DownloadPDFButton";
 
 interface RegisterProps {
@@ -47,7 +47,7 @@ const Register = ({ onNext }: RegisterProps) => {
         <AdmissionClass />
         <StudentDetails />
         <PreviousAcademic />
-        <Guardian />
+        {/* <Guardian /> */}
         <div className="flex gap-4">
           <Button type="submit" className="bg-[#789336] flex-1">
             Save & Continue
