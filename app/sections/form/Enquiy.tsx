@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   enquiryFormSchema,
   type EnquiryFormValues,
-} from "@/app/lib/validations/form";
+} from "@/app/lib/validations/kalyaniForm";
 import InputField from "./ui/InputField";
 import { SelectField } from "./ui/SelectField";
 import { Button } from "@/components/ui/button";
@@ -28,7 +28,11 @@ export default function EnquiryForm() {
     <div className="">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
-          <InputField name="studentName" placeholder="Student Name" className="rounded-none border-black border-t-0 border-x-0"/>
+          <InputField
+            name="parentName"
+            placeholder="Parent’s Name"
+            className="rounded-none border-black border-t-0 border-x-0"
+          />
           <InputField
             name="phoneNumber"
             placeholder="Phone Number"
@@ -37,7 +41,7 @@ export default function EnquiryForm() {
           />
           <SelectField
             name="school"
-            placeholder="Select School"
+            placeholder="School Applying for"
             options={[
               { label: "Greenwood High", value: "greenwood_high" },
               {
@@ -74,7 +78,7 @@ export default function EnquiryForm() {
               })
             }
             type="submit"
-            className="w-full text-base py-2 px-4 bg-[#98B14F] text-white rounded hover:bg-[#87a03f] transition-colors"
+            className="w-full text-base py-2 px-4 bg-[#2F2E6B] text-white rounded hover:bg-[#353478] transition-colors"
           >
             SUBMIT
           </Button>

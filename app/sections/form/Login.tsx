@@ -8,6 +8,7 @@ import {
   type LoginFormValues,
 } from "@/app/lib/validations/form";
 import InputField from "./ui/InputField";
+import { Button } from "@/components/ui/button";
 
 export default function Login() {
   const methods = useForm<LoginFormValues>({
@@ -22,7 +23,7 @@ export default function Login() {
   };
 
   const handleGetOtpClick = () => {
-    setIsOtpVisible(true); 
+    setIsOtpVisible(true);
   };
 
   return (
@@ -42,22 +43,26 @@ export default function Login() {
             <button
               type="button"
               onClick={handleGetOtpClick}
-              className="w-full text-base py-2 px-4 bg-[#98B14F] text-white rounded hover:bg-[#87a03f] transition-colors mt-4"
+              className="w-full text-base py-2 px-4 bg-[#2F2E6B] text-white rounded hover:bg-[#353478] transition-colors mt-4"
             >
               Get OTP
             </button>
 
             {isOtpVisible && (
-              <InputField name="otp" placeholder="Enter OTP here" className="rounded-none border-black border-t-0 border-x-0"/>
+              <InputField
+                name="otp"
+                placeholder="Enter OTP here"
+                className="rounded-none border-black border-t-0 border-x-0"
+              />
             )}
           </div>
 
-          <button
+          <Button
             type="submit"
-            className="w-full text-base py-2 px-4 bg-[#98B14F] text-white rounded hover:bg-[#87a03f] transition-colors mt-4"
+            className="w-full text-base py-2 px-4 bg-[#2F2E6B] text-white rounded hover:bg-[#353478] transition-colors mt-4"
           >
             SUBMIT
-          </button>
+          </Button>
         </form>
       </FormProvider>
     </div>
