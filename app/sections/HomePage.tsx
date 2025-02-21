@@ -2,6 +2,7 @@ import React from "react";
 import KalyaniForm from "./KalyaniForm";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import AcademicCard from "./components/AcademicCard";
 
 const HomePage = () => {
   return (
@@ -49,6 +50,30 @@ const HomePage = () => {
               LEARN MORE
             </Button>
           </div>
+        </div>
+      </div>
+
+      <div className="bg-[#2F2E6B] w-full">
+        <p className="text-white text-center pt-8">
+          An International education focused on each and every child
+        </p>
+        <h2 className="text-2xl text-white text-center">Academics</h2>
+        <div className="flex justify-evenly p-8">
+          <AcademicCard
+            imgSrc="/img/child_1.png"
+            altText="Pre School"
+            text="Pre-School"
+          />
+          <AcademicCard
+            imgSrc="/img/primary.png"
+            altText="Primary"
+            text="Primary"
+          />
+          <AcademicCard
+            imgSrc="/img/secondary.png"
+            altText="Secondary"
+            text="Secondary"
+          />
         </div>
       </div>
     </section>
