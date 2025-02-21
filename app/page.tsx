@@ -1,5 +1,5 @@
 import React from "react";
-import Home from "./Home";
+// import Home from "./Home";
 import Navbar from "./sections/Navbar";
 import Footer from "./sections/Footer";
 import HomePage from "./sections/HomePage";

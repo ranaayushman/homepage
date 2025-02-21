@@ -3,6 +3,8 @@ import KalyaniForm from "./KalyaniForm";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import AcademicCard from "./components/AcademicCard";
+import Skills from "./components/Skills";
+import Location from "./components/Location";
 
 const HomePage = () => {
   return (
@@ -76,6 +78,8 @@ const HomePage = () => {
           />
         </div>
       </div>
+      <Skills />
+      <Location />
     </section>
   );
 };
