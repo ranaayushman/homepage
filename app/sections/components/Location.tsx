@@ -10,11 +10,11 @@ const Location: React.FC = () => {
         {/* Apply Section */}
         <div className="text-center mb-20">
           <h2 className="text-3xl font-light mb-2">
-            How to <span className="font-semibold text-[#292B5F]">apply</span>
+            How to <span className="font-semibold text-[#101010]">apply</span>
           </h2>
           <p className="text-gray-700 mb-6">
-            We develop partnership and trust to prepare prospective families for
-            life in Verbier for both day students and boarders.
+            We build trust and guide prospective families at Kalyani Central
+            Model School for both day scholars and boarders.
           </p>
           <Button className="border border-[#292B5F] bg-white text-[#292B5F] hover:bg-[#292B5F] hover:text-white py-2 px-6 w-full max-w-md uppercase tracking-wider">
             APPLY

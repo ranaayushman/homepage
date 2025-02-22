@@ -2,13 +2,18 @@ import React from "react";
 import NewForm from "./ui/NewForm";
 import Status from "./ui/Status";
 import Footer from "@/app/sections/Footer";
+import Instructions from "@/app/sections/components/Instructions";
 
 const Dashboard = () => {
   return (
-    <section >
-      <div className="my-10" >
+    <section className="">
+      <div className="my-10">
         <NewForm />
         <Status />
+      </div>
+      <div className="grid grid-cols-2 mx-10 gap-2">
+        <Instructions />
+        <Instructions />
       </div>
       <Footer />
     </section>

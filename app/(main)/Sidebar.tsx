@@ -12,7 +12,7 @@ const Sidebar = () => {
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 
   return (
-    <div className="flex sticky inset-0 drop-shadow-custom z-10 h-full">
+    <div className="flex sticky inset-0 drop-shadow-custom z-10 h-screen">
       <div
         className={`${
           isSidebarOpen ? "w-56" : "w-20"
@@ -40,6 +40,7 @@ const Sidebar = () => {
           {[
             { title: "Dashboard", href: "/dashboard" },
             { title: "Payments", href: "/payment" },
+            { title: "Profile", href: "/profile" },
           ].map((menu, index) => {
             const isActive =
               (pathname === "/" && menu.href === "/") ||

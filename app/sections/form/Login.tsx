@@ -43,7 +43,7 @@ export default function Login() {
             <button
               type="button"
               onClick={handleGetOtpClick}
-              className="w-full text-base py-2 px-4 bg-[#2F2E6B] text-white rounded hover:bg-[#353478] transition-colors mt-4"
+              className="w-full text-base py-2 px-4 bg-[#789336] text-white rounded hover:bg-[#819e38] transition-colors mt-4"
             >
               Get OTP
             </button>
@@ -59,7 +59,7 @@ export default function Login() {
 
           <Button
             type="submit"
-            className="w-full text-base py-2 px-4 bg-[#2F2E6B] text-white rounded hover:bg-[#353478] transition-colors mt-4"
+            className="w-full text-base py-2 px-4 bg-[#789336] text-white rounded hover:bg-[#819e38] transition-colors mt-4"
           >
             SUBMIT
           </Button>

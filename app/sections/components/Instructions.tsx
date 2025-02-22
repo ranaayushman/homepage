@@ -2,7 +2,7 @@ import React from "react";
 
 const Instructions = () => {
   return (
-    <div>
+    <div className="bg-[#FFFFFF] p-4 rounded-md">
       <div className="flex flex-col justify-between gap-3 text-sm">
         <h2 className="text-[#FF7245] text-2xl">Instructions</h2>
         <p>

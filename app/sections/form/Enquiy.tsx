@@ -78,7 +78,7 @@ export default function EnquiryForm() {
               })
             }
             type="submit"
-            className="w-full text-base py-2 px-4 bg-[#2F2E6B] text-white rounded hover:bg-[#353478] transition-colors"
+            className="w-full text-base py-2 px-4 bg-[#789336] text-white rounded hover:bg-[#809c3a] transition-colors"
           >
             SUBMIT
           </Button>
