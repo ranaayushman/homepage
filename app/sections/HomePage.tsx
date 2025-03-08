@@ -175,7 +175,7 @@ const HomePage = () => {
         </p>
         <div className="flex justify-center items-center md:justify-center mt-4">
           <Link href={"#register"}>
-            <Button className="bg-white text-[#2E2A5A] border border-[#2E2A5A] px-6 py-2 text-sm rounded hover:bg-[#353478] hover:text-white transition-colors">
+            <Button className="bg-white w-full text-[#2E2A5A] border border-[#2E2A5A] px-6 py-2 text-sm rounded hover:bg-[#353478] hover:text-white transition-colors">
               Apply
             </Button>
           </Link>
