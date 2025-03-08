@@ -52,7 +52,7 @@ const Location: React.FC = () => {
             <ul className="space-y-2">
               <li>+91-7980396853</li>
               <li>033 2582 8316</li>
-              <li>033 2580 8619</li>
+              {/* <li>033 2580 8619</li> */}
               <li>kcms_1971@yahoo.com</li>
             </ul>
             <a href="#" className="mt-4 inline-block text-white underline">
