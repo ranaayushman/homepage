@@ -1,6 +1,6 @@
 import Image from "next/image";
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface AcademicCardProps {
   imgSrc: string;
@@ -13,15 +13,21 @@ const AcademicCard = ({
   altText = "default alt text",
   text,
 }: AcademicCardProps) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <div className="flex flex-col items-center py-8">
-      <div className="relative overflow-hidden rounded-md group">
+    <div
+      className="flex flex-col items-center py-8 h-[400px] w-[300px]"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="relative overflow-hidden rounded-md group w-full">
         <Image
           src={imgSrc}
           width={300}
           height={300}
           alt={altText}
-          className="transition-transform duration-300 group-hover:scale-105"
+          className="transition-opacity duration-300 w-full"
         />
 
         {/* Fixed Overlay Effect */}
@@ -32,10 +38,25 @@ const AcademicCard = ({
         </motion.div>
       </div>
 
-      {/* The text below the image remains */}
-      <h2 className="text-xl text-white mt-3">{text}</h2>
+      {/* The text below the image appears with fade animation */}
+      <div className="h-[50px] w-full flex items-center justify-center">
+        <AnimatePresence>
+          {isHovered && (
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.3 }}
+              className="text-white text-center w-full"
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </motion.p>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
 
 export default AcademicCard;
+  
