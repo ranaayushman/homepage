@@ -23,14 +23,14 @@ const KalyaniForm = () => {
           {activeComponent === "login" && <Login />}
         </div>
         {/* Divider with Lines */}
-        <div className="flex items-center w-full max-w-md my-4">
+        {/* <div className="flex items-center w-full max-w-md my-4">
           <hr className="flex-grow border-t border-gray-400" />
           <span className="mx-3 text-gray-400">or</span>
           <hr className="flex-grow border-t border-gray-400" />
-        </div>
+        </div> */}
         {/* Toggle Button */}
         <Button
-          className="w-1/2 py-2 text-black border border-[#2E2A5A] rounded-md bg-white hover:bg-[#353478] hover:text-white transition"
+          className="w-1/2 mt-6 py-2 text-black border border-[#2E2A5A] rounded-md bg-white hover:bg-[#353478] hover:text-white transition"
           onClick={() =>
             setActiveComponent(
               activeComponent === "enquiry" ? "login" : "enquiry"

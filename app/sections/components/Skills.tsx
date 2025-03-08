@@ -46,7 +46,7 @@ const Skills: React.FC = () => {
   };
 
   return (
-    <div className="text-center py-12">
+    <div className="text-center pb-12">
       <h2 className="text-4xl font-semibold text-[#101010] mb-2">Skills</h2>
 
       <h3 className="uppercase text-sm font-semibold tracking-wider text-center mb-8 text-[#101010]">
