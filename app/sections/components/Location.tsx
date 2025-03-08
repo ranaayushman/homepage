@@ -4,17 +4,17 @@ import React from "react";
 const Location: React.FC = () => {
   return (
     <div
-      className="relative w-full py-12 bg-cover bg-center before:absolute before:inset-0 before:bg-[#292B5F] before:opacity-80 before:rounded-tl-[150px] before:rounded-tr-[150px] rounded-tl-[150px] rounded-tr-[150px]"
+      className="relative w-full pt-12 bg-cover bg-center before:absolute before:inset-0 before:bg-[#292B5F] before:opacity-80 before:rounded-tl-[150px] before:rounded-tr-[150px] rounded-tl-[150px] rounded-tr-[150px]"
       style={{ backgroundImage: "url('/img/footer.jpg')" }}
     >
-      <div className="relative max-w-6xl mx-auto px-4">
+      <div className="relative mx-auto px-4">
         <div className="flex flex-col md:flex-row gap-8 rounded-tl-[50px] rounded-tr-[50px] p-10 justify-between">
           {/* Left Section - Address & Social Media */}
           <div className="md:w-1/3">
-            <h2 className="text-3xl font-light mb-6 text-white">
+            <h2 className="text-4xl font-thin mb-2 text-white">
               How to <span className="font-semibold">Locate</span> us?
             </h2>
-            <p className="text-white mb-4">
+            <p className="text-white mb-2">
               486, B-4, Block B, Kalyani, West Bengal 741235
             </p>
             <p className="font-medium mb-2 text-white">
@@ -44,7 +44,7 @@ const Location: React.FC = () => {
 
           {/* Middle Section - Contact Info */}
           <div className="md:w-1/3 text-white">
-            <h2 className="text-3xl font-light mb-6">Contact us</h2>
+            <h2 className="text-xl font-light mb-6">Contact us</h2>
             <ul className="space-y-2">
               <li>+91-7980396853</li>
               <li>033 2582 8316</li>
@@ -70,7 +70,7 @@ const Location: React.FC = () => {
         <p className="text-center text-white mt-6">
           © 2024 techsupport@Kiwi Ed-Tech All rights reserved.
         </p>
-      </div>
+      </div>  
     </div>
   );
 };

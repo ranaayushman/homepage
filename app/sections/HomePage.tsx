@@ -7,6 +7,7 @@ import AcademicCard from "./components/AcademicCard";
 import Skills from "./components/Skills";
 import Location from "./components/Location";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 const HomePage = () => {
   // Array of carousel images with paths and alt tags
@@ -52,7 +53,7 @@ const HomePage = () => {
 
   return (
     <section className="grid grid-cols-1 gap-10">
-      <div className="grid grid-cols-1 md:grid-cols-2">
+      <div id="register" className="grid grid-cols-1 md:grid-cols-2">
         {/* Carousel Implementation */}
         <div className="relative overflow-hidden hidden md:block h-full">
           <AnimatePresence mode="wait">
@@ -164,6 +165,22 @@ const HomePage = () => {
         </div>
       </div>
       <Skills />
+      <div className="text-center">
+        <h1 className="text-5xl font-thin">
+          How to <span className="font-normal">apply</span>
+        </h1>
+        <p className="mt-4">
+          We build trust and guide prospective families at Kalyani Central Model
+          School for both day scholars and boarders.
+        </p>
+        <div className="flex justify-center items-center md:justify-center mt-4">
+          <Link href={"#register"}>
+            <Button className="bg-white text-[#2E2A5A] border border-[#2E2A5A] px-6 py-2 text-sm rounded hover:bg-[#353478] hover:text-white transition-colors">
+              Apply
+            </Button>
+          </Link>
+        </div>
+      </div>
       <Location />
     </section>
   );

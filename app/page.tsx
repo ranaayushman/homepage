@@ -1,7 +1,7 @@
 import React from "react";
 // import Home from "./Home";
 import Navbar from "./sections/Navbar";
-import Footer from "./sections/Footer";
+// import Footer from "./sections/Footer";
 import HomePage from "./sections/HomePage";
 
 const page = () => {
@@ -10,7 +10,7 @@ const page = () => {
       <Navbar />
       {/* <Home /> */}
       <HomePage />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
