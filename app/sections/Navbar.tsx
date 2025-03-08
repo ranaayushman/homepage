@@ -11,10 +11,25 @@ import { Menu } from "lucide-react";
 
 const Navbar = () => {
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-white py-2">
+    <nav className="sticky top-0 z-50 w-full drop-shadow-sm bg-white py-2">
       {/* Desktop Navbar */}
       <div className="hidden md:flex justify-between items-center max-w-7xl mx-auto px-6">
         {/* Left side - AES Logo and Text */}
+        <div className="flex items-center gap-1">
+          <Image
+            src="/svg/kiwi.svg"
+            height={40}
+            width={40}
+            alt="KIWI logo"
+            className="w-10 h-10"
+          />
+          <p className="text-sm text-right font-medium">
+            In association with KIWI Schools
+          </p>
+        </div>
+
+        {/* Right side - KIWI Logo and Text */}
+
         <div className="flex items-center gap-3">
           <Image
             src="/svg/AES.svg"
@@ -24,18 +39,6 @@ const Navbar = () => {
             className="w-10 h-10"
           />
           <p className="text-sm font-medium">Angel Education Society</p>
-        </div>
-
-        {/* Right side - KIWI Logo and Text */}
-        <div className="flex items-center gap-3">
-          <p className="text-sm text-right">In association with KIWI Schools</p>
-          <Image
-            src="/svg/kiwi.svg"
-            height={40}
-            width={40}
-            alt="KIWI logo"
-            className="w-10 h-10"
-          />
         </div>
       </div>
 

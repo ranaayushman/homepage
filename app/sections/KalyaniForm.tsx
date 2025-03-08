@@ -30,7 +30,7 @@ const KalyaniForm = () => {
         </div>
         {/* Toggle Button */}
         <Button
-          className="w-2/6 py-2 text-black border border-[#789336] rounded-md bg-white hover:bg-[#789336] hover:text-white transition"
+          className="w-1/2 py-2 text-black border border-[#2E2A5A] rounded-md bg-white hover:bg-[#353478] hover:text-white transition"
           onClick={() =>
             setActiveComponent(
               activeComponent === "enquiry" ? "login" : "enquiry"
