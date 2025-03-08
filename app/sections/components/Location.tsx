@@ -4,9 +4,12 @@ import React from "react";
 const Location: React.FC = () => {
   return (
     <div
-      className="relative w-full pt-12 bg-cover bg-center before:absolute before:inset-0 before:bg-[#292B5F] before:opacity-80 before:rounded-tl-[150px] before:rounded-tr-[150px] rounded-tl-[150px] rounded-tr-[150px]"
+      className="relative w-full pt-12 bg-cover bg-center rounded-tl-[150px] rounded-tr-[150px]"
       style={{ backgroundImage: "url('/img/footer.jpg')" }}
     >
+      {/* Blue Tint & Dodge Effect */}
+      <div className="absolute inset-0 bg-[#292B5F] mix-blend-color-dodge opacity-90 backdrop-blur-lg rounded-tl-[150px] rounded-tr-[150px]"></div>
+
       <div className="relative mx-auto px-4">
         <div className="flex flex-col md:flex-row gap-8 rounded-tl-[50px] rounded-tr-[50px] p-10 justify-between">
           {/* Left Section - Address & Social Media */}
@@ -70,7 +73,7 @@ const Location: React.FC = () => {
         <p className="text-center text-white mt-6">
           © 2024 techsupport@Kiwi Ed-Tech All rights reserved.
         </p>
-      </div>  
+      </div>
     </div>
   );
 };
