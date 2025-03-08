@@ -17,6 +17,13 @@ import { sendEnquiryData } from "@/app/utils/formPostApi/enquiry";
 export default function EnquiryForm() {
   const methods = useForm<EnquiryFormValues>({
     resolver: zodResolver(enquiryFormSchema),
+    defaultValues: {
+      parentName: "",
+      phoneNumber: "",
+      school: "",
+      emailId: "",
+      pinCode: "",
+    }, // Default values to clear form
   });
 
   const { toast } = useToast();
@@ -24,7 +31,13 @@ export default function EnquiryForm() {
     { key: string; label: string; value: string }[]
   >([]);
 
+  // Load form data from localStorage on mount
   useEffect(() => {
+    const savedData = localStorage.getItem("enquiryFormData");
+    if (savedData) {
+      methods.reset(JSON.parse(savedData));
+    }
+
     const fetchData = async () => {
       try {
         const schools = await fetchSchoolOptions();
@@ -39,7 +52,17 @@ export default function EnquiryForm() {
       }
     };
     fetchData();
-  }, []);
+  }, [methods]);
+
+  // Save form data to localStorage on change
+  const { watch } = methods;
+  useEffect(() => {
+    const subscription = watch((value) => {
+      localStorage.setItem("enquiryFormData", JSON.stringify(value));
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
   const onSubmit = async (data: EnquiryFormValues) => {
     try {
       const formData = {
@@ -49,14 +72,31 @@ export default function EnquiryForm() {
         email: data.emailId,
         pincode: data.pinCode,
         roleId: "677254969fa73b28bf5de8d6",
+        sessionId: "671609fcb0a54510ef567f15",
       };
       await sendEnquiryData(formData);
-      console.log(data);
-    } catch (e: unknown) {
-      console.error(e);
-    }
+      console.log("Form submitted successfully:", data);
 
-    // Handle form submission
+      // Clear form on success
+      methods.reset({
+        parentName: "",
+        phoneNumber: "",
+        school: "",
+        emailId: "",
+        pinCode: "",
+      });
+      localStorage.removeItem("enquiryFormData"); // Clear localStorage
+      toast({
+        title: "Form submitted successfully",
+      });
+    } catch (e: unknown) {
+      console.error("Error submitting form:", e);
+      toast({
+        title: "Error submitting form",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -85,7 +125,6 @@ export default function EnquiryForm() {
               formItem: "mb-4",
             }}
           />
-
           <InputField
             name="emailId"
             placeholder="Email"
@@ -99,13 +138,8 @@ export default function EnquiryForm() {
           />
 
           <Button
-            onClick={() =>
-              toast({
-                title: "Form submitted successfully",
-              })
-            }
             type="submit"
-            className="w-full text-base py-2 px-4 bg-[#292B5F] text-white rounded hover:bg-[#809c3a] transition-colors"
+            className="w-full text-base py-2 px-4 bg-[#292B5F] text-white rounded hover:bg-[#353478]  transition-colors"
           >
             SUBMIT
           </Button>

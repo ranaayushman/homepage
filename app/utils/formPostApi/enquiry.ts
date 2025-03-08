@@ -72,6 +72,7 @@ interface EnquiryRegister {
   email: string;
   pincode: string;
   roleId: string;
+  sessionId: string;
 }
 
 export const sendEnquiryData = async (
