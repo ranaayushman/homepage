@@ -3,16 +3,18 @@ import axios, { AxiosResponse } from "axios";
 // Define the base URL from environment
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-interface ApiResponse<T = any> {
+// Generic ApiResponse interface with a default type of unknown (safer than any)
+interface ApiResponse<T = unknown> {
   data: T;
   message?: string;
   status: number;
   success: boolean;
 }
 
-const sendData = async <T = any>(
+// Generic sendData function with proper typing for the data parameter
+const sendData = async <T>(
   endpoint: string,
-  data: any,
+  data: Record<string, unknown> | FormData, // Replace 'any' with a more specific type
   isMultipart: boolean = false
 ): Promise<ApiResponse<T>> => {
   try {
@@ -65,7 +67,7 @@ const sendData = async <T = any>(
   }
 };
 
-interface EnquiryRegister {
+interface EnquiryRegister extends Record<string, unknown> {
   name: string;
   phoneNumber: string;
   schoolId: string;
@@ -75,24 +77,15 @@ interface EnquiryRegister {
   sessionId: string;
 }
 
+// Define the expected response data shape for EnquiryRegister
+interface EnquiryResponse {
+  enquiryId?: string; // Adjust based on your API's response
+  [key: string]: unknown; // Allow for additional fields
+}
+
 export const sendEnquiryData = async (
   enquiryData: EnquiryRegister
-): Promise<ApiResponse> => {
-  return await sendData("/parent-enquiry", enquiryData, false);
+): Promise<ApiResponse<EnquiryResponse>> => {
+  return await sendData<EnquiryResponse>("/parent-enquiry", enquiryData, false);
 };
 
-// Example usage
-export const handleEnquirySubmit = async (enquiryData: EnquiryRegister) => {
-  try {
-    const response = await sendEnquiryData(enquiryData);
-    console.log("Enquiry submitted successfully:", response);
-    return response;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error("Failed to submit enquiry:", error.message);
-    } else {
-      console.error("Failed to submit enquiry:", error);
-    }
-    throw error;
-  }
-};
