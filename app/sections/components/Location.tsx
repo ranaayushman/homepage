@@ -7,8 +7,8 @@ const Location: React.FC = () => {
       className="relative w-full pt-12 bg-cover bg-center rounded-tl-[150px] rounded-tr-[150px]"
       style={{ backgroundImage: "url('/img/footer.jpg')" }}
     >
-      {/* Blue Tint & Dodge Effect */}
-      <div className="absolute inset-0 bg-[#292B5F] mix-blend-color-dodge opacity-90 backdrop-blur-lg rounded-tl-[150px] rounded-tr-[150px]"></div>
+      {/* Blue Tint & Blur Effect (removed color-dodge) */}
+      <div className="absolute inset-0 bg-[#292B5F] opacity-90 backdrop-blur-lg rounded-tl-[150px] rounded-tr-[150px]"></div>
 
       <div className="relative mx-auto px-4">
         <div className="flex flex-col md:flex-row gap-8 rounded-tl-[50px] rounded-tr-[50px] p-10 justify-between">
@@ -26,21 +26,21 @@ const Location: React.FC = () => {
             <div className="flex gap-3 mb-6">
               <a
                 href="#"
-                className="w-8 h-8 flex items-center justify-center bg-blue-600 text-white rounded-full"
+                className="w-12 h-12 flex items-center justify-center bg-blue-600 text-white rounded-full"
               >
-                <Facebook size={16} />
+                <Facebook size={26} />
               </a>
               <a
                 href="#"
-                className="w-8 h-8 flex items-center justify-center bg-red-600 text-white rounded-full"
+                className="w-12 h-12 flex items-center justify-center bg-red-600 text-white rounded-full"
               >
-                <Youtube size={16} />
+                <Youtube size={26} />
               </a>
               <a
                 href="#"
-                className="w-8 h-8 flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full"
+                className="w-12 h-12 flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full"
               >
-                <Instagram size={16} />
+                <Instagram size={26} />
               </a>
             </div>
           </div>
@@ -51,7 +51,7 @@ const Location: React.FC = () => {
             <ul className="space-y-2">
               <li>+91-7980396853</li>
               <li>033 2582 8316</li>
-              <li>033 2580 8619</li>
+              {/* <li>033 2580 8619</li> */}
               <li>kcms.1971@yahoo.com</li>
             </ul>
             <a href="#" className="mt-4 inline-block text-white underline">

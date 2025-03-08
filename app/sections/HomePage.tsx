@@ -142,10 +142,11 @@ const HomePage = () => {
       </div>
 
       <div className="bg-[#292B5F] w-full">
-        <p className="text-white text-center pt-8">
+        <h2 className="text-2xl text-white pt-8 text-center">Academics</h2>
+
+        <p className="text-white text-center ">
           An International education focused on each and every child
         </p>
-        <h2 className="text-2xl text-white text-center">Academics</h2>
         <div className="flex justify-evenly p-8">
           <AcademicCard
             imgSrc="/img/child_1.png"
