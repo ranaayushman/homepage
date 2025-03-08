@@ -47,10 +47,11 @@ const Skills: React.FC = () => {
 
   return (
     <div className="text-center py-12">
-      <h3 className="uppercase text-sm font-medium tracking-wider text-center mb-2 text-[#101010]">
+      <h2 className="text-4xl font-semibold text-[#101010] mb-2">Skills</h2>
+
+      <h3 className="uppercase text-sm font-semibold tracking-wider text-center mb-8 text-[#101010]">
         ATTITUDES, AGILITY, ADAPTABILITY AND INGENUITY FOR LIFELONG LEARNING
       </h3>
-      <h2 className="text-4xl font-semibold text-[#101010] mb-8">Skills</h2>
 
       {/* First row: 2 items */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 px-8">
