@@ -26,7 +26,7 @@ const Form = () => {
           <button
             className={`flex-1 px-4 md:px-8 py-2 text-base md:text-lg rounded-tr-lg transition-colors ${
               activeComponent === "login"
-                ? "bg-[#98B14F] text-white"
+                ? "bg-[#292B5F] text-white"
                 : "bg-[#FFFFFF] text-[#BBBBBB]"
             }`}
             onClick={() => setActiveComponent("login")}

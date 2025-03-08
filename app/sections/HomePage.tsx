@@ -140,7 +140,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="bg-[#789336] w-full">
+      <div className="bg-[#292B5F] w-full">
         <p className="text-white text-center pt-8">
           An International education focused on each and every child
         </p>

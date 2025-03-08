@@ -14,7 +14,7 @@ const KalyaniForm = () => {
       <div className="w-full flex flex-col items-center mt-10 px-4">
         <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
           {/* Title */}
-          <h2 className="text-2xl font-semibold text-center text-[#789336] mb-4">
+          <h2 className="text-2xl font-semibold text-center text-[#292B5F] mb-4">
             {activeComponent === "enquiry" ? "Enquiry" : "Login"}
           </h2>
 
