@@ -95,7 +95,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 mt-8 px-4 md:px-12 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 mt-28 px-4 md:px-12 gap-8">
         {/* Gate Animation Section - Preserving original dimensions */}
         <div className="relative mx-auto md:mx-0 mb-8 md:mb-0">
           {/* Fixed background block - Keeping original dimensions */}
@@ -141,8 +141,8 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="bg-[#292B5F] w-full">
-        <h2 className="text-2xl text-white pt-8 text-center">Academics</h2>
+      <div className="bg-[#292B5F] mt-8 w-full">
+        <h2 className="text-3xl text-white pt-8 text-center">Academics</h2>
 
         <p className="text-white text-center ">
           An International education focused on each and every child
@@ -166,7 +166,7 @@ const HomePage = () => {
         </div>
       </div>
       <Skills />
-      <div className="text-center">
+      <div className="text-center w-full">
         <h1 className="text-5xl font-thin">
           How to <span className="font-normal">apply</span>
         </h1>
@@ -176,7 +176,7 @@ const HomePage = () => {
         </p>
         <div className="flex justify-center items-center md:justify-center mt-4">
           <Link href={"#register"}>
-            <Button className="bg-white w-full text-[#2E2A5A] border border-[#2E2A5A] px-6 py-2 text-sm rounded hover:bg-[#353478] hover:text-white transition-colors">
+            <Button className="bg-white w-36 text-[#2E2A5A] border border-[#2E2A5A] px-6 py-2 text-sm rounded hover:bg-[#353478] hover:text-white transition-colors">
               Apply
             </Button>
           </Link>
