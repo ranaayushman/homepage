@@ -35,10 +35,18 @@ interface SchoolOption {
   schoolName: string;
 }
 
+interface SessionOptions {
+  _id: string;
+  session: string;
+}
 // Function to fetch class options with proper typing
 export const fetchClassOptions = async (): Promise<ClassOption[]> => {
   return fetchData<ClassOption[]>("/class");
 };
 export const fetchSchoolOptions = async (): Promise<SchoolOption[]> => {
   return fetchData<SchoolOption[]>("/school");
+};
+
+export const fetchSessionOptions = async (): Promise<SessionOptions[]> => {
+  return fetchData<SessionOptions[]>("/session");
 };

@@ -11,7 +11,10 @@ import InputField from "./ui/InputField";
 import { SelectField } from "./ui/SelectField";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { fetchSchoolOptions } from "@/app/utils/formGetApi/allGetApi";
+import {
+  fetchSchoolOptions,
+  fetchSessionOptions,
+} from "@/app/utils/formGetApi/allGetApi";
 import { sendEnquiryData } from "@/app/utils/formPostApi/enquiry";
 
 export default function EnquiryForm() {
@@ -30,6 +33,7 @@ export default function EnquiryForm() {
   const [schools, setSchools] = useState<
     { key: string; label: string; value: string }[]
   >([]);
+  const [latestSessionId, setLatestSessionId] = useState<string>("");
 
   // Load form data from localStorage on mount
   useEffect(() => {
@@ -51,7 +55,24 @@ export default function EnquiryForm() {
         console.error(e);
       }
     };
+
+    const fetchSession = async () => {
+      try {
+        const sessionData = await fetchSessionOptions();
+        // Assuming sessions are sorted by date in the API response
+        // If not sorted, we need to find the latest session
+        if (sessionData && sessionData.length > 0) {
+          // Get the first session which should be the latest (2025-2026)
+          const latestSession = sessionData[0];
+          setLatestSessionId(latestSession._id);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
     fetchData();
+    fetchSession();
   }, [methods]);
 
   // Save form data to localStorage on change
@@ -72,7 +93,7 @@ export default function EnquiryForm() {
         email: data.emailId,
         pincode: data.pinCode,
         roleId: "677254969fa73b28bf5de8d6",
-        sessionId: "671609fcb0a54510ef567f15",
+        sessionId: latestSessionId,
       };
       await sendEnquiryData(formData);
       console.log("Form submitted successfully:", data);
@@ -105,7 +126,7 @@ export default function EnquiryForm() {
         <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
           <InputField
             name="parentName"
-            placeholder="Parent’s Name"
+            placeholder="Parent's Name"
             className="rounded-none border-black border-t-0 border-x-0"
           />
           <InputField

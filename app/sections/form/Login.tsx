@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { sendLoginOTPData, verifyOTP } from "@/app/utils/formPostApi/login";
 import { useToast } from "@/hooks/use-toast";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const methods = useForm<LoginFormValues>({
@@ -26,6 +27,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [requestId, setRequestId] = useState<string | null>(null);
   const { toast } = useToast();
+  const router = useRouter(); 
 
   useEffect(() => {
     const savedData = localStorage.getItem("loginFormData");
@@ -143,6 +145,9 @@ export default function Login() {
           title: "Success",
           description: "Login successful",
         });
+
+        // Redirect to dashboard after successful login
+        router.push("/dashboard");
       } else {
         toast({
           variant: "destructive",
