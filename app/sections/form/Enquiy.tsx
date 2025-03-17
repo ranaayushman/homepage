@@ -63,7 +63,7 @@ export default function EnquiryForm() {
         // If not sorted, we need to find the latest session
         if (sessionData && sessionData.length > 0) {
           // Get the first session which should be the latest (2025-2026)
-          const latestSession = sessionData[0];
+          const latestSession = sessionData[1];
           setLatestSessionId(latestSession._id);
         }
       } catch (e) {
