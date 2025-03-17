@@ -5,8 +5,12 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Generic ApiResponse interface with a default type of unknown (safer than any)
 interface ApiResponse<T = unknown> {
-  token(arg0: string, token: any, arg2: { expires: number; secure: true; sameSite: "strict"; }): unknown;
-  requestId(requestId: any): unknown;
+  token(
+    arg0: string,
+    token: string,
+    arg2: { expires: number; secure: true; sameSite: "strict" }
+  ): unknown;
+  requestId(requestId: string): unknown;
   data: T;
   message?: string;
   status: number;
@@ -23,7 +27,7 @@ const sendData = async <T>(
     const config = {
       headers: {
         "Content-Type": isMultipart
-          ? "multipart/form-data"
+          ? "multipart/form-data" 
           : "application/json",
       },
     };
