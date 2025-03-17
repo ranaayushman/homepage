@@ -13,21 +13,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const authToken = Cookies.get("authToken");
     if (!authToken) {
       router.push("/");
     } else {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   }, [router]);
 
   if (isLoading) {
     return (
       <div className="bg-gray-200 min-h-screen flex items-center justify-center">
-        <p>Loading...</p>
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-t-4 border-gray-400 border-t-blue-500 rounded-full animate-spin"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
       </div>
     );
   }
