@@ -27,7 +27,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [requestId, setRequestId] = useState<string | null>(null);
   const { toast } = useToast();
-  const router = useRouter(); 
+  const router = useRouter();
 
   useEffect(() => {
     const savedData = localStorage.getItem("loginFormData");
@@ -126,7 +126,11 @@ export default function Login() {
 
       const verifyResponse = await verifyOTP(submissionData);
 
+      // Log the full response to debug
+      console.log("Full verification response:", verifyResponse);
+
       if (verifyResponse.success) {
+        // Store just the auth token in cookies
         Cookies.set("authToken", String(verifyResponse.token), {
           expires: 7,
           secure: true,
@@ -140,14 +144,24 @@ export default function Login() {
         });
         setIsOtpVisible(false);
         setRequestId(null);
+
         toast({
           variant: "default",
           title: "Success",
           description: "Login successful",
         });
 
-        // Redirect to dashboard after successful login
-        router.push("/dashboard");
+        // Extract user ID directly from the response structure
+        if (verifyResponse.user && verifyResponse.user.id) {
+          const userId = verifyResponse.user.id;
+          router.push(`/dashboard/${userId}`);
+        } else {
+          console.warn(
+            "Could not find user ID in the response:",
+            verifyResponse
+          );
+          router.push("/dashboard");
+        }
       } else {
         toast({
           variant: "destructive",
@@ -156,8 +170,6 @@ export default function Login() {
             verifyResponse.message || "Invalid OTP. Please try again.",
         });
       }
-
-      console.log("Submission data:", submissionData);
     } catch (error) {
       console.error("Error verifying OTP:", error);
       toast({
@@ -169,7 +181,6 @@ export default function Login() {
       setIsLoading(false);
     }
   };
-
   return (
     <div className="h-[50vh] flex flex-col">
       <FormProvider {...methods}>

@@ -3,31 +3,37 @@ import axios, { AxiosResponse } from "axios";
 // Define the base URL from environment
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// Generic ApiResponse interface with a default type of unknown (safer than any)
+// Updated ApiResponse interface to match the actual response structure
 interface ApiResponse<T = unknown> {
-  token(
-    arg0: string,
-    token: string,
-    arg2: { expires: number; secure: true; sameSite: "strict" }
-  ): unknown;
-  requestId(requestId: string): unknown;
-  data: T;
-  message?: string;
-  status: number;
   success: boolean;
+  message?: string;
+  token?: string;
+  requestId?: string;
+  // Include user directly at the top level if needed for the verify-otp endpoint
+  user?: {
+    id: string;
+    schoolId: string;
+    email: string;
+    phoneNumber: string;
+    role: string;
+  };
+  // Keep data field for endpoints that return data in that format
+  data?: T;
+  status?: number;
+  // Add any other common properties here
 }
 
 // Generic sendData function with proper typing for the data parameter
 const sendData = async <T>(
   endpoint: string,
-  data: Record<string, unknown> | FormData, // Replace 'any' with a more specific type
+  data: Record<string, unknown> | FormData,
   isMultipart: boolean = false
 ): Promise<ApiResponse<T>> => {
   try {
     const config = {
       headers: {
         "Content-Type": isMultipart
-          ? "multipart/form-data" 
+          ? "multipart/form-data"
           : "application/json",
       },
     };
@@ -77,33 +83,26 @@ interface LoginOTPRegister extends Record<string, unknown> {
   phoneNumber: string;
 }
 
-// Define the expected response data shape for EnquiryRegister
+// Define the expected response data shape for the OTP request
 interface LoginOTPResponse {
-  enquiryId?: string;
   requestId: string;
-  [key: string]: unknown;
+  // Add any other fields from the OTP response
 }
 
 export const sendLoginOTPData = async (
-  enquiryData: LoginOTPRegister
+  otpData: LoginOTPRegister
 ): Promise<ApiResponse<LoginOTPResponse>> => {
-  return await sendData<LoginOTPResponse>("/send-otp", enquiryData, false);
+  return await sendData<LoginOTPResponse>("/send-otp", otpData, false);
 };
 
 interface VerifyOTP extends Record<string, unknown> {
   requestId: string;
   otp: number;
   phoneNumber: string;
-  [key: string]: unknown;
 }
 
-interface VerifyOTPResponse {
-  success: boolean;
-  message: string;
-  token: string;
-}
-export const verifyOTP = async (
-  otpData: VerifyOTP
-): Promise<ApiResponse<VerifyOTPResponse>> => {
-  return await sendData<VerifyOTPResponse>("/verify-otp", otpData, false);
+// We don't need a specific VerifyOTPResponse interface
+// since the user and token are at the top level of ApiResponse
+export const verifyOTP = async (otpData: VerifyOTP): Promise<ApiResponse> => {
+  return await sendData("/verify-otp", otpData, false);
 };

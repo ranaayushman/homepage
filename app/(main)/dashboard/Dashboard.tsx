@@ -4,7 +4,11 @@ import Status from "./ui/Status";
 import Footer from "@/app/sections/Footer";
 import Instructions from "@/app/sections/components/Instructions";
 
-const Dashboard = () => {
+interface DashboardProps {
+  userId: string;
+}
+const Dashboard = ({ userId }: DashboardProps) => {
+  console.log(userId);
   return (
     <section className="">
       <div className="my-10">
