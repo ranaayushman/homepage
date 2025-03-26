@@ -17,6 +17,7 @@ export const enquiryFormSchema = z.object({
       invalid_type_error: "Please select a valid school",
     })
     .min(1, "School selection is required"),
+  session: z.string().min(1, "Session is required"),
 });
 
 export type EnquiryFormValues = z.infer<typeof enquiryFormSchema>;

@@ -16,7 +16,7 @@ import {
 } from "@/app/lib/validations/additionalSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const Additional = () => {
+const Additional = ({ userId }: { userId: string }) => {
   const methods = useForm<AdditionalFormData>({
     resolver: zodResolver(additionalSchema),
     defaultValues: {
@@ -32,6 +32,7 @@ const Additional = () => {
     },
     mode: "onBlur", // Validate on blur
   });
+  console.log(userId)
 
   const onSubmitFinal = async (data: AdditionalFormData) => {
     try {

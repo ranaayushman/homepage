@@ -1,11 +1,13 @@
 import InputField from "@/app/sections/form/ui/InputField";
 import RadioField from "@/app/sections/form/ui/RadioField";
 import { SelectField } from "@/app/sections/form/ui/SelectField";
+import { useFormOptions } from "@/app/utils/customHooks/useFormOptions";
 import React from "react";
-import { useFormContext } from "react-hook-form";
 
 const PreviousAcademic = () => {
-  useFormContext();
+  const { classOptions, error } = useFormOptions();
+
+  if (error) return <div>Error: {error}</div>;
   return (
     <div>
       <h2 className="text-xl my-5">Previous Academic Information</h2>
@@ -26,15 +28,7 @@ const PreviousAcademic = () => {
           label="Last Class Attended:"
           name="lastClassAttended"
           placeholder="Last Class Attended"
-          options={[
-            { label: "Greenwood High", value: "greenwood_high" },
-            {
-              label: "Oakridge International",
-              value: "oakridge_international",
-            },
-            { label: "DPS Bangalore", value: "dps_bangalore" },
-            { label: "National Public School", value: "nps" },
-          ]}
+          options={classOptions}
         />
         <div className="col-span-2">
           <InputField

@@ -11,8 +11,10 @@ import Register from "./Register";
 import Payment from "./ui/Payment";
 import Additional from "./ui/Addittional";
 
-const Form = () => {
+const Form = ({ userId }: { userId: string }) => {
   const [step, setStep] = React.useState(1);
+
+  const userID = userId;
 
   // Separate form methods for each step
   const registerMethods = useForm({
@@ -55,7 +57,7 @@ const Form = () => {
 
       {step === 3 && (
         <FormProvider {...additionalMethods}>
-          <Additional />
+          <Additional userId={userID} />
         </FormProvider>
       )}
     </div>

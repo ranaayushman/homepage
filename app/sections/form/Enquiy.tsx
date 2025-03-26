@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -11,29 +11,24 @@ import InputField from "./ui/InputField";
 import { SelectField } from "./ui/SelectField";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import {
-  fetchSchoolOptions,
-  fetchSessionOptions,
-} from "@/app/utils/formGetApi/allGetApi";
+import { useFormOptions } from "@/app/utils/customHooks/useFormOptions";
 import { sendEnquiryData } from "@/app/utils/formPostApi/enquiry";
 
 export default function EnquiryForm() {
+  const { sessionOptions, schoolOptions, error } = useFormOptions();
   const methods = useForm<EnquiryFormValues>({
     resolver: zodResolver(enquiryFormSchema),
     defaultValues: {
       parentName: "",
       phoneNumber: "",
       school: "",
+      session: "",
       emailId: "",
       pinCode: "",
-    }, // Default values to clear form
+    },
   });
 
   const { toast } = useToast();
-  const [schools, setSchools] = useState<
-    { key: string; label: string; value: string }[]
-  >([]);
-  const [latestSessionId, setLatestSessionId] = useState<string>("");
 
   // Load form data from localStorage on mount
   useEffect(() => {
@@ -41,38 +36,6 @@ export default function EnquiryForm() {
     if (savedData) {
       methods.reset(JSON.parse(savedData));
     }
-
-    const fetchData = async () => {
-      try {
-        const schools = await fetchSchoolOptions();
-        const schoolOptions = schools.map((s) => ({
-          key: s._id.toString(),
-          label: s.schoolName,
-          value: s._id.toString(),
-        }));
-        setSchools(schoolOptions);
-      } catch (e: unknown) {
-        console.error(e);
-      }
-    };
-
-    const fetchSession = async () => {
-      try {
-        const sessionData = await fetchSessionOptions();
-        // Assuming sessions are sorted by date in the API response
-        // If not sorted, we need to find the latest session
-        if (sessionData && sessionData.length > 0) {
-          // Get the first session which should be the latest (2025-2026)
-          const latestSession = sessionData[1];
-          setLatestSessionId(latestSession._id);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    fetchData();
-    fetchSession();
   }, [methods]);
 
   // Save form data to localStorage on change
@@ -93,7 +56,7 @@ export default function EnquiryForm() {
         email: data.emailId,
         pincode: data.pinCode,
         roleId: "677254969fa73b28bf5de8d6",
-        sessionId: latestSessionId,
+        sessionId: data.session, 
       };
       await sendEnquiryData(formData);
       console.log("Form submitted successfully:", data);
@@ -103,10 +66,11 @@ export default function EnquiryForm() {
         parentName: "",
         phoneNumber: "",
         school: "",
+        session: "",
         emailId: "",
         pinCode: "",
       });
-      localStorage.removeItem("enquiryFormData"); // Clear localStorage
+      localStorage.removeItem("enquiryFormData");
       toast({
         title: "Form submitted successfully",
       });
@@ -119,6 +83,7 @@ export default function EnquiryForm() {
       });
     }
   };
+
 
   return (
     <div className="">
@@ -138,7 +103,18 @@ export default function EnquiryForm() {
           <SelectField
             name="school"
             placeholder="School Applying for"
-            options={schools}
+            options={schoolOptions}
+            className={{
+              trigger: "bg-white border-x-0 border-t-0 border-b-2 rounded-none",
+              content: "bg-gray-50",
+              item: "hover:bg-blue-100",
+              formItem: "mb-4",
+            }}
+          />
+          <SelectField
+            name="session"
+            placeholder="Session"
+            options={sessionOptions}
             className={{
               trigger: "bg-white border-x-0 border-t-0 border-b-2 rounded-none",
               content: "bg-gray-50",
@@ -160,12 +136,13 @@ export default function EnquiryForm() {
 
           <Button
             type="submit"
-            className="w-full text-base py-2 px-4 bg-[#292B5F] text-white rounded hover:bg-[#353478]  transition-colors"
+            className="w-full text-base py-2 px-4 bg-[#292B5F] text-white rounded hover:bg-[#353478] transition-colors"
           >
             SUBMIT
           </Button>
         </form>
       </FormProvider>
+      {error && <p className="text-red-500 mt-2">{error}</p>}
     </div>
   );
 }

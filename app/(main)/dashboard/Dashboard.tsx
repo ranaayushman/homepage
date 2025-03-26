@@ -12,7 +12,7 @@ const Dashboard = ({ userId }: DashboardProps) => {
   return (
     <section className="">
       <div className="my-10">
-        <NewForm />
+        <NewForm userId={userId} />
         <Status />
       </div>
       <div className="grid grid-cols-2 mx-10 gap-2">

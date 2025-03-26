@@ -1,9 +1,13 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { SelectField } from "@/app/sections/form/ui/SelectField";
+import { useFormOptions } from "@/app/utils/customHooks/useFormOptions";
 
 function AdmissionClass() {
+  const { classOptions, sessionOptions, error } = useFormOptions();
   useFormContext();
+
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="mt-5">
@@ -12,15 +16,7 @@ function AdmissionClass() {
           label="Admission for Class:"
           name="admissionClass"
           placeholder="Select Admission Class"
-          options={[
-            { label: "Greenwood High", value: "greenwood_high" },
-            {
-              label: "Oakridge International",
-              value: "oakridge_international",
-            },
-            { label: "DPS Bangalore", value: "dps_bangalore" },
-            { label: "National Public School", value: "nps" },
-          ]}
+          options={classOptions}
         />
         <SelectField
           label="Mode of Schooling:"
@@ -35,10 +31,7 @@ function AdmissionClass() {
           label="Select The Admission Session You Would Like To Apply For:"
           name="admissionSession"
           placeholder="Select Admission Session"
-          options={[
-            { label: "2023-2024", value: "2023-2024" },
-            { label: "2024-2025", value: "2024-2025" },
-          ]}
+          options={sessionOptions}
         />
       </div>
       <hr className="my-4" />

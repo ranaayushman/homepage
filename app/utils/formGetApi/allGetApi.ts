@@ -27,26 +27,37 @@ const fetchData = async <T>(endpoint: string): Promise<T> => {
 
 // Define a type for class options response
 interface ClassOption {
-  _id: number;
+  _id: string;
   className: string;
 }
+
 interface SchoolOption {
-  _id: number;
+  _id: string;
   schoolName: string;
 }
 
 interface SessionOptions {
-  _id: string;
-  session: string;
+  success: boolean;
+  message: string;
+  sessions: {
+    _id: string;
+    session: string;
+    createdAt?: string; // Optional fields from response
+    updatedAt?: string;
+    __v?: number;
+  }[];
 }
+
 // Function to fetch class options with proper typing
 export const fetchClassOptions = async (): Promise<ClassOption[]> => {
   return fetchData<ClassOption[]>("/class");
 };
+
 export const fetchSchoolOptions = async (): Promise<SchoolOption[]> => {
   return fetchData<SchoolOption[]>("/school");
 };
 
-export const fetchSessionOptions = async (): Promise<SessionOptions[]> => {
-  return fetchData<SessionOptions[]>("/session");
+// Fixed: Return a single SessionOptions object, not an array
+export const fetchSessionOptions = async (): Promise<SessionOptions> => {
+  return fetchData<SessionOptions>("/session");
 };

@@ -3,10 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const NewForm = () => {
+interface NewFormProps {
+  userId: string;
+}
+const NewForm = ({ userId }: NewFormProps) => {
   return (
     <div className="my-5 mx-10 ">
-      <Link href={"/registration"}>
+      <Link href={`/registration/${userId}`}>
         <Button className="bg-[#3A471A] text-[#FFFFFF] border border-[#3A471A] w-40">
           <Image
             height={20}
