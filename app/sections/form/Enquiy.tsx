@@ -5,17 +5,32 @@ import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   enquiryFormSchema,
-  type EnquiryFormValues,
+  EnquiryFormValues,
 } from "@/app/lib/validations/kalyaniForm";
 import InputField from "./ui/InputField";
 import { SelectField } from "./ui/SelectField";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useFormOptions } from "@/app/utils/customHooks/useFormOptions";
-import { sendEnquiryData } from "@/app/utils/formPostApi/enquiry";
+import { useSocket } from "@/hooks/useSocket";
+import {
+  sendEnquiryData,
+  sendSocketData,
+} from "@/app/utils/formPostApi/enquiry";
+
+// Define option type for SelectField
+interface Option {
+  value: string;
+  label: string;
+}
 
 export default function EnquiryForm() {
-  const { sessionOptions, schoolOptions, error } = useFormOptions();
+  const {
+    sessionOptions,
+    schoolOptions,
+    error: formOptionsError,
+  } = useFormOptions();
+  const { socket } = useSocket(); // Use the new hook for connection status
   const methods = useForm<EnquiryFormValues>({
     resolver: zodResolver(enquiryFormSchema),
     defaultValues: {
@@ -32,9 +47,11 @@ export default function EnquiryForm() {
 
   // Load form data from localStorage on mount
   useEffect(() => {
-    const savedData = localStorage.getItem("enquiryFormData");
-    if (savedData) {
-      methods.reset(JSON.parse(savedData));
+    if (typeof window !== "undefined") {
+      const savedData = localStorage.getItem("enquiryFormData");
+      if (savedData) {
+        methods.reset(JSON.parse(savedData) as EnquiryFormValues);
+      }
     }
   }, [methods]);
 
@@ -42,24 +59,46 @@ export default function EnquiryForm() {
   const { watch } = methods;
   useEffect(() => {
     const subscription = watch((value) => {
-      localStorage.setItem("enquiryFormData", JSON.stringify(value));
+      if (typeof window !== "undefined") {
+        localStorage.setItem("enquiryFormData", JSON.stringify(value));
+      }
     });
     return () => subscription.unsubscribe();
   }, [watch]);
 
-  const onSubmit = async (data: EnquiryFormValues) => {
-    try {
-      const formData = {
-        name: data.parentName,
-        phoneNumber: data.phoneNumber,
-        schoolId: data.school,
-        email: data.emailId,
-        pincode: data.pinCode,
-        roleId: "677254969fa73b28bf5de8d6",
-        sessionId: data.session, 
+  // Socket connection status logging (optional)
+  useEffect(() => {
+    if (socket) {
+      socket.on("connect", () => {
+        console.log("EnquiryForm connected to socket server");
+      });
+      socket.on("disconnect", () => {
+        console.log("EnquiryForm disconnected from socket server");
+      });
+
+      return () => {
+        socket.off("connect");
+        socket.off("disconnect");
       };
+    }
+  }, [socket]);
+
+  const onSubmit = async (data: EnquiryFormValues) => {
+    const formData = {
+      schoolId: data.school,
+      name: data.parentName,
+      phoneNumber: data.phoneNumber,
+      email: data.emailId,
+      pincode: data.pinCode,
+      roleId: "677254969fa73b28bf5de8d6",
+      sessionId: data.session,
+    };
+
+    try {
+      // Use the original sendEnquiryData function to submit the form
+      await sendSocketData(formData);
       await sendEnquiryData(formData);
-      console.log("Form submitted successfully:", data);
+      console.log("Form submitted successfully:", formData);
 
       // Clear form on success
       methods.reset({
@@ -70,7 +109,9 @@ export default function EnquiryForm() {
         emailId: "",
         pinCode: "",
       });
-      localStorage.removeItem("enquiryFormData");
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("enquiryFormData");
+      }
       toast({
         title: "Form submitted successfully",
       });
@@ -84,9 +125,11 @@ export default function EnquiryForm() {
     }
   };
 
-
   return (
     <div className="">
+      {/* <div className="connection-status">
+        Socket Status: {isConnected ? "🟢 Connected" : "🔴 Disconnected"}
+      </div> */}
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
           <InputField
@@ -103,7 +146,7 @@ export default function EnquiryForm() {
           <SelectField
             name="school"
             placeholder="School Applying for"
-            options={schoolOptions}
+            options={schoolOptions as Option[]}
             className={{
               trigger: "bg-white border-x-0 border-t-0 border-b-2 rounded-none",
               content: "bg-gray-50",
@@ -114,7 +157,7 @@ export default function EnquiryForm() {
           <SelectField
             name="session"
             placeholder="Session"
-            options={sessionOptions}
+            options={sessionOptions as Option[]}
             className={{
               trigger: "bg-white border-x-0 border-t-0 border-b-2 rounded-none",
               content: "bg-gray-50",
@@ -133,16 +176,19 @@ export default function EnquiryForm() {
             placeholder="Pin code"
             className="rounded-none border-black border-t-0 border-x-0"
           />
-
           <Button
             type="submit"
             className="w-full text-base py-2 px-4 bg-[#292B5F] text-white rounded hover:bg-[#353478] transition-colors"
+            // Optionally disable if socket isn’t connected, though not strictly necessary here
+            // disabled={!isConnected}
           >
             SUBMIT
           </Button>
         </form>
       </FormProvider>
-      {error && <p className="text-red-500 mt-2">{error}</p>}
+      {formOptionsError && (
+        <p className="text-red-500 mt-2">{formOptionsError}</p>
+      )}
     </div>
   );
 }

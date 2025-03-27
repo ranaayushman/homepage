@@ -89,3 +89,9 @@ export const sendEnquiryData = async (
   return await sendData<EnquiryResponse>("/parent-enquiry", enquiryData, false);
 };
 
+export const sendSocketData = async (
+  enquiryData: EnquiryRegister
+): Promise<ApiResponse<EnquiryResponse>> => {
+  return await sendData<EnquiryResponse>("/add-enquiry", enquiryData, false);
+};
+
