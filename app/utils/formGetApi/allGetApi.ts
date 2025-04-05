@@ -16,10 +16,7 @@ const fetchData = async <T>(endpoint: string): Promise<T> => {
 };
 
 // Define a type for class options response
-interface ClassOption {
-  _id: string;
-  className: string;
-}
+
 
 interface SchoolOption {
   _id: string;
@@ -39,9 +36,7 @@ interface SessionOptions {
 }
 
 // Function to fetch class options with proper typing
-export const fetchClassOptions = async (): Promise<ClassOption[]> => {
-  return fetchData<ClassOption[]>("/class");
-};
+
 
 export const fetchSchoolOptions = async (): Promise<SchoolOption[]> => {
   return fetchData<SchoolOption[]>("/school");
