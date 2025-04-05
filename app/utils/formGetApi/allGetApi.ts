@@ -1,21 +1,11 @@
 import axios, { AxiosResponse } from "axios";
-import Cookies from "js-cookie";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
-// Generic function for API calls
+// Generic function for API calls (no auth token now)
 const fetchData = async <T>(endpoint: string): Promise<T> => {
   try {
-    const token = Cookies.get("authToken");
-
-    const response: AxiosResponse<T> = await axios.get(
-      `${BASE_URL}${endpoint}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response: AxiosResponse<T> = await axios.get(`${BASE_URL}${endpoint}`);
     return response.data;
   } catch (error) {
     if (error instanceof Error) {
@@ -42,7 +32,7 @@ interface SessionOptions {
   sessions: {
     _id: string;
     session: string;
-    createdAt?: string; // Optional fields from response
+    createdAt?: string;
     updatedAt?: string;
     __v?: number;
   }[];
@@ -57,7 +47,6 @@ export const fetchSchoolOptions = async (): Promise<SchoolOption[]> => {
   return fetchData<SchoolOption[]>("/school");
 };
 
-// Fixed: Return a single SessionOptions object, not an array
 export const fetchSessionOptions = async (): Promise<SessionOptions> => {
   return fetchData<SessionOptions>("/session");
 };
