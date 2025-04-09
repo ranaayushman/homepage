@@ -11,17 +11,14 @@ import InputField from "./ui/InputField";
 import { SelectField } from "./ui/SelectField";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { useFormOptions } from "@/app/utils/customHooks/useFormOptions";
-import { useSocket } from "@/hooks/useSocket";
-import {
-  sendEnquiryData,
-  sendSocketData,
-} from "@/app/utils/formPostApi/enquiry";
+import { usePublicFormOptions } from "@/app/utils/customHooks/useFormOptions";
+import { sendEnquiryData } from "@/app/utils/formPostApi/enquiry";
 
 // Define option type for SelectField
 interface Option {
-  value: string;
+  key: string;  // Changed from value to key to match usePublicFormOptions
   label: string;
+  value: string;
 }
 
 export default function EnquiryForm() {
@@ -29,8 +26,8 @@ export default function EnquiryForm() {
     sessionOptions,
     schoolOptions,
     error: formOptionsError,
-  } = useFormOptions();
-  const { socket } = useSocket(); // Use the new hook for connection status
+  } = usePublicFormOptions();
+  
   const methods = useForm<EnquiryFormValues>({
     resolver: zodResolver(enquiryFormSchema),
     defaultValues: {
@@ -66,23 +63,6 @@ export default function EnquiryForm() {
     return () => subscription.unsubscribe();
   }, [watch]);
 
-  // Socket connection status logging (optional)
-  useEffect(() => {
-    if (socket) {
-      socket.on("connect", () => {
-        console.log("EnquiryForm connected to socket server");
-      });
-      socket.on("disconnect", () => {
-        console.log("EnquiryForm disconnected from socket server");
-      });
-
-      return () => {
-        socket.off("connect");
-        socket.off("disconnect");
-      };
-    }
-  }, [socket]);
-
   const onSubmit = async (data: EnquiryFormValues) => {
     const formData = {
       schoolId: data.school,
@@ -95,8 +75,7 @@ export default function EnquiryForm() {
     };
 
     try {
-      // Use the original sendEnquiryData function to submit the form
-      await sendSocketData(formData);
+      // Submit the form data
       await sendEnquiryData(formData);
       console.log("Form submitted successfully:", formData);
 
@@ -127,9 +106,6 @@ export default function EnquiryForm() {
 
   return (
     <div className="">
-      {/* <div className="connection-status">
-        Socket Status: {isConnected ? "🟢 Connected" : "🔴 Disconnected"}
-      </div> */}
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
           <InputField
@@ -179,8 +155,6 @@ export default function EnquiryForm() {
           <Button
             type="submit"
             className="w-full text-base py-2 px-4 bg-[#292B5F] text-white rounded hover:bg-[#353478] transition-colors"
-            // Optionally disable if socket isn’t connected, though not strictly necessary here
-            // disabled={!isConnected}
           >
             SUBMIT
           </Button>

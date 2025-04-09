@@ -4,16 +4,22 @@ import Cookies from "js-cookie";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
 // Generic function for API calls
-const fetchData = async <T>(endpoint: string): Promise<T> => {
+const fetchData = async <T>(
+  endpoint: string,
+  requireAuth: boolean = true
+): Promise<T> => {
   try {
-    const token = Cookies.get("authToken");
+    const headers: Record<string, string> = {};
+
+    if (requireAuth) {
+      const token = Cookies.get("authToken");
+      headers.Authorization = `Bearer ${token}`;
+    }
 
     const response: AxiosResponse<T> = await axios.get(
       `${BASE_URL}${endpoint}`,
       {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
       }
     );
     return response.data;
@@ -53,11 +59,19 @@ export const fetchClassOptions = async (): Promise<ClassOption[]> => {
   return fetchData<ClassOption[]>("/class");
 };
 
-export const fetchSchoolOptions = async (): Promise<SchoolOption[]> => {
-  return fetchData<SchoolOption[]>("/school");
+export const fetchSchoolOptions = async ({
+  requireAuth = true,
+}: {
+  requireAuth: boolean;
+}): Promise<SchoolOption[]> => {
+  return fetchData<SchoolOption[]>("/school", requireAuth);
 };
 
 // Fixed: Return a single SessionOptions object, not an array
-export const fetchSessionOptions = async (): Promise<SessionOptions> => {
-  return fetchData<SessionOptions>("/session");
+export const fetchSessionOptions = async ({
+  requireAuth = true,
+}: {
+  requireAuth: boolean;
+}): Promise<SessionOptions> => {
+  return fetchData<SessionOptions>("/session", requireAuth);
 };
