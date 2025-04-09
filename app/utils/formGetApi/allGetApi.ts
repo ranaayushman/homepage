@@ -75,3 +75,4 @@ export const fetchSessionOptions = async ({
 }): Promise<SessionOptions> => {
   return fetchData<SessionOptions>("/session", requireAuth);
 };
+remove the auth from header and just make it normal wihtou authToken
