@@ -1,9 +1,11 @@
 import InputField from "@/app/sections/form/ui/InputField";
 import RadioField from "@/app/sections/form/ui/RadioField";
 import { SelectField } from "@/app/sections/form/ui/SelectField";
+import { useFormOptions } from "@/app/utils/customHooks/useFormOptions";
 import React from "react";
 
 const PreviousSchool = () => {
+  const {classOptions} = useFormOptions();
   return (
     <div className="grid gap-y-6">
       <h2>Previous Academic Information</h2>
@@ -33,7 +35,7 @@ const PreviousSchool = () => {
           name="lastClassAttended"
           label="Last Class Attended:"
           placeholder="Last Class Attended"
-          options={[{ label: "Greenwood High", value: "greenwood_high" }]}
+          options={classOptions}
         />
         <div className="col-span-2">
           <InputField

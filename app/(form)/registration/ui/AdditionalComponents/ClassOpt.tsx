@@ -1,9 +1,11 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { SelectField } from "@/app/sections/form/ui/SelectField";
+import { useFormOptions } from "@/app/utils/customHooks/useFormOptions";
 
 const ClassOpt = () => {
   const { control } = useFormContext();
+  const { classOptions, sessionOptions } = useFormOptions();
 
   return (
     <div>
@@ -13,15 +15,7 @@ const ClassOpt = () => {
           name="admissionClass"
           placeholder="Select Class"
           control={control}
-          options={[
-            { label: "Greenwood High", value: "greenwood_high" },
-            {
-              label: "Oakridge International",
-              value: "oakridge_international",
-            },
-            { label: "DPS Bangalore", value: "dps_bangalore" },
-            { label: "National Public School", value: "nps" },
-          ]}
+          options={classOptions}
         />
         <SelectField
           label="Mode of Schooling:"
@@ -29,13 +23,8 @@ const ClassOpt = () => {
           placeholder="Select Schooling"
           control={control}
           options={[
-            { label: "Greenwood High", value: "greenwood_high" },
-            {
-              label: "Oakridge International",
-              value: "oakridge_international",
-            },
-            { label: "DPS Bangalore", value: "dps_bangalore" },
-            { label: "National Public School", value: "nps" },
+            { label: "Offline", value: "offline" },
+            { label: "Online", value: "online" },
           ]}
         />
         <SelectField
@@ -43,15 +32,7 @@ const ClassOpt = () => {
           name="admissionSession"
           placeholder="Select Session"
           control={control}
-          options={[
-            { label: "Greenwood High", value: "greenwood_high" },
-            {
-              label: "Oakridge International",
-              value: "oakridge_international",
-            },
-            { label: "DPS Bangalore", value: "dps_bangalore" },
-            { label: "National Public School", value: "nps" },
-          ]}
+          options={sessionOptions}
         />
       </div>
       <hr className="my-5 border-black" />

@@ -45,7 +45,9 @@ const Form = ({ userId }: { userId: string }) => {
 
       {step === 1 && (
         <FormProvider {...registerMethods}>
-          <Register onNext={handleNext} />
+          <Additional userId={userID} />
+
+          {/* <Register onNext={handleNext} /> */}
         </FormProvider>
       )}
 
@@ -57,7 +59,9 @@ const Form = ({ userId }: { userId: string }) => {
 
       {step === 3 && (
         <FormProvider {...additionalMethods}>
-          <Additional userId={userID} />
+          <Register onNext={handleNext} />
+
+          {/* <Additional userId={userID} /> */}
         </FormProvider>
       )}
     </div>
