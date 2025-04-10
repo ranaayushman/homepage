@@ -25,7 +25,20 @@ const InputField: React.FC<InputFieldProps> = ({
     formState: { errors },
   } = useFormContext();
 
-  const error = errors[name]?.message as string | undefined;
+  // Function to get nested errors from dot notation path
+  const getNestedError = (path: string) => {
+    const parts = path.split(".");
+    let current: any = errors;
+
+    for (const part of parts) {
+      if (!current || !current[part]) return undefined;
+      current = current[part];
+    }
+
+    return current.message;
+  };
+
+  const error = getNestedError(name);
 
   return (
     <div className="relative space-y-2">
@@ -37,11 +50,10 @@ const InputField: React.FC<InputFieldProps> = ({
       <Input
         {...register(name)}
         type={type}
-        placeholder={error ? (error as string) : placeholder}
+        placeholder={placeholder}
         className={cn(
           "border rounded-md h-12 bg-transparent px-0 p-2 focus:border-green-500 focus:ring-0 placeholder:text-sm",
-          // error &&
-          //   "border-red-500 focus:border-red-500 placeholder:text-red-500",
+          error && "border-red-500 focus:border-red-500",
           className
         )}
       />

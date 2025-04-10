@@ -32,18 +32,18 @@ const Additional = ({ userId }: { userId: string }) => {
         fullName: "",
         dateOfBirth: "",
         gender: "male", 
-        isSingleChild: "false", // Default to match enum
-        castCategory: "GEN", // Default to match enum
-        speciallyAbled: "false", // Default to match enum
+        isSingleChild: "false",
+        castCategory: "GEN", 
+        speciallyAbled: "false", 
         profilePic: undefined,
         age: "",
         category: "",
       },
       previousSchool: {
-        lastSchoolAffiliated: "CBSE", // Default to match enum
+        lastSchoolAffiliated: "CBSE", 
         lastClassAttended: "",
         lastSchool: "",
-        secondLanguage: "Hindi", // Default to match enum
+        secondLanguage: "Hindi", 
       },
       studentOtherInfo: {
         height: "",
@@ -90,12 +90,14 @@ const Additional = ({ userId }: { userId: string }) => {
   const onSubmitFinal = async (data: AdditionalFormData) => {
     console.log("onSubmitFinal called with data:", data);
     try {
-      const errors = methods.formState.errors;
-      console.log("Form errors:", errors);
-      if (Object.keys(errors).length > 0) {
-        console.log("Validation errors preventing submission:", errors);
+      // Trigger validation for all fields first
+      const isValid = await methods.trigger();
+      
+      if (!isValid) {
+        const errors = methods.formState.errors;
+        console.log("Form errors:", errors);
         toast({
-          description: "Please fix form errors",
+          description: "Please fix all errors before submitting",
           variant: "destructive",
         });
         return;
@@ -125,6 +127,7 @@ const Additional = ({ userId }: { userId: string }) => {
       <form
         onSubmit={(e) => {
           console.log("Form submit event triggered");
+          e.preventDefault(); // Prevent default form submission
           methods.handleSubmit(onSubmitFinal)(e);
         }}
         className="space-y-4"

@@ -1,10 +1,17 @@
+"use client";
+
 import { DateField } from "@/app/sections/form/ui/DateField";
 import { FileUploadField } from "@/app/sections/form/ui/FileUploadField";
 import InputField from "@/app/sections/form/ui/InputField";
 import RadioField from "@/app/sections/form/ui/RadioField";
 import React from "react";
+import { useFormContext } from "react-hook-form";
 
 const StudentDetailsAdd = () => {
+  const {
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <div className="grid gap-y-4">
       <h2 className="mb-5">Student&apos;s Details</h2>
@@ -14,7 +21,10 @@ const StudentDetailsAdd = () => {
           placeholder="Enter Full Name"
           label="Name:"
         />
-        <FileUploadField name="profilePic" placeholder="Profile Picture" />
+        <FileUploadField
+          name="studentDetails.profilePic"
+          placeholder="Profile Picture"
+        />
         <RadioField
           name="studentDetails.gender"
           label={"Gender"}

@@ -16,20 +16,20 @@ const EconomicProfile = () => {
           label="Relation With Guardian:"
         />
         <InputField
-          name="yearlyIncome"
+          name="economicProfile.yearlyIncome"
           placeholder="Income in Rupees"
           label="Yearly Income:"
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <InputField
-          name="designation"
+          name="economicProfile.designation"
           placeholder="Designation"
           label="Designation:"
         />
         <SelectField
           control={control}
-          name="dependentOnGuardian"
+          name="economicProfile.dependentOnGuardian"
           placeholder="Select Number"
           label="No. of Dependents on the Guardians:"
           options={[
@@ -41,7 +41,7 @@ const EconomicProfile = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <SelectField
           control={control}
-          name="earningMembers"
+          name="economicProfile.earningMembers"
           placeholder="Select Number"
           label="No. of Earning Members in the Family:"
           options={[

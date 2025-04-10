@@ -1,3 +1,5 @@
+"use client";
+
 import { Input } from "@/components/ui/input";
 import {
   FormField,
@@ -23,9 +25,27 @@ export function FileUploadField({
   placeholder,
   label,
 }: FileUploadFieldProps) {
-  const { control } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
   const [fileName, setFileName] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
+
+  // Function to get nested errors from dot notation path
+  const getNestedError = (path: string) => {
+    const parts = path.split(".");
+    let current: any = errors;
+
+    for (const part of parts) {
+      if (!current || !current[part]) return undefined;
+      current = current[part];
+    }
+
+    return current.message;
+  };
+
+  const error = getNestedError(name);
 
   const handleFileChange = (file: File | undefined) => {
     if (file) {
@@ -79,8 +99,16 @@ export function FileUploadField({
                 }}
                 className="opacity-0 h-12 cursor-pointer"
               />
-              <div className="absolute inset-0 flex border rounded-md border-slate-600 items-center justify-between px-3 pointer-events-none">
-                <span className="text-gray-500 text-xs">
+              <div
+                className={`absolute inset-0 flex border rounded-md ${
+                  error ? "border-red-500" : "border-slate-600"
+                } items-center justify-between px-3 pointer-events-none`}
+              >
+                <span
+                  className={`text-xs ${
+                    error ? "text-red-500" : "text-gray-500"
+                  }`}
+                >
                   {fileName || placeholder}
                 </span>
                 <div className="flex items-center gap-2">
@@ -95,7 +123,11 @@ export function FileUploadField({
                       <X className="h-4 w-4 text-gray-500" />
                     </Button>
                   )}
-                  <Upload className="h-5 w-5 text-gray-500" />
+                  <Upload
+                    className={`h-5 w-5 ${
+                      error ? "text-red-500" : "text-gray-500"
+                    }`}
+                  />
                 </div>
               </div>
             </div>
@@ -111,7 +143,7 @@ export function FileUploadField({
               />
             </div>
           )}
-          <FormMessage className="text-sm text-red-500" />
+          {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
         </FormItem>
       )}
     />
