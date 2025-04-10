@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
@@ -15,38 +16,117 @@ import {
   additionalSchema,
 } from "@/app/lib/validations/additionalSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { handleSubmitStudentApplication } from "@/app/utils/handlers/handlers";
+import { toast } from "@/hooks/use-toast";
 
 const Additional = ({ userId }: { userId: string }) => {
   const methods = useForm<AdditionalFormData>({
     resolver: zodResolver(additionalSchema),
     defaultValues: {
-      // Add your default values here matching your schema
-      // For example:
-      // className: "",
-      // section: "",
-      // studentDetails: {
-      //   firstName: "",
-      //   lastName: "",
-      //   // ... other fields
-      // },
+      class: {
+        className: "",
+        admissionSession: "",
+        modeOfSchooling: "offline", 
+      },
+      studentDetails: {
+        fullName: "",
+        dateOfBirth: "",
+        gender: "male", 
+        isSingleChild: "false", // Default to match enum
+        castCategory: "GEN", // Default to match enum
+        speciallyAbled: "false", // Default to match enum
+        profilePic: undefined,
+        age: "",
+        category: "",
+      },
+      previousSchool: {
+        lastSchoolAffiliated: "CBSE", // Default to match enum
+        lastClassAttended: "",
+        lastSchool: "",
+        secondLanguage: "Hindi", // Default to match enum
+      },
+      studentOtherInfo: {
+        height: "",
+        weight: "",
+        motherTongue: "",
+        religion: "",
+        bloodGroup: "",
+      },
+      parentsInfo: {
+        guardianName: "",
+        guardianResidentialAddress: "",
+        guardianOccupation: "",
+        motherName: "",
+        motherResidentialAddress: "",
+        motherOccupation: "",
+      },
+      communicationDetails: {
+        phoneNumber1: "",
+        phoneNumber2: "",
+        phoneNumber3: "",
+        email: "",
+        permanentAddress: "",
+        localAddress: "",
+      },
+      economicProfile: {
+        relationWithGuardian: "",
+        yearlyIncome: "",
+        designation: "",
+        dependentOnGuardian: "",
+        earningMembers: "",
+      },
+      documents: {
+        birthCertificate: undefined,
+        transferCertificate: undefined,
+        migrationCertificate: undefined,
+        markSheet: undefined,
+        aadhaarCard: undefined,
+        residentialProof: undefined,
+      },
     },
-    mode: "onBlur", // Validate on blur
+    mode: "onBlur",
   });
-  console.log(userId)
 
   const onSubmitFinal = async (data: AdditionalFormData) => {
+    console.log("onSubmitFinal called with data:", data);
     try {
-      console.log("Form submitted with data:", data);
-      // Add your submission logic here
-    } catch (error) {
-      console.error("Form submission error:", error);
+      const errors = methods.formState.errors;
+      console.log("Form errors:", errors);
+      if (Object.keys(errors).length > 0) {
+        console.log("Validation errors preventing submission:", errors);
+        toast({
+          description: "Please fix form errors",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      console.log("No validation errors, proceeding to handler");
+      const result = await handleSubmitStudentApplication(data);
+      console.log("Handler result:", result);
+
+      toast({
+        description: result.success
+          ? result.message || "Application submitted successfully!"
+          : result.error || "Failed to submit application",
+        variant: result.success ? "default" : "destructive",
+      });
+    } catch (error: any) {
+      console.error("Unexpected error in onSubmitFinal:", error);
+      toast({
+        description: error.message || "An unexpected error occurred",
+        variant: "destructive",
+      });
     }
   };
 
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={methods.handleSubmit(onSubmitFinal)}
+        onSubmit={(e) => {
+          console.log("Form submit event triggered");
+          methods.handleSubmit(onSubmitFinal)(e);
+        }}
         className="space-y-4"
       >
         <div className="p-10">

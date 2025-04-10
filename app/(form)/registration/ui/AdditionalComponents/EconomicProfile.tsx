@@ -11,7 +11,7 @@ const EconomicProfile = () => {
       <h2>Economic Profile</h2>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <InputField
-          name="relationWithGuardian"
+          name="economicProfile.relationWithGuardian"
           placeholder="Relation"
           label="Relation With Guardian:"
         />

@@ -11,33 +11,33 @@ const CommunicationDetail = () => {
         <h3 className="text-sm font-medium mb-4">Phone No:</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <InputField
-            name="phoneNumber"
+            name="communicationDetails.phoneNumber1"
             placeholder="Phone Number"
             //   label="Phone Number:"
           />
           <InputField
-            name="phoneNumber"
+            name="communicationDetails.phoneNumber2"
             placeholder="Phone Number"
             //   label="Phone Number:"
           />
           <InputField
-            name="phoneNumber"
+            name="communicationDetails.phoneNumber3"
             placeholder="Phone Number"
             //   label="Phone Number:"
           />
         </div>
       </div>
       <div className="w-1/2 grid grid-cols-1 gap-4 ">
-        <InputField name="email" placeholder="Email" label="Email:" />
+        <InputField name="communicationDetails.email" placeholder="Email" label="Email:" />
         <InputField
-          name="permanentAddress"
+          name="communicationDetails.permanentAddress"
           placeholder="Permanent Address"
           label="Permanent Address:"
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
         <InputField
-          name="localAddress"
+          name="communicationDetails.localAddress"
           placeholder="Local Address"
           label="Local Address:"
         />

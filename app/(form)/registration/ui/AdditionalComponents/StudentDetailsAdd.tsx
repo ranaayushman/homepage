@@ -9,29 +9,33 @@ const StudentDetailsAdd = () => {
     <div className="grid gap-y-4">
       <h2 className="mb-5">Student&apos;s Details</h2>
       <div className="w-1/2 grid gap-y-4">
-        <InputField name="name" placeholder="Enter Full Name" label="Name:" />
+        <InputField
+          name="studentDetails.fullName"
+          placeholder="Enter Full Name"
+          label="Name:"
+        />
         <FileUploadField name="profilePic" placeholder="Profile Picture" />
         <RadioField
-          name="studentGender"
+          name="studentDetails.gender"
           label={"Gender"}
           options={[
-            { value: "Male", label: "Male" },
-            { value: "Female", label: "Female" },
-            { value: "Other", label: "Other" },
+            { value: "male", label: "Male" },
+            { value: "female", label: "Female" },
+            { value: "other", label: "Other" },
           ]}
         />
       </div>
       <div className="w-1/2 grid grid-cols-1 md:grid-cols-2 gap-x-4">
         <DateField
-          name="dateOfBirth"
+          name="studentDetails.dateOfBirth"
           label="Date Of Birth:"
           placeholder="DOB"
         />
-        <InputField name="age" placeholder="Age" label="Age:" />
+        <InputField name="studentDetails.age" placeholder="Age" label="Age:" />
       </div>
       <div className="flex gap-x-4">
         <RadioField
-          name="isSingleChild"
+          name="studentDetails.isSingleChild"
           label="Only Child"
           options={[
             { value: "true", label: "Yes" },
@@ -40,7 +44,7 @@ const StudentDetailsAdd = () => {
         />
         <div className="border-black border-l h-full "></div>
         <RadioField
-          name="castCategory"
+          name="studentDetails.castCategory"
           label="Cast Category"
           options={[
             { value: "SC", label: "SC" },
@@ -51,7 +55,7 @@ const StudentDetailsAdd = () => {
         />
         <div className="border-black border-l h-full "></div>
         <RadioField
-          name="speciallyAbled"
+          name="studentDetails.speciallyAbled"
           label="Specially Abled"
           options={[
             { value: "true", label: "Yes" },

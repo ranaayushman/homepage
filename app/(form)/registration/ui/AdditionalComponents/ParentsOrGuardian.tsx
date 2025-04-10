@@ -12,35 +12,35 @@ const ParentsOrGuardian = () => {
       </h2>
       <div className="w-1/2 grid grid-cols-1 gap-4">
         <InputField
-          name="guardianName"
+          name="parentsInfo.guardianName"
           placeholder="Parents/Guardian Name"
           label="Parents/Guardian Name:"
         />
         <InputField
-          name="guardianResidentialAddress"
+          name="parentsInfo.guardianResidentialAddress"
           placeholder="Father/Guardian’s Residential Address"
           label="Father/Guardian’s Residential Address:"
         />
         <InputField
-          name="guardianOccupation"
+          name="parentsInfo.guardianOccupation"
           placeholder="Father/Guardian’s Occupation"
           label="Father/Guardian’s Occupation:"
         />
         <InputField
-          name="motherName"
+          name="parentsInfo.motherName"
           placeholder="Mother’s Name"
           label="Mother’s Name:"
         />
       </div>
       <div className="grid grid-cols-2 gap-4 items-end">
         <InputField
-          name="motherResidentialName"
+          name="parentsInfo.motherResidentialName"
           placeholder="Enter Mother’s Residential Address"
           label="Mother’s Residential Address:"
         />
         <CheckboxField name="sameAddress" label="Same Address" />
         <InputField
-          name="motherResidentialAddress"
+          name="parentsInfo.motherResidentialAddress"
           placeholder="Enter Mother’s Residential Address"
           label="Mother’s Residential Address:"
         />

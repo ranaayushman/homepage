@@ -5,13 +5,13 @@ import { useFormOptions } from "@/app/utils/customHooks/useFormOptions";
 import React from "react";
 
 const PreviousSchool = () => {
-  const {classOptions} = useFormOptions();
+  const { classOptions } = useFormOptions();
   return (
     <div className="grid gap-y-6">
       <h2>Previous Academic Information</h2>
       <div className="flex gap-x-4">
         <RadioField
-          name="lastSchoolAffiliated"
+          name="previousSchool.lastSchoolAffiliated"
           label="Last School affiliated is:"
           options={[
             { value: "CBSE", label: "CBSE" },
@@ -22,7 +22,7 @@ const PreviousSchool = () => {
         />
         <div className="border-black border-l h-full "></div>
         <RadioField
-          name="secondLanguage"
+          name="previousSchool.secondLanguage"
           label="Second Language"
           options={[
             { value: "Bengali", label: "Bengali" },
@@ -32,20 +32,20 @@ const PreviousSchool = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4">
         <SelectField
-          name="lastClassAttended"
+          name="previousSchool.lastClassAttended"
           label="Last Class Attended:"
           placeholder="Last Class Attended"
           options={classOptions}
         />
         <div className="col-span-2">
           <InputField
-            name="lastSchool"
+            name="previousSchool.lastSchool"
             label="Last School Attended:"
             placeholder="Enter School’s Name"
           />
         </div>
       </div>
-      <hr className="my-5 border-black"/>
+      <hr className="my-5 border-black" />
     </div>
   );
 };

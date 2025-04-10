@@ -12,14 +12,14 @@ const ClassOpt = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
         <SelectField
           label="Admission for CLASS :"
-          name="admissionClass"
+          name="class.className"
           placeholder="Select Class"
           control={control}
           options={classOptions}
         />
         <SelectField
           label="Mode of Schooling:"
-          name="modeOfSchooling"
+          name="class.modeOfSchooling"
           placeholder="Select Schooling"
           control={control}
           options={[
@@ -29,7 +29,7 @@ const ClassOpt = () => {
         />
         <SelectField
           label="Select The Admission Session:"
-          name="admissionSession"
+          name="class.admissionSession"
           placeholder="Select Session"
           control={control}
           options={sessionOptions}
