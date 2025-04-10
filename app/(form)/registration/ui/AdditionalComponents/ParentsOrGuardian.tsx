@@ -34,7 +34,7 @@ const ParentsOrGuardian = () => {
       </div>
       <div className="grid grid-cols-2 gap-4 items-end">
         <InputField
-          name="parentsInfo.motherResidentialName"
+          name="parentsInfo.motherResidentialAddress"
           placeholder="Enter Mother’s Residential Address"
           label="Mother’s Residential Address:"
         />
