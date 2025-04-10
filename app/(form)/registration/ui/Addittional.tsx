@@ -23,7 +23,19 @@ const Additional = ({ userId }: { userId: string }) => {
   const methods = useForm<AdditionalFormData>({
     resolver: zodResolver(additionalSchema),
     defaultValues: {
-      
+      studentDetails: {
+        gender: "Male",
+        isSingleChild: "false",
+        isOnlyGirlChild: "false",
+        castCategory: "GEN",
+        speciallyAbled: "false",
+      },
+      previousSchool: {
+        lastSchoolAffiliated: "CBSE",
+        secondLanguage: "Bengali",
+        lastClassAttended: "",
+        lastSchool: "",
+      },
     },
     mode: "onBlur",
   });
@@ -34,7 +46,7 @@ const Additional = ({ userId }: { userId: string }) => {
     try {
       // Trigger validation for all fields first
       const isValid = await methods.trigger();
-      
+
       if (!isValid) {
         const errors = methods.formState.errors;
         console.log("Form errors:", errors);
