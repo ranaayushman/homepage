@@ -53,6 +53,16 @@ const StudentDetailsAdd = () => {
           ]}
         />
         <div className="border-black border-l h-full "></div>
+
+        <RadioField
+          name="studentDetails.isOnlyGirlChild"
+          label="Only Girl Child"
+          options={[
+            { value: "true", label: "Yes" },
+            { value: "false", label: "No" },
+          ]}
+        />
+        <div className="border-black border-l h-full "></div>
         <RadioField
           name="studentDetails.castCategory"
           label="Cast Category"

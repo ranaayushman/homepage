@@ -25,6 +25,9 @@ const studentDetailsSchema = z.object({
   isSingleChild: z.enum(["true", "false"], {
     errorMap: () => ({ message: "Is single child is required" }),
   }),
+  isOnlyGirlChild: z.enum(["true", "false"], {
+    errorMap: () => ({ message: "Is only girl child is required" }),
+  }),
   castCategory: z.enum(["SC", "ST", "OBC", "GEN"], {
     errorMap: () => ({ message: "Cast category is required" }),
   }),
@@ -71,6 +74,7 @@ const communicationDetailsSchema = z.object({
   phoneNumber1:z.string().min(10, "Phone number 1 is required"),
   phoneNumber2:z.string().min(10,"required"),
   phoneNumber3:z.string().min(10,'required'),
+  email:z.string().email("Invalid email address"),
   permanentAddress:z.string().min(1, "Permanent address is required"),
   localAddress:z.string().min(1, "Local address is required"),
 });

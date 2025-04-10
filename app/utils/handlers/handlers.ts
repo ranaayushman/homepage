@@ -98,7 +98,7 @@ export const handleStudentApplicationFormDetails = async (
       bloodGroup: formData.studentOtherInfo.bloodGroup,
       motherTongue: formData.studentOtherInfo.motherTongue,
       onlyChild: convertToBoolean(formData.studentDetails.isSingleChild),
-      onlyGirlChild: false,
+      onlyGirlChild: convertToBoolean(formData.studentDetails.isOnlyGirlChild),
       height: extractNumeric(formData.studentOtherInfo.height),
       weight: extractNumeric(formData.studentOtherInfo.weight),
       speciallyAbled: convertToBoolean(formData.studentDetails.speciallyAbled),
@@ -107,11 +107,11 @@ export const handleStudentApplicationFormDetails = async (
       motherName: formData.parentsInfo.motherName,
       motherResidentalAddress: formData.parentsInfo.motherResidentialAddress,
       fatherOccupation: formData.parentsInfo.guardianOccupation,
-      motherOccupation: "", // Not in schema, keeping empty
+      motherOccupation: formData.parentsInfo.motherOccupation,
       phoneNo: formData.communicationDetails.phoneNumber1,
       secondaryNo: formData.communicationDetails.phoneNumber2,
       additionalNo: formData.communicationDetails.phoneNumber3,
-      email: "", // Not in schema, keeping empty
+      email: formData.communicationDetails.email,
       permanentAddress: formData.communicationDetails.permanentAddress,
       localAddress: formData.communicationDetails.localAddress,
       aadhaaCardNo: "", // Could be added to schema if needed
