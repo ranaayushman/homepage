@@ -50,14 +50,19 @@ const previousSchoolSchema = z.object({
 
 //StudentOtherInformation
 const studentOtherInfoSchema = z.object({
-  height:z.string().min(1, "Height is required"),
-  weight:z.string().min(1, "Weight is required"),
-  // bloodGroup:z.enum(["A+", "B+", "O+", "AB+"], {
-  //   errorMap: () => ({ message: "Blood group is required" }),
-  // }),
-  bloodGroup:z.string().min(1, "Blood group is required"),
-  motherTongue:z.string().min(1, "Mother tongue is required"),
-  religion:z.string().min(1, "Religion is required"),
+  height: z.string().min(1, "Height is required").transform((val) => {
+    if (val === "null" || !val) return null;
+    const num = parseFloat(val);
+    return isNaN(num) ? null : num;
+  }),
+  weight: z.string().min(1, "Weight is required").transform((val) => {
+    if (val === "null" || !val) return null;
+    const num = parseFloat(val);
+    return isNaN(num) ? null : num;
+  }),
+  bloodGroup: z.string().min(1, "Blood group is required"),
+  motherTongue: z.string().min(1, "Mother tongue is required"),
+  religion: z.string().min(1, "Religion is required"),
 });
 //ParentsOrGuardian
 const parentsGuardianSchema = z.object({

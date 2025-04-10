@@ -1,3 +1,4 @@
+import InputField from "@/app/sections/form/ui/InputField";
 import { SelectField } from "@/app/sections/form/ui/SelectField";
 import React from "react";
 
@@ -6,17 +7,17 @@ const StudentOtherInformation = () => {
     <div>
       <h2>Student&apos;s Additional Information</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <SelectField
+        <InputField
           name="studentOtherInfo.height"
           label="Height:"
           placeholder="Height"
-          options={[{ label: "Height", value: "height" }]}
+          // options={[{ label: "Height", value: "height" }]}
         />
-        <SelectField
+        <InputField
           name="studentOtherInfo.weight"
           label="Weight :"
           placeholder="Weight"
-          options={[{ label: "Weight", value: "weight" }]}
+          // options={[{ label: "Weight", value: "weight" }]}
         />
         <SelectField
           name="studentOtherInfo.bloodGroup"

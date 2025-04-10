@@ -85,8 +85,10 @@ export const handleStudentApplicationFormDetails = async (
       return { success: false, error: "Missing student application ID" };
 
     const convertToBoolean = (value: string) => value === "true";
-    const extractNumeric = (value: string | undefined) => {
-      if (!value) return null;
+    const extractNumeric = (value: string | undefined | null) => {
+      // If value is undefined, null, empty string, or the string "null"
+      if (!value || value === "null") return null;
+      
       const matches = value.match(/^(\d+(\.\d+)?)/) || [];
       return matches[1] ? parseFloat(matches[1]) : null;
     };
@@ -97,10 +99,10 @@ export const handleStudentApplicationFormDetails = async (
       religion: formData.studentOtherInfo.religion,
       bloodGroup: formData.studentOtherInfo.bloodGroup,
       motherTongue: formData.studentOtherInfo.motherTongue,
-      onlyChild: convertToBoolean(formData.studentDetails.isSingleChild),
+      onlyChild: convertToBoolean(formData.studentDetails.isSingleChild?.toString() || ''),
       onlyGirlChild: convertToBoolean(formData.studentDetails.isOnlyGirlChild),
-      height: extractNumeric(formData.studentOtherInfo.height),
-      weight: extractNumeric(formData.studentOtherInfo.weight),
+      height: extractNumeric(formData.studentOtherInfo.height?.toString()),
+      weight: extractNumeric(formData.studentOtherInfo.weight?.toString()),
       speciallyAbled: convertToBoolean(formData.studentDetails.speciallyAbled),
       fatherName: formData.parentsInfo.guardianName,
       fatherResidentalAddress: formData.parentsInfo.guardianResidentialAddress,
