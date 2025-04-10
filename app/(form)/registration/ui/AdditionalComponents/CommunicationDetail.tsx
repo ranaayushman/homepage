@@ -41,7 +41,7 @@ const CommunicationDetail = () => {
           placeholder="Local Address"
           label="Local Address:"
         />
-        <CheckboxField name="sameAddress" label="Same as Permanent Address" />
+        {/* <CheckboxField name="sameAddress" label="Same as Permanent Address" /> */}
       </div>
       <hr className="my-5 border-black" />
     </div>

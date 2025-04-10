@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Select,
   SelectContent,
@@ -11,7 +13,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { Control, FieldValues, Path } from "react-hook-form";
+import { Control, FieldValues, Path, useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 
 interface Option {
@@ -41,14 +43,38 @@ export function SelectField<T extends FieldValues>({
   control,
   className = {},
 }: SelectFieldProps<T>) {
+  const formContext = useFormContext<T>();
+  const formControl = control || formContext.control;
+  const {
+    formState: { errors },
+  } = formContext;
+
+  // Function to get nested errors from dot notation path
+  const getNestedError = (path: string) => {
+    const parts = path.split(".");
+    let current: any = errors;
+
+    for (const part of parts) {
+      if (!current || !current[part]) return undefined;
+      current = current[part];
+    }
+
+    return current.message;
+  };
+
+  const error = getNestedError(name as string);
+
   return (
     <FormField
-      control={control}
-      name={name} 
+      control={formControl}
+      name={name}
       render={({ field }) => (
         <FormItem className={cn(className.formItem)}>
           {label && (
-            <label htmlFor={name} className="text-sm md:text-md text-black mb-1">
+            <label
+              htmlFor={name as string}
+              className="text-sm md:text-md text-black mb-1"
+            >
               {label}
             </label>
           )}
@@ -57,6 +83,7 @@ export function SelectField<T extends FieldValues>({
               <SelectTrigger
                 className={cn(
                   "rounded-md border-gray-300 border-b h-12",
+                  error && "border-red-500 ring-red-500",
                   className.trigger
                 )}
               >
@@ -75,6 +102,7 @@ export function SelectField<T extends FieldValues>({
               ))}
             </SelectContent>
           </Select>
+          {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
           <FormMessage className="text-sm text-red-500" />
         </FormItem>
       )}

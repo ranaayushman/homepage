@@ -40,9 +40,9 @@ const ParentsOrGuardian = () => {
         />
         <CheckboxField name="sameAddress" label="Same Address" />
         <InputField
-          name="parentsInfo.motherResidentialAddress"
-          placeholder="Enter Mother’s Residential Address"
-          label="Mother’s Residential Address:"
+          name="parentsInfo.motherOccupation"
+          placeholder="Enter Mother’s Occupation"
+          label="Mother’s Occupation:"
         />
       </div>
       <hr className="my-5 border-black" />

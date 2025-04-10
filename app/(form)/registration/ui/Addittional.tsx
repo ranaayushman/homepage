@@ -23,72 +23,14 @@ const Additional = ({ userId }: { userId: string }) => {
   const methods = useForm<AdditionalFormData>({
     resolver: zodResolver(additionalSchema),
     defaultValues: {
-      class: {
-        className: "",
-        admissionSession: "",
-        modeOfSchooling: "offline", 
-      },
-      studentDetails: {
-        fullName: "",
-        dateOfBirth: "",
-        gender: "male", 
-        isSingleChild: "false",
-        castCategory: "GEN", 
-        speciallyAbled: "false", 
-        profilePic: undefined,
-        age: "",
-        category: "",
-      },
-      previousSchool: {
-        lastSchoolAffiliated: "CBSE", 
-        lastClassAttended: "",
-        lastSchool: "",
-        secondLanguage: "Hindi", 
-      },
-      studentOtherInfo: {
-        height: "",
-        weight: "",
-        motherTongue: "",
-        religion: "",
-        bloodGroup: "",
-      },
-      parentsInfo: {
-        guardianName: "",
-        guardianResidentialAddress: "",
-        guardianOccupation: "",
-        motherName: "",
-        motherResidentialAddress: "",
-        motherOccupation: "",
-      },
-      communicationDetails: {
-        phoneNumber1: "",
-        phoneNumber2: "",
-        phoneNumber3: "",
-        email: "",
-        permanentAddress: "",
-        localAddress: "",
-      },
-      economicProfile: {
-        relationWithGuardian: "",
-        yearlyIncome: "",
-        designation: "",
-        dependentOnGuardian: "",
-        earningMembers: "",
-      },
-      documents: {
-        birthCertificate: undefined,
-        transferCertificate: undefined,
-        migrationCertificate: undefined,
-        markSheet: undefined,
-        aadhaarCard: undefined,
-        residentialProof: undefined,
-      },
+      
     },
     mode: "onBlur",
   });
 
   const onSubmitFinal = async (data: AdditionalFormData) => {
     console.log("onSubmitFinal called with data:", data);
+    console.log(methods.formState.errors);
     try {
       // Trigger validation for all fields first
       const isValid = await methods.trigger();
@@ -104,7 +46,7 @@ const Additional = ({ userId }: { userId: string }) => {
       }
 
       console.log("No validation errors, proceeding to handler");
-      const result = await handleSubmitStudentApplication(data);
+      const result = await handleSubmitStudentApplication(data, userId);
       console.log("Handler result:", result);
 
       toast({

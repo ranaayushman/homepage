@@ -2,100 +2,89 @@ import { z } from "zod";
 
 const validateFileSize = (file: File | undefined) => {
   const maxSize = 5 * 1024 * 1024;
-  return !file || file.size <= maxSize; 
+  return !file || file.size <= maxSize;
 };
 
+//Class Opt
 const classOptSchema = z.object({
   className: z.string().min(1, "Class name is required"),
+  modeOfSchooling: z.string().min(1, "Mode of schooling is required"),
   admissionSession: z.string().min(1, "Admission session is required"),
-  modeOfSchooling: z.enum(["offline", "online"], {
-    required_error: "Please select a mode of schooling",
-  }),
 });
 
+//StudentDetailsAdd
 const studentDetailsSchema = z.object({
-  fullName: z.string().min(1, "First name is required"),
-  dateOfBirth: z.date().transform((date) => date.toISOString()),
-  gender: z.enum(["male", "female", "other"], {
-    required_error: "Please select a gender",
-  }),
-  isSingleChild: z.enum(["true", "false"], {
-    required_error: "Please select if the student is a single child",
-  }),
-  castCategory: z.enum(["SC", "ST", "OBC", "GEN"], {
-    required_error: "Please select a caste category",
-  }),
-  speciallyAbled: z.enum(["true", "false"], {
-    required_error: "Please select if the student is specially abled",
-  }),
+  fullName: z.string().min(1, "Full name is required"),
   profilePic: z
     .custom<File>()
     .optional()
     .refine(validateFileSize, "File size should be less than 5MB"),
-  age: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-    message: "Please enter a valid age",
+  gender: z.string().min(1, "Gender is required"),
+  dateOfBirth: z.date().transform((date) => date.toISOString()),
+  age: z.string().min(1, "Age is required"),
+  isSingleChild: z.enum(["true", "false"], {
+    errorMap: () => ({ message: "Is single child is required" }),
   }),
-  category: z.string().min(1, "Category is required"),
+  castCategory: z.enum(["SC", "ST", "OBC", "GEN"], {
+    errorMap: () => ({ message: "Cast category is required" }),
+  }),
+  speciallyAbled: z.enum(["true", "false"], {
+    errorMap: () => ({ message: "Specially abled is required" }),
+  }),
 });
 
+//PreviousSchool
 const previousSchoolSchema = z.object({
-  lastSchoolAffiliated: z.enum(["CBSE", "ICSE", "State Board"], {
-    required_error: "Please select the last school affiliated",
+  lastSchoolAffiliated:z.enum(["CBSE", "ICSE", "State Board", "Other"], {
+    errorMap: () => ({ message: "Last school affiliated is required" }),
   }),
-  lastClassAttended: z.string().min(1, "Last class attended is required"),
-  lastSchool: z.string().min(1, "Last school attended is required"),
-  secondLanguage: z.enum(["Bengali", "Hindi"], {
-    required_error: "Please select a second language",
+  secondLanguage:z.enum(["Bengali", "Hindi"], {
+    errorMap: () => ({ message: "Second language is required" })
   }),
+  lastClassAttended:z.string().min(1, "Last class attended is required"),
+  lastSchool:z.string().min(1, "Last school is required"),
 });
 
+//StudentOtherInformation
 const studentOtherInfoSchema = z.object({
-  height: z.string().min(1, "Height is required"),
-  weight: z.string().min(1, "Weight is required"),
-  motherTongue: z.string().min(1, "Mother tongue is required"),
-  religion: z.string().min(1, "Religion is required"),
-  bloodGroup: z.string().min(1, "Blood group is required"),
+  height:z.string().min(1, "Height is required"),
+  weight:z.string().min(1, "Weight is required"),
+  // bloodGroup:z.enum(["A+", "B+", "O+", "AB+"], {
+  //   errorMap: () => ({ message: "Blood group is required" }),
+  // }),
+  bloodGroup:z.string().min(1, "Blood group is required"),
+  motherTongue:z.string().min(1, "Mother tongue is required"),
+  religion:z.string().min(1, "Religion is required"),
 });
-
+//ParentsOrGuardian
 const parentsGuardianSchema = z.object({
-  guardianName: z.string().min(1, "Guardian name is required"),
-  guardianResidentialAddress: z
-    .string()
-    .min(1, "Guardian residential address is required"),
-  guardianOccupation: z.string().min(1, "Guardian occupation is required"),
-  motherName: z.string().min(1, "Mother name is required"),
-  motherResidentialAddress: z
-    .string()
-    .min(1, "Mother residential address is required"),
-  motherOccupation: z.string().min(1, "Mother occupation is required"),
+  guardianName:z.string().min(1, "Guardian name is required"),
+  guardianResidentialAddress:z.string().min(1, "Guardian residential address is required"),
+  guardianOccupation:z.string().min(1, "Guardian occupation is required"),
+  motherName:z.string().min(1, "Mother name is required"),
+  motherResidentialAddress:z.string().min(1, "Mother residential address is required"),
+  motherOccupation:z.string().min(1, "Mother occupation is required"),
 });
 
+//Communication Details
 const communicationDetailsSchema = z.object({
-  phoneNumber1: z
-    .string()
-    .min(10, "Phone number must be at least 10 digits")
-    .regex(/^\d+$/, "Must be a valid phone number"),
-  phoneNumber2: z
-    .string()
-    .min(10, "Phone number must be at least 10 digits")
-    .regex(/^\d+$/, "Must be a valid phone number"),
-  phoneNumber3: z
-    .string()
-    .min(10, "Phone number must be at least 10 digits")
-    .regex(/^\d+$/, "Must be a valid phone number"),
-  email: z.string().email("Invalid email address"),
-  permanentAddress: z.string().min(1, "Permanent address is required"),
-  localAddress: z.string().min(1, "Local address is required"),
+  phoneNumber1:z.string().min(10, "Phone number 1 is required"),
+  phoneNumber2:z.string().min(10,"required"),
+  phoneNumber3:z.string().min(10,'required'),
+  permanentAddress:z.string().min(1, "Permanent address is required"),
+  localAddress:z.string().min(1, "Local address is required"),
 });
 
+//EconomicProfile
 const economicProfileSchema = z.object({
-  relationWithGuardian: z.string().min(1, "Relation with guardian is required"),
-  yearlyIncome: z.string().min(1, "Yearly income is required"),
-  designation: z.string().min(1, "Designation is required"),
-  dependentOnGuardian: z.string().min(1, "Dependent on guardian is required"),
-  earningMembers: z.string().min(1, "Earning members is required"),
+  relationWithGuardian:z.string(),
+  yearlyIncome:z.string(),
+  designation:z.string(),
+  dependentOnGuardian:z.string(),
+  earningMembers:z.string(),
 });
 
+//Documents
 const documentsSchema = z.object({
   birthCertificate: z
     .custom<File>()
