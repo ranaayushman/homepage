@@ -10,6 +10,107 @@ import {
 import { AdditionalFormData } from "@/app/lib/validations/additionalSchema";
 import Cookies from "js-cookie";
 
+interface StudentApplicationPayload {
+  parentId: string;
+  classId: string;
+  sessionId: string;
+  schoolId: string;
+  modeOfSchooling: string;
+  selectAdmissionSession: string;
+  name: string;
+  gender: string;
+  dob: string;
+  category: string;
+  age: number;
+}
+
+interface StudentFormDetailsPayload {
+  studentApplicationFormId: string;
+  studentImage: any;
+  religion: string;
+  bloodGroup: string;
+  motherTongue: string;
+  onlyChild: boolean;
+  onlyGirlChild: boolean;
+  height: number | null;
+  weight: number | null;
+  speciallyAbled: boolean;
+  fatherName: string;
+  fatherResidentalAddress: string;
+  motherName: string;
+  motherResidentalAddress: string;
+  fatherOccupation: string;
+  motherOccupation: string;
+  phoneNo: string;
+  secondaryNo: string;
+  additionalNo: string;
+  email: string;
+  permanentAddress: string;
+  localAddress: string;
+  aadhaaCardNo: string;
+  secondLanguage: string;
+  parentQualification: string;
+  parentOccupation: string;
+  parentIncome: string;
+  category: string;
+  lastSchool: string;
+  lastClassAttended: string;
+  lastSchoolAffiliated: string;
+}
+
+interface StudentDocumentPayload {
+  studentApplicationFormId: string;
+  birthCertificate: string;
+  transferCertificate: string;
+  migrationCertificate: string;
+  markSheet: string;
+  castCategory: string | null;
+  aadhaarCard: string;
+  specialAbledCertificate: string | null;
+  parentDocs: string;
+}
+
+interface DocumentData {
+  studentApplicationFormId: string;
+  birthCertificate: File;
+  transferCertificate: File;
+  migrationCertificate: File;
+  markSheet: File;
+  castCategory: File | null;
+  aadhaarCard: File;
+  specialAbledCertificate: File | null;
+  parentDocs: File;
+}
+
+interface ParentIncomePayload {
+  studentApplicationFormId: string;
+  noOfDependentsOfGuardian: number;
+  earningMembersInFamily: number;
+  relationWithGuardian: string;
+  annualIncome: string;
+  guardianDesignation: string;
+}
+
+interface AllIds {
+  studentApplication: {
+    id: string;
+    tempNo: string;
+    fullResponse: { schoolCode: number; yearPrefix: string };
+  };
+  studentApplicationFormDetails: {
+    id: string;
+    fullResponse: any;
+  };
+  studentApplicationDocument: {
+    id: string;
+    fullResponse: any;
+  };
+  studentParentIncomeDetails: {
+    id: string;
+    fullResponse: any;
+  };
+}
+
 const getSchoolCode = (schoolName: string): number => {
   const decodedSchoolName = decodeURIComponent(schoolName);
   const schoolCodeMap: Record<string, number> = {
@@ -28,10 +129,7 @@ const calculateAge = (dob: string): number => {
   const today = new Date();
   let age = today.getFullYear() - birthDate.getFullYear();
   const monthDiff = today.getMonth() - birthDate.getMonth();
-  if (
-    monthDiff < 0 ||
-    (monthDiff === 0 && today.getDate() < birthDate.getDate())
-  ) {
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
     age--;
   }
   return age;
@@ -40,7 +138,7 @@ const calculateAge = (dob: string): number => {
 export const handleStudentApplication = async (
   formData: AdditionalFormData,
   parentId: string
-) => {
+): Promise<any> => {
   try {
     const schoolId = Cookies.get("schoolId") || "";
     const school = Cookies.get("school") || "";
@@ -49,7 +147,7 @@ export const handleStudentApplication = async (
 
     if (!parentId) throw new Error("Parent ID is missing");
 
-    const data = {
+    const data: StudentApplicationPayload = {
       parentId,
       classId: formData.class.className,
       sessionId: formData.class.admissionSession,
@@ -62,38 +160,31 @@ export const handleStudentApplication = async (
       category: formData.studentDetails.castCategory,
       age: calculateAge(formData.studentDetails.dateOfBirth),
     };
-    const dataToSend = { schoolCode, yearPrefix, data };
 
+    const dataToSend = { schoolCode, yearPrefix, data };
     console.log("Sending to /add-student-application:", dataToSend);
-    const response = await sendStudentApplicationJSON(dataToSend);
-    return response;
+    return await sendStudentApplicationJSON(dataToSend);
   } catch (e: any) {
     console.error("Error in handleStudentApplication:", e);
-    return {
-      success: false,
-      error: e.message || "Failed to create student application",
-    };
+    return { success: false, error: e.message || "Failed to create student application" };
   }
 };
 
 export const handleStudentApplicationFormDetails = async (
   studentAppId: string,
   formData: AdditionalFormData
-) => {
+): Promise<any> => {
   try {
-    if (!studentAppId)
-      return { success: false, error: "Missing student application ID" };
+    if (!studentAppId) return { success: false, error: "Missing student application ID" };
 
     const convertToBoolean = (value: string) => value === "true";
     const extractNumeric = (value: string | undefined | null) => {
-      // If value is undefined, null, empty string, or the string "null"
       if (!value || value === "null") return null;
-      
       const matches = value.match(/^(\d+(\.\d+)?)/) || [];
       return matches[1] ? parseFloat(matches[1]) : null;
     };
 
-    const data = {
+    const data: StudentFormDetailsPayload = {
       studentApplicationFormId: studentAppId,
       studentImage: formData.studentDetails.profilePic || null,
       religion: formData.studentOtherInfo.religion,
@@ -116,9 +207,9 @@ export const handleStudentApplicationFormDetails = async (
       email: formData.communicationDetails.email,
       permanentAddress: formData.communicationDetails.permanentAddress,
       localAddress: formData.communicationDetails.localAddress,
-      aadhaaCardNo: "", // Could be added to schema if needed
+      aadhaaCardNo: "",
       secondLanguage: formData.previousSchool.secondLanguage,
-      parentQualification: "", // Not in schema
+      parentQualification: "",
       parentOccupation: formData.parentsInfo.guardianOccupation,
       parentIncome: formData.economicProfile.yearlyIncome,
       category: formData.studentDetails.castCategory,
@@ -128,35 +219,31 @@ export const handleStudentApplicationFormDetails = async (
     };
 
     console.log("Sending to /add-student-form-details:", data);
-    const response = await sendStudentApplicationFormDetails(data);
-    return response;
+    return await sendStudentApplicationFormDetails(data);
   } catch (e: any) {
     console.error("Error in handleStudentApplicationFormDetails:", e);
-    return {
-      success: false,
-      error: e.message || "Failed to submit form details",
-    };
+    return { success: false, error: e.message || "Failed to submit form details" };
   }
 };
 
 export const handleStudentApplicationDocument = async (
   studentAppId: string,
   formData: AdditionalFormData
-) => {
+): Promise<any> => {
   try {
     if (!studentAppId)
       return { success: false, error: "Missing student application ID" };
 
-    const data = {
+    const data: DocumentData = {
       studentApplicationFormId: studentAppId,
-      birthCertificate: formData.documents.birthCertificate,
-      transferCertificate: formData.documents.transferCertificate,
-      migrationCertificate: formData.documents.migrationCertificate,
-      markSheet: formData.documents.markSheet,
+      birthCertificate: formData.documents.birthCertificate || new File([], ""),
+      transferCertificate: formData.documents.transferCertificate || new File([], ""),
+      migrationCertificate: formData.documents.migrationCertificate || new File([], ""),
+      markSheet: formData.documents.markSheet || new File([], ""),
       castCategory: null,
-      aadhaarCard: formData.documents.aadhaarCard,
+      aadhaarCard: formData.documents.aadhaarCard || new File([], ""),
       specialAbledCertificate: null,
-      parentDocs: formData.documents.residentialProof,
+      parentDocs: formData.documents.residentialProof || new File([], "")
     };
 
     console.log("Sending to /add-student-application-form-document:", data);
@@ -164,45 +251,41 @@ export const handleStudentApplicationDocument = async (
     return response;
   } catch (e: any) {
     console.error("Error in handleStudentApplicationDocument:", e);
-    return { success: false, error: e.message || "Failed to submit documents" };
+    return {
+      success: false,
+      error: e.message || "Failed to submit documents",
+    };
   }
 };
 
 export const handleStudentParentIncomeDetails = async (
   studentAppId: string,
   formData: AdditionalFormData
-) => {
+): Promise<any> => {
   try {
-    if (!studentAppId)
-      return { success: false, error: "Missing student application ID" };
+    if (!studentAppId) return { success: false, error: "Missing student application ID" };
 
-    const data = {
+    const data: ParentIncomePayload = {
       studentApplicationFormId: studentAppId,
-      noOfDependentsOfGuardian:
-        parseInt(formData.economicProfile.dependentOnGuardian) || 0,
-      earningMembersInFamily:
-        parseInt(formData.economicProfile.earningMembers) || 0,
+      noOfDependentsOfGuardian: parseInt(formData.economicProfile.dependentOnGuardian) || 0,
+      earningMembersInFamily: parseInt(formData.economicProfile.earningMembers) || 0,
       relationWithGuardian: formData.economicProfile.relationWithGuardian,
       annualIncome: formData.economicProfile.yearlyIncome,
       guardianDesignation: formData.economicProfile.designation,
     };
 
     console.log("Sending to /add-parent-income-details:", data);
-    const response = await studentParentIncomeDetails(data);
-    return response;
+    return await studentParentIncomeDetails(data);
   } catch (e: any) {
     console.error("Error in handleStudentParentIncomeDetails:", e);
-    return {
-      success: false,
-      error: e.message || "Failed to submit income details",
-    };
+    return { success: false, error: e.message || "Failed to submit income details" };
   }
 };
 
 export const handleStudentApplicationAllId = async (
-  allIds: any,
+  allIds: AllIds,
   formData: AdditionalFormData
-) => {
+): Promise<any> => {
   try {
     const school = Cookies.get("school") || "";
     const schoolCode = getSchoolCode(school);
@@ -221,11 +304,7 @@ export const handleStudentApplicationAllId = async (
 
     console.log("Sending to /student-application-data:", dataToSend);
     const response = await sendAllApplicationId(dataToSend);
-    return {
-      success: true,
-      message: "All IDs processed successfully",
-      data: response,
-    };
+    return { success: true, message: "All IDs processed successfully", data: response };
   } catch (e: any) {
     console.error("Error in handleStudentApplicationAllId:", e);
     return { success: false, error: e.message || "Failed to process IDs" };
@@ -234,28 +313,19 @@ export const handleStudentApplicationAllId = async (
 
 export const handleSubmitStudentApplication = async (
   formData: AdditionalFormData,
-  parentId: string // Added parentId parameter
-) => {
+  parentId: string
+): Promise<any> => {
   try {
-    const allIds: any = {
-      studentApplication: null,
-      studentApplicationFormDetails: null,
-      studentApplicationDocument: null,
-      studentParentIncomeDetails: null,
+    const allIds: AllIds = {
+      studentApplication: null as any,
+      studentApplicationFormDetails: null as any,
+      studentApplicationDocument: null as any,
+      studentParentIncomeDetails: null as any,
     };
 
-    // Step 1: Create student application
-    const applicationResult = await handleStudentApplication(
-      formData,
-      parentId
-    );
-    if (
-      !applicationResult ||
-      !applicationResult.data ||
-      !applicationResult.data._id
-    ) {
-      throw new Error("Failed to create student application");
-    }
+    const applicationResult = await handleStudentApplication(formData, parentId);
+    if (!applicationResult?.data?._id) throw new Error("Failed to create student application");
+
     allIds.studentApplication = {
       id: applicationResult.data._id,
       tempNo: applicationResult.data.tempNo,
@@ -263,77 +333,26 @@ export const handleSubmitStudentApplication = async (
     };
     const studentAppId = applicationResult.data._id;
 
-    // Step 2: Submit form details
-    const formDetailsResult = await handleStudentApplicationFormDetails(
-      studentAppId,
-      formData
-    );
-    if (!formDetailsResult || !formDetailsResult._id) {
-      throw new Error("Failed to submit form details");
-    }
-    allIds.studentApplicationFormDetails = {
-      id: formDetailsResult._id,
-      fullResponse: formDetailsResult,
-    };
+    const formDetailsResult = await handleStudentApplicationFormDetails(studentAppId, formData);
+    if (!formDetailsResult?._id) throw new Error("Failed to submit form details");
+    allIds.studentApplicationFormDetails = { id: formDetailsResult._id, fullResponse: formDetailsResult };
 
-    // Step 3: Submit documents
-    const documentResult = await handleStudentApplicationDocument(
-      studentAppId,
-      formData
-    );
-    if (
-      !documentResult ||
-      !documentResult.document ||
-      !documentResult.document._id
-    ) {
-      throw new Error("Failed to submit document information");
-    }
-    allIds.studentApplicationDocument = {
-      id: documentResult.document._id,
-      fullResponse: documentResult.document,
-    };
+    const documentResult = await handleStudentApplicationDocument(studentAppId, formData);
+    if (!documentResult?.document?._id) throw new Error("Failed to submit document information");
+    allIds.studentApplicationDocument = { id: documentResult.document._id, fullResponse: documentResult.document };
 
-    // Step 4: Submit parent income details
-    const incomeResult = await handleStudentParentIncomeDetails(
-      studentAppId,
-      formData
-    );
-    if (
-      !incomeResult ||
-      !incomeResult.financialResource ||
-      !incomeResult.financialResource._id
-    ) {
-      throw new Error("Failed to submit parent income details");
-    }
+    const incomeResult = await handleStudentParentIncomeDetails(studentAppId, formData);
+    if (!incomeResult?.financialResource?._id) throw new Error("Failed to submit parent income details");
     allIds.studentParentIncomeDetails = {
       id: incomeResult.financialResource._id,
       fullResponse: incomeResult.financialResource,
     };
 
-    // Step 5: Save all IDs
     await handleStudentApplicationAllId(allIds, formData);
 
-    return {
-      success: true,
-      message: "Form submitted successfully!",
-      ids: allIds,
-    };
+    return { success: true, message: "Form submitted successfully!", ids: allIds };
   } catch (e: any) {
     console.error("Error in handleSubmitStudentApplication:", e);
-    return {
-      success: false,
-      error: e.message || "An error occurred while submitting the form",
-    };
+    return { success: false, error: e.message || "An error occurred while submitting the form" };
   }
 };
-
-// Example usage in a component would be:
-// const YourComponent = () => {
-//   const router = useRouter();
-//   const parentId = router.query.parentId || "67f67143917c79f04bcdbcf8";
-
-//   const handleSubmit = async (formData: AdditionalFormData) => {
-//     const result = await handleSubmitStudentApplication(formData, parentId);
-//     // Handle result
-//   };
-// };

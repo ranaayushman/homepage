@@ -74,15 +74,15 @@ export interface FormDetailsData {
 }
 
 export interface DocumentData {
-  studentApplicationFormId: string;
-  birthCertificate: File | null;
-  transferCertificate: File | null;
-  migrationCertificate: File | null;
-  markSheet: File | null;
-  castCategory: string | null;
-  aadhaarCard: File | null;
-  specialAbledCertificate: File | null;
-  parentDocs: File | null;
+  studentApplicationFormId: any;
+  birthCertificate: any;
+  transferCertificate: any;
+  migrationCertificate: any;
+  markSheet: any;
+  castCategory: any;
+  aadhaarCard: any;
+  specialAbledCertificate: any;
+  parentDocs: any;
 }
 
 export interface IncomeData {
