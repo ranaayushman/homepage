@@ -9,6 +9,7 @@ import {
 } from "@/app/utils/studentForm/studentPost";
 import { AdditionalFormData } from "@/app/lib/validations/additionalSchema";
 import Cookies from "js-cookie";
+import { updateStudentApplication } from "../studentForm/studentUpdateAPi";
 
 interface StudentApplicationPayload {
   parentId: string;
@@ -162,8 +163,11 @@ export const handleStudentApplication = async (
     };
 
     const dataToSend = { schoolCode, yearPrefix, data };
+
+    const id = Cookies.get("applicationId");
+    if (!id) throw new Error("Application ID is missing");
     console.log("Sending to /add-student-application:", dataToSend);
-    return await sendStudentApplicationJSON(dataToSend);
+    return await updateStudentApplication(id, dataToSend);
   } catch (e: any) {
     console.error("Error in handleStudentApplication:", e);
     return { success: false, error: e.message || "Failed to create student application" };

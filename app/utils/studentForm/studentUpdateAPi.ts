@@ -5,12 +5,21 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Interface for common application fields (based on your API response)
 interface ApplicationData {
-  name?: string;
-  gender?: "Male" | "Female" | "Other";
-  dob?: string;
-  formStatus?: "Pending" | "Submitted" | "Confirm";
-  modeOfSchooling?: "online" | "offline";
-
+    schoolCode: number;
+    yearPrefix: string;
+    data: {
+        parentId: string;
+        classId: string;
+        sessionId: string;
+        schoolId: string;
+        modeOfSchooling: string;
+        selectAdmissionSession: string;
+        name: string;
+        gender: string;
+        dob: string;
+        category: string;
+        age: number;
+    };
 }
 
 interface ApiResponse {

@@ -15,12 +15,13 @@ import PreviousAcademic from "./ui/PreviousAcademic";
 import DownloadPDFButton from "./DownloadPDFButton";
 import { sendStudentApplicationJSON } from "@/app/utils/studentForm/studentPost";
 import { toast } from "@/hooks/use-toast";
+import Cookies from "js-cookie";
 
 interface RegisterProps {
-  onNext: () => void; // Simplified since Form.tsx handles steps
+  onNext: () => void;
   schoolCode?: number;
   yearPrefix?: string;
-  userId: string; // Added to get parentId
+  userId: string;
 }
 
 const Register = ({
@@ -47,19 +48,20 @@ const Register = ({
     if (!formData) return;
 
     setIsSubmitting(true);
+    let response: any = null;
+
     try {
       const applicationData = {
         schoolCode,
         yearPrefix,
         data: {
-          parentId: userId, // Use userId from props
-          classId: formData.admissionClass || "6722067f0532ca9b79980a29",
-          sessionId: formData.admissionSession || "671609fcb0a54510ef567f15",
-          schoolId: formData.admissionSchool || "6784e6d212b0bbb0347b2951",
-          modeOfSchooling: formData.schoolingMode || "offline",
-          selectAdmissionSession:
-            formData.admissionSession || "671609fcb0a54510ef567f15",
-          name: formData.name || "Unknown",
+          parentId: userId,
+          classId: formData.admissionClass,
+          sessionId: formData.admissionSession,
+          schoolId: formData.admissionSchool,
+          modeOfSchooling: formData.schoolingMode,
+          selectAdmissionSession: formData.admissionSession,
+          name: formData.name,
           gender: formData.gender || "Male",
           lastClassAttended: formData.lastClassAttended || null,
           lastSchoolAttended: formData.lastSchoolName || null,
@@ -73,18 +75,9 @@ const Register = ({
         },
       };
 
-      const response = await sendStudentApplicationJSON(applicationData);
-      if (response.success && response.data?._id) {
-        // Store IDs in localStorage
-        const { _id, tempNo, parentId, classId, schoolId, sessionId } =
-          response.data;
-        localStorage.setItem("applicationId", _id);
-        localStorage.setItem("tempNo", tempNo);
-        localStorage.setItem("parentId", parentId);
-        localStorage.setItem("classId", classId);
-        localStorage.setItem("schoolId", schoolId);
-        localStorage.setItem("sessionId", sessionId);
+      response = await sendStudentApplicationJSON(applicationData);
 
+      if (response?.data?._id) {
         toast({
           description:
             response.message || "Application submitted successfully!",
@@ -93,18 +86,36 @@ const Register = ({
         setShowConfirmDialog(false);
         onNext(); // Move to Payment step
       } else {
-        throw new Error(response.message || "No application ID returned");
+        throw new Error(response?.message || "No application ID returned");
       }
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Failed to submit application";
+      console.error("Register error:", message);
       toast({
         description: message,
-        variant: "success",
+        variant: "destructive", // changed to destructive for error case
       });
-      onNext(); // Move to Payment step even on error
+      onNext();
     } finally {
       setIsSubmitting(false);
+
+      if (response?.data) {
+        const ids = {
+          applicationId: response.data._id,
+          tempNo: response.data.tempNo,
+          parentId: response.data.parentId,
+          classId: response.data.classId,
+          schoolId: response.data.schoolId,
+          sessionId: response.data.sessionId,
+        };
+        Object.entries(ids).forEach(([key, value]) => {
+          if (value) {
+            Cookies.set(key, value, { expires: 7 });
+          }
+        });
+        console.log("Stored IDs in cookies (finally):", ids);
+      }
     }
   };
 

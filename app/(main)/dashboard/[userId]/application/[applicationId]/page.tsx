@@ -4,15 +4,11 @@ import React from "react";
 import Form from "../components/Form";
 import { useParams } from "next/navigation";
 
-interface ApplicationPageProps {
-  params: {
+const Page = () => {
+  const { userId, applicationId } = useParams() as {
     userId: string;
     applicationId: string;
   };
-}
-
-const Page = ({ params }: ApplicationPageProps) => {
-  const { userId, applicationId } = params;
 
   return (
     <div className="md:p-5">

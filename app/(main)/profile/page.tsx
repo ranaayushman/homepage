@@ -4,7 +4,7 @@ import Profile from "./Profile";
 const Page = () => {
   return (
     <div className="m-5">
-      <Profile />
+      <Profile userId="" />
     </div>
   );
 };

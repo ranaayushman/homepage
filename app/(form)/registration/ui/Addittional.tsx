@@ -18,6 +18,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { handleSubmitStudentApplication } from "@/app/utils/handlers/handlers";
 import { toast } from "@/hooks/use-toast";
+import Cookies from "js-cookie";
 
 const Additional = ({ userId }: { userId: string }) => {
   const methods = useForm<AdditionalFormData>({
@@ -44,7 +45,6 @@ const Additional = ({ userId }: { userId: string }) => {
     console.log("onSubmitFinal called with data:", data);
     console.log(methods.formState.errors);
     try {
-      // Trigger validation for all fields first
       const isValid = await methods.trigger();
 
       if (!isValid) {
@@ -60,6 +60,15 @@ const Additional = ({ userId }: { userId: string }) => {
       console.log("No validation errors, proceeding to handler");
       const result = await handleSubmitStudentApplication(data, userId);
       console.log("Handler result:", result);
+
+      if (result.success) {
+        // ✅ Clear all cookies except authToken
+        Object.keys(Cookies.get()).forEach((cookieName) => {
+          if (cookieName !== "authToken") {
+            Cookies.remove(cookieName);
+          }
+        });
+      }
 
       toast({
         description: result.success
@@ -81,7 +90,7 @@ const Additional = ({ userId }: { userId: string }) => {
       <form
         onSubmit={(e) => {
           console.log("Form submit event triggered");
-          e.preventDefault(); // Prevent default form submission
+          e.preventDefault(); 
           methods.handleSubmit(onSubmitFinal)(e);
         }}
         className="space-y-4"

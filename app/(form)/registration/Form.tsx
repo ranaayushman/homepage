@@ -48,7 +48,7 @@ const Form = ({ userId }: FormProps) => {
           <Register
             onNext={handleNext}
             userId={userId}
-            schoolCode={1234}
+            schoolCode={2}
             yearPrefix="2025"
           />
         </FormProvider>
@@ -56,7 +56,7 @@ const Form = ({ userId }: FormProps) => {
 
       {step === 2 && (
         <FormProvider {...paymentMethods}>
-          <Payment onNext={handleNext} />
+          <Payment onNext={handleNext} userId={userId} />
         </FormProvider>
       )}
 
