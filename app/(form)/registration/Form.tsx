@@ -1,6 +1,5 @@
-// Form.tsx
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerFormSchema } from "@/app/lib/validations/registerSchema";
@@ -11,12 +10,13 @@ import Register from "./Register";
 import Payment from "./ui/Payment";
 import Additional from "./ui/Addittional";
 
-const Form = ({ userId }: { userId: string }) => {
-  const [step, setStep] = React.useState(1);
+interface FormProps {
+  userId: string;
+}
 
-  const userID = userId;
+const Form = ({ userId }: FormProps) => {
+  const [step, setStep] = useState(1);
 
-  // Separate form methods for each step
   const registerMethods = useForm({
     resolver: zodResolver(registerFormSchema),
     mode: "onChange",
@@ -45,9 +45,12 @@ const Form = ({ userId }: { userId: string }) => {
 
       {step === 1 && (
         <FormProvider {...registerMethods}>
-          {/* <Additional userId={userID} /> */}
-
-          <Register onNext={handleNext} />
+          <Register
+            onNext={handleNext}
+            userId={userId}
+            schoolCode={1234}
+            yearPrefix="2025"
+          />
         </FormProvider>
       )}
 
@@ -59,9 +62,7 @@ const Form = ({ userId }: { userId: string }) => {
 
       {step === 3 && (
         <FormProvider {...additionalMethods}>
-          {/* <Register onNext={handleNext} /> */}
-
-          <Additional userId={userID} />
+          <Additional userId={userId} />
         </FormProvider>
       )}
     </div>

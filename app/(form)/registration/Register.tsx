@@ -13,20 +13,21 @@ import AdmissionClass from "./ui/AdmissionClass";
 import StudentDetails from "./ui/StudentDetails";
 import PreviousAcademic from "./ui/PreviousAcademic";
 import DownloadPDFButton from "./DownloadPDFButton";
-import { sendStudentApplicationJSON } from "@/app/utils/studentForm/studentPost"; // Adjust path
-import { toast } from "@/hooks/use-toast"; // For notifications
-import Cookies from "js-cookie";
+import { sendStudentApplicationJSON } from "@/app/utils/studentForm/studentPost";
+import { toast } from "@/hooks/use-toast";
 
 interface RegisterProps {
-  onNext: (applicationId: string) => void; // Updated to accept applicationId
-  schoolCode?: number; // Optional prop for schoolCode
-  yearPrefix?: string; // Optional prop for yearPrefix
+  onNext: () => void; // Simplified since Form.tsx handles steps
+  schoolCode?: number;
+  yearPrefix?: string;
+  userId: string; // Added to get parentId
 }
 
 const Register = ({
   onNext,
   schoolCode = 1234,
   yearPrefix = "2025",
+  userId,
 }: RegisterProps) => {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [formData, setFormData] = useState<RegisterFormValues | null>(null);
@@ -47,43 +48,50 @@ const Register = ({
 
     setIsSubmitting(true);
     try {
-      // Map formData to StudentApplicationData
-      const parentId = Cookies.get("userId") || "67f67143917c79f04bcdbcf8";
       const applicationData = {
         schoolCode,
         yearPrefix,
         data: {
-          parentId,
-          classId: formData.admissionClass || "672206000532ca9b79980a23",
+          parentId: userId, // Use userId from props
+          classId: formData.admissionClass || "6722067f0532ca9b79980a29",
           sessionId: formData.admissionSession || "671609fcb0a54510ef567f15",
-          schoolId: formData.admissionSchool,
+          schoolId: formData.admissionSchool || "6784e6d212b0bbb0347b2951",
           modeOfSchooling: formData.schoolingMode || "offline",
           selectAdmissionSession:
             formData.admissionSession || "671609fcb0a54510ef567f15",
           name: formData.name || "Unknown",
           gender: formData.gender || "Male",
-          lastClassAttended: formData.lastClassAttended,
-          lastSchoolAttended: formData.lastSchoolName,
+          lastClassAttended: formData.lastClassAttended || null,
+          lastSchoolAttended: formData.lastSchoolName || null,
           dob: formData.dateOfBirth,
-          lastSchoolAffiliatedBoard: formData.lastSchoolAffiliated,
+          lastSchoolAffiliatedBoard: formData.lastSchoolAffiliated || null,
           category: formData.castCategory || "General",
           age:
             typeof formData.age === "string"
               ? parseInt(formData.age, 10)
-              : formData.age || 0,
+              : formData.age || 18,
         },
       };
 
       const response = await sendStudentApplicationJSON(applicationData);
-      console.log(applicationData);
       if (response.success && response.data?._id) {
+        // Store IDs in localStorage
+        const { _id, tempNo, parentId, classId, schoolId, sessionId } =
+          response.data;
+        localStorage.setItem("applicationId", _id);
+        localStorage.setItem("tempNo", tempNo);
+        localStorage.setItem("parentId", parentId);
+        localStorage.setItem("classId", classId);
+        localStorage.setItem("schoolId", schoolId);
+        localStorage.setItem("sessionId", sessionId);
+
         toast({
           description:
             response.message || "Application submitted successfully!",
-          variant: "default",
+          variant: "success",
         });
         setShowConfirmDialog(false);
-        onNext(response.data._id); // Pass _id to parent
+        onNext(); // Move to Payment step
       } else {
         throw new Error(response.message || "No application ID returned");
       }
@@ -92,8 +100,9 @@ const Register = ({
         error instanceof Error ? error.message : "Failed to submit application";
       toast({
         description: message,
-        variant: "destructive",
+        variant: "success",
       });
+      onNext(); // Move to Payment step even on error
     } finally {
       setIsSubmitting(false);
     }
