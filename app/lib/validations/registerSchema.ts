@@ -13,6 +13,7 @@ export const registerFormSchema = z.object({
   lastSchoolAffiliated: z.enum(["CBSE", "ICSE", "IB", "State Board", "Other"]),
   lastClassAttended: z.string().min(1, "Last class attended is required"),
   lastSchoolName: z.string().min(1, "Last school name is required"),
+  admissionSchool: z.string().min(1, "Please select a school"),
   // guardianName: z.string().min(1, "Guardian name is required"),
 
   // highestQualification: z

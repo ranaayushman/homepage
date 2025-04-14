@@ -71,8 +71,9 @@ const Status = ({ userId }: StatusProps) => {
   };
 
   const handleContinueApplication = (applicationId: string) => {
-    router.push(`/application/continue?applicationId=${applicationId}`);
+    router.push(`/dashboard/${userId}/application/${applicationId}`);
   };
+
 
   const handleViewApplication = (applicationId: string) => {
     router.push(`/application/view?applicationId=${applicationId}`);

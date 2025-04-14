@@ -4,7 +4,7 @@ import { SelectField } from "@/app/sections/form/ui/SelectField";
 import { useFormOptions } from "@/app/utils/customHooks/useFormOptions";
 
 function AdmissionClass() {
-  const { classOptions, sessionOptions, error,schoolOptions } = useFormOptions();
+  const { classOptions, sessionOptions, error } = useFormOptions();
   useFormContext();
 
   if (error) return <div>Error: {error}</div>;
@@ -32,12 +32,6 @@ function AdmissionClass() {
           name="admissionSession"
           placeholder="Select Admission Session"
           options={sessionOptions}
-        />
-        <SelectField 
-        label="School"
-        name="admissionSchool"
-        placeholder="Select School"
-        options={schoolOptions}
         />
       </div>
       <hr className="my-4" />
