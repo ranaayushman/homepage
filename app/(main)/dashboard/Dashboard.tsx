@@ -13,7 +13,7 @@ const Dashboard = ({ userId }: DashboardProps) => {
     <section className="">
       <div className="my-10">
         <NewForm userId={userId} />
-        <Status />
+        <Status userId={userId} />
       </div>
       <div className="grid grid-cols-2 mx-10 gap-2">
         <Instructions />
