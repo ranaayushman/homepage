@@ -1,4 +1,4 @@
-import Image from "next/image";
+// import Image from "next/image";
 import React from "react";
 
 const Navbar = () => {
@@ -10,7 +10,7 @@ const Navbar = () => {
           <h2 className="text-md">Mayank</h2>
         </div>
         <div className="w-1/2 flex justify-end">
-          <Image alt="query" height={30} width={30} src={"/svg/query.svg"} />
+          {/* <Image alt="query" height={30} width={30} src={"/svg/query.svg"} /> */}
         </div>
       </div>
     </section>
