@@ -76,7 +76,7 @@ const Status = ({ userId }: StatusProps) => {
 
 
   const handleViewApplication = (applicationId: string) => {
-    router.push(`/application/view?applicationId=${applicationId}`);
+    router.push(`/dashboard/${userId}/view/${applicationId}`);
   };
 
   if (loading) {
@@ -97,7 +97,7 @@ const Status = ({ userId }: StatusProps) => {
               <th className="font-medium">Form Submitted On</th>
               <th className="font-medium">Applicant Name</th>
               <th className="font-medium">Form No.</th>
-              <th className="font-medium">Application Fee</th>
+              {/* <th className="font-medium">Application Fee</th> */}
               <th className="font-medium">Form Status</th>
               <th></th>
             </tr>
@@ -108,7 +108,7 @@ const Status = ({ userId }: StatusProps) => {
                 <td>{formatDate(app.createdAt)}</td>
                 <td>{app.name}</td>
                 <td>{app.tempNo}</td>
-                <td>₹ 500</td>
+                {/* <td>₹ 500</td> */}
                 <td
                   className={`px-3 py-1 rounded-md ${getStatusColor(
                     app.formStatus

@@ -1,9 +1,17 @@
-import React from 'react'
+"use client";
+import { useParams } from "next/navigation";
+import React from "react";
+import ViewApplication from "../components/ViewApplication";
 
-const page = () => {
+const Page = () => {
+  const params = useParams();
+  const userId = String(params.userId);
+  const applicationId = String(params.applicatioId);
   return (
-    <div>page</div>
-  )
-}
+    <div>
+      <ViewApplication userId={userId} applicationId={applicationId} />
+    </div>
+  );
+};
 
-export default page
+export default Page;
