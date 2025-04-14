@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function RootLayout({
   children,
@@ -13,16 +13,38 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const router = useRouter();
+  const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(true);
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     const authToken = Cookies.get("authToken");
     if (!authToken) {
       router.push("/");
     } else {
+      // Extract userId from the pathname
+      const pathSegments = pathname.split('/');
+      
+      // Look for userId in common patterns
+      // This assumes routes follow patterns like /dashboard/[userId], /payment/[userId], etc.
+      let extractedUserId = "";
+      
+      for (let i = 0; i < pathSegments.length; i++) {
+        // Check if this segment could be a MongoDB ObjectId (24 hex chars)
+        if (pathSegments[i] && /^[0-9a-fA-F]{24}$/.test(pathSegments[i])) {
+          extractedUserId = pathSegments[i];
+          break;
+        }
+      }
+      
+      // Alternatively, you could extract userId from JWT token
+      // const decodedToken = parseJWT(authToken);
+      // extractedUserId = decodedToken.userId;
+      
+      setUserId(extractedUserId);
       setIsLoading(false);
     }
-  }, [router]);
+  }, [router, pathname]);
 
   if (isLoading) {
     return (
@@ -39,7 +61,7 @@ export default function RootLayout({
     <div className="bg-gray-200 min-h-screen">
       <div className="flex">
         <div className="flex-shrink-0">
-          <Sidebar />
+          <Sidebar userId={userId} />
         </div>
         <div className="flex-1">
           <div className="w-full">

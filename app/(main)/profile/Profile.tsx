@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 
-const Profile = () => {
+interface ProfileProps {
+  userId: string;
+}
+const Profile = ({userId}: ProfileProps) => {
   const methods = useForm({
     defaultValues: {
       name: "",

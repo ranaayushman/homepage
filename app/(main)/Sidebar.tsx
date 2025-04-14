@@ -5,7 +5,11 @@ import { usePathname } from "next/navigation";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 
-const Sidebar = () => {
+interface SidebarProps {
+  userId: string;
+}
+
+const Sidebar = ({ userId }: SidebarProps) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const pathname = usePathname();
 
@@ -38,13 +42,13 @@ const Sidebar = () => {
         <hr className="bg-black border border-gray-200 w-full" />
         <ul className="pt-5 px-5">
           {[
-            { title: "Dashboard", href: "/dashboard" },
-            { title: "Payments", href: "/payment" },
-            { title: "Profile", href: "/profile" },
+            { title: "Dashboard", href: userId ? `/dashboard/${userId}` : "/dashboard" },
+            { title: "Payments", href: userId ? `/payment/${userId}` : "/payment" },
+            { title: "Profile", href: userId ? `/profile/${userId}` : "/profile" },
           ].map((menu, index) => {
             const isActive =
               (pathname === "/" && menu.href === "/") ||
-              pathname.startsWith(menu.href);
+              pathname.startsWith(menu.href.split('/' + userId)[0]);
 
             return (
               <li
