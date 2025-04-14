@@ -16,7 +16,7 @@ import {
   additionalSchema,
 } from "@/app/lib/validations/additionalSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { handleSubmitStudentApplication } from "@/app/utils/handlers/handlers";
+import { handleSubmitStudentApplication } from "@/app/utils/handlers/continueHandler";
 import { toast } from "@/hooks/use-toast";
 
 const Additional = ({
@@ -45,15 +45,15 @@ const Additional = ({
     },
     mode: "onBlur",
   });
-  console.log(applicationId);
+  // console.log(applicationId);
 
   const onSubmitFinal = async (data: AdditionalFormData) => {
-    console.log("onSubmitFinal called with data:", data);
-    console.log(methods.formState.errors);
+    // console.log("onSubmitFinal called with data:", data);
+    // console.log(methods.formState.errors);
     try {
       // Trigger validation for all fields first
       const isValid = await methods.trigger();
-
+  
       if (!isValid) {
         const errors = methods.formState.errors;
         console.log("Form errors:", errors);
@@ -63,16 +63,17 @@ const Additional = ({
         });
         return;
       }
-
-      console.log("No validation errors, proceeding to handler");
-      const result = await handleSubmitStudentApplication(data, userId);
-      console.log("Handler result:", result);
-
+  
+      // console.log("No validation errors, proceeding to handler");
+      // Pass applicationId along with data and userId
+      const result = await handleSubmitStudentApplication(data, userId, applicationId);
+      // console.log("Handler result:", result);
+  
       toast({
-        description: result.success
+        description: result?.success
           ? result.message || "Application submitted successfully!"
-          : result.error || "Failed to submit application",
-        variant: result.success ? "default" : "destructive",
+          : result?.message || "Failed to submit application",
+        variant: result?.success ? "default" : "destructive",
       });
     } catch (error: any) {
       console.error("Unexpected error in onSubmitFinal:", error);
