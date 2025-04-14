@@ -1,6 +1,6 @@
 // Form.tsx
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerFormSchema } from "@/app/lib/validations/registerSchema";
@@ -20,10 +20,40 @@ interface FormProps {
   applicationId?: string; // Optional applicationId for continue application flow
 }
 
+interface PaymentTransaction {
+  studentName: string;
+  className: string;
+  schoolName: string;
+  tempNo: string;
+  permanentNo: string;
+  formStatus: string;
+  paymentAmount: number;
+  paymentMethod: string;
+  paymentStatus: string;
+  paymentDate: string;
+}
+
+interface ApplicationData {
+  _id: string;
+  tempNo: string;
+  classId: string;
+  schoolId: string;
+  name: string;
+  formStatus: string;
+  // Add other fields as needed
+}
+
 const Form = ({ userId, applicationId }: FormProps) => {
   const [step, setStep] = React.useState(1);
   const [loading, setLoading] = React.useState(applicationId ? true : false);
   const [error, setError] = React.useState<string | null>(null);
+  const [paymentData, setPaymentData] = React.useState<PaymentTransaction[]>(
+    []
+  );
+
+  // Store application data from step 1
+  const [applicationData, setApplicationData] =
+    useState<ApplicationData | null>(null);
 
   const userID = userId;
 
@@ -49,8 +79,11 @@ const Form = ({ userId, applicationId }: FormProps) => {
 
     const fetchApplicationData = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}/get-application/${applicationId}`,
+        setLoading(true);
+
+        // Fetch application details
+        const applicationResponse = await axios.get(
+          `${API_URL}/get-student-application/${applicationId}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -59,44 +92,103 @@ const Form = ({ userId, applicationId }: FormProps) => {
           }
         );
 
-        const appData = response.data.data;
-        
+        const appData = applicationResponse.data.data;
+
         if (appData) {
-          // Populate Register form
-          registerMethods.reset({
+          // Store application data for payment step
+          setApplicationData({
+            _id: appData._id,
+            tempNo: appData.tempNo,
+            classId: appData.classId,
+            schoolId: appData.schoolId,
+            name: appData.name,
+            formStatus: appData.formStatus,
+            // Add other fields as needed
+          });
+
+          // Map API response fields to registerFormSchema fields
+          const registerData = {
+            admissionClass: appData.classId || "",
+            schoolingMode: appData.modeOfSchooling || "",
+            admissionSession: appData.selectAdmissionSession || "",
             name: appData.name || "",
             gender: appData.gender || "",
-            dob: appData.dob ? new Date(appData.dob) : undefined,
-            modeOfSchooling: appData.modeOfSchooling || "",
-            // Add other fields from registerFormSchema
-          });
+            dateOfBirth: appData.dob ? new Date(appData.dob) : undefined,
+            age: appData.age?.toString() || "",
+            castCategory: appData.castCategory || "General", // Default if not provided
+            specaillyAbled: appData.specaillyAbled || "No", // Default if not provided
+            lastSchoolAffiliated: appData.lastSchoolAffiliatedBoard || "",
+            lastClassAttended: appData.lastClassAttended || "",
+            lastSchoolName: appData.lastSchoolAttended || "",
+            admissionSchool: appData.schoolId || "",
+          };
 
-          // Populate Payment form (if you have payment data in your application)
-          if (appData.paymentDetails) {
-            paymentMethods.reset({
-              // Map payment fields here
-            });
+          // Populate Register form
+          registerMethods.reset(registerData);
+
+          // Check if all required fields for step 1 are filled
+          const isStep1Complete = Object.values(registerData).every(
+            (value) => value !== undefined && value !== null && value !== ""
+          );
+
+          // Check for payment transactions - safe approach
+          let hasSuccessfulPayment = false;
+
+          try {
+            // Use axios.get but catch any errors internally
+            const paymentResponse = await axios.get(
+              `${API_URL}/applications-transactions-by-student/${applicationId}`,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${Cookies.get("authToken")}`,
+                },
+                // This prevents axios from throwing on 4xx responses
+                validateStatus: function (status) {
+                  return status < 500; // Accept any status code less than 500
+                },
+              }
+            );
+
+            // Only process if we got a successful response
+            if (
+              paymentResponse.status === 200 &&
+              paymentResponse.data.success
+            ) {
+              const payments = paymentResponse.data.payments || [];
+              setPaymentData(payments);
+
+              // Check if there's a successful payment
+              hasSuccessfulPayment = payments.some(
+                (payment) => payment.paymentStatus === "success"
+              );
+
+              // If there's payment data, populate the payment form
+              if (payments.length > 0) {
+                const latestPayment = payments[0]; // Assuming the first one is the latest
+                paymentMethods.reset({
+                  amount: latestPayment.paymentAmount,
+                  method: latestPayment.paymentMethod,
+                  // Add any other payment fields your form requires
+                });
+              }
+            }
+          } catch (paymentError) {
+            // Silently handle any errors - do not throw or display errors
+            console.log("Note: Payment transaction check skipped");
+            // We continue with hasSuccessfulPayment = false
           }
 
-          // Populate Additional form
-          additionalMethods.reset({
-            lastSchoolAttended: appData.lastSchoolAttended || "",
-            lastClassAttended: appData.lastClassAttended || "",
-            lastSchoolAffiliatedBoard: appData.lastSchoolAffiliatedBoard || "",
-            // Add other fields from additionalSchema
-          });
-
-          // Determine which step to show based on form completion
-          if (appData.formStatus === "Pending") {
-            // Logic to determine which step to start at based on what's already filled
-            // This is just an example - adjust based on your specific completion indicators
-            if (appData.lastSchoolAttended) {
-              setStep(3); // Additional info filled - start at final step
-            } else if (appData.paymentDetails) {
-              setStep(2); // Payment done - start at additional info
-            } else {
-              setStep(1); // Start at beginning
-            }
+          // Determine which step to show based on data completeness and payment status
+          if (hasSuccessfulPayment) {
+            // If payment is successful, move to step 3 (additional info)
+            setStep(3);
+          } else if (isStep1Complete) {
+            // If step 1 is complete but no successful payment, go to step 2 (payment)
+            setStep(2);
+          } else {
+            // Otherwise start at step 1
+            setStep(1);
           }
         }
       } catch (e) {
@@ -108,18 +200,30 @@ const Form = ({ userId, applicationId }: FormProps) => {
     };
 
     fetchApplicationData();
-  }, [applicationId, registerMethods, paymentMethods, additionalMethods]);
+  }, [applicationId, registerMethods, paymentMethods]);
+
+  // Handle completion of step 1 (Register)
+  const handleRegisterComplete = (data: ApplicationData) => {
+    // Store application data for payment step
+    setApplicationData(data);
+    handleNext();
+  };
 
   const handleNext = () => setStep((prev) => Math.min(prev + 1, 3));
 
-  // Pass applicationId to child components
+  // Pass applicationId and payment data to child components
   const childProps = {
     onNext: handleNext,
-    applicationId: applicationId,
+    applicationId: applicationId || applicationData?._id || "",
+    paymentData: paymentData,
   };
 
   if (loading) {
-    return <div className="bg-white p-10 rounded-md flex justify-center">Loading application data...</div>;
+    return (
+      <div className="bg-white p-10 rounded-md flex justify-center">
+        Loading application data...
+      </div>
+    );
   }
 
   if (error) {
@@ -143,13 +247,21 @@ const Form = ({ userId, applicationId }: FormProps) => {
 
       {step === 2 && (
         <FormProvider {...paymentMethods}>
-          <Payment {...childProps} />
+          <Payment
+            userId={userID}
+            classId={applicationData?.classId || ""}
+            tempNo={applicationData?.tempNo || ""}
+            {...childProps}
+          />
         </FormProvider>
       )}
 
       {step === 3 && (
         <FormProvider {...additionalMethods}>
-          <Additional userId={userID} applicationId={applicationId || ''} />
+          <Additional
+            userId={userID}
+            applicationId={applicationId || applicationData?._id || ""}
+          />
         </FormProvider>
       )}
     </div>
