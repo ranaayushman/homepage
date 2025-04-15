@@ -1,11 +1,54 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import InputField from "@/app/sections/form/ui/InputField";
 import RadioField from "@/app/sections/form/ui/RadioField";
 import { DateField } from "@/app/sections/form/ui/DateField";
 
 const StudentDetails = () => {
-  useFormContext();
+  const { watch, setValue } = useFormContext();
+
+  // Watch for changes in the date of birth field
+  const dateOfBirth = watch("dateOfBirth");
+
+  // Calculate age whenever date of birth changes
+  useEffect(() => {
+    if (dateOfBirth) {
+      const calculateAge = (dob) => {
+        // Ensure we're working with a Date object
+        const birthDate = dob instanceof Date ? dob : new Date(dob);
+        const today = new Date();
+
+        // Check if the birth date is in the future
+        if (birthDate > today) {
+          return 0; // Return 0 for future dates
+        }
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        // Adjust age if birthday hasn't occurred yet this year
+        if (
+          monthDiff < 0 ||
+          (monthDiff === 0 && today.getDate() < birthDate.getDate())
+        ) {
+          age--;
+        }
+
+        return age;
+      };
+
+      try {
+        const age = calculateAge(dateOfBirth);
+
+        // Only update if the age is valid
+        if (!isNaN(age)) {
+          setValue("age", age.toString());
+        }
+      } catch (error) {
+        console.error("Error calculating age:", error);
+      }
+    }
+  }, [dateOfBirth, setValue]);
 
   return (
     <div className="grid gap-y-4">
@@ -29,7 +72,7 @@ const StudentDetails = () => {
           placeholder="Date of Birth"
           label="Date Of Birth:"
         />
-        <InputField name="age" placeholder="Age" label="Age:" />
+        <InputField name="age" placeholder="Age" label="Age:" readOnly={true} />
       </div>
       <div className="grid grid-cols-1 gap-y-4 md:flex md:gap-x-5">
         <RadioField

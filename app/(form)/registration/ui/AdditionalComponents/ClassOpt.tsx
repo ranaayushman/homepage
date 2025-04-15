@@ -6,6 +6,14 @@ import { useFormOptions } from "@/app/utils/customHooks/useFormOptions";
 const ClassOpt = () => {
   const { control } = useFormContext();
   const { classOptions, sessionOptions } = useFormOptions();
+  const schoolingModeOptions = [
+    { key: "Day School", label: "Day School", value: "Day School" },
+    {
+      key: "Day Boarding School",
+      label: "Day Boarding School",
+      value: "Day Boarding School",
+    },
+  ];
 
   return (
     <div>
@@ -22,10 +30,7 @@ const ClassOpt = () => {
           name="class.modeOfSchooling"
           placeholder="Select Schooling"
           control={control}
-          options={[
-            { label: "Offline", value: "offline" },
-            { label: "Online", value: "online" },
-          ]}
+          options={schoolingModeOptions}
         />
         <SelectField
           label="Select The Admission Session:"

@@ -11,6 +11,7 @@ interface InputFieldProps {
   placeholder: string;
   type?: string;
   className?: string;
+  readOnly?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -19,6 +20,7 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder,
   type = "text",
   className,
+  readOnly = false,
 }) => {
   const {
     register,
@@ -51,9 +53,11 @@ const InputField: React.FC<InputFieldProps> = ({
         {...register(name)}
         type={type}
         placeholder={placeholder}
+        readOnly={readOnly}
         className={cn(
           "border rounded-md h-12 bg-transparent px-0 p-2 focus:border-green-500 focus:ring-0 placeholder:text-sm",
           error && "border-red-500 focus:border-red-500",
+          readOnly && "bg-gray-100 cursor-not-allowed",
           className
         )}
       />

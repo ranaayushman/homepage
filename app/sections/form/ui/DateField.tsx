@@ -1,6 +1,7 @@
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { format, parse, isValid } from "date-fns";
+import { CalendarIcon, ChevronLeft, ChevronRight } from "lucide-react";
 import { useFormContext } from "react-hook-form";
+import { useState, useEffect } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -16,15 +17,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
 
 interface DateFieldProps {
-  label?: string; // Optional label
+  label?: string;
   name: string;
   placeholder: string;
   className?: {
-    container?: string; // Custom class for the container
-    label?: string; // Custom class for the label
-    button?: string; // Custom class for the button
+    container?: string;
+    label?: string;
+    button?: string;
+    input?: string;
   };
 }
 
@@ -34,58 +37,100 @@ export function DateField({
   placeholder,
   className = {},
 }: DateFieldProps) {
-  const { control } = useFormContext();
+  const { control, setValue } = useFormContext();
+  const [isOpen, setIsOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+
+  // Handle manual date input
+  const handleDateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValue(value);
+
+    // Try to parse the date if it matches the expected format
+    if (value.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
+      const parsedDate = parse(value, "dd/MM/yyyy", new Date());
+
+      // Check if the parsed date is valid and within allowed range
+      if (
+        isValid(parsedDate) &&
+        parsedDate <= new Date() &&
+        parsedDate >= new Date("1900-01-01")
+      ) {
+        setValue(name, parsedDate);
+      }
+    }
+  };
 
   return (
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
-        <FormItem className={cn("flex flex-col", className.container)}>
-          {label && (
-            <label
-              htmlFor={name}
-              className={cn("text-md text-black", className.label)}
-            >
-              {label}
-            </label>
-          )}
-          <Popover>
-            <PopoverTrigger asChild>
-              <FormControl>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "w-full pl-3 h-12 border text-left font-normal",
-                    !field.value && "text-muted-foreground",
-                    className.button
-                  )}
-                  type="button"
-                >
-                  {field.value ? (
-                    format(field.value, "dd/MM/yyyy")
-                  ) : (
-                    <span>{placeholder}</span>
-                  )}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                </Button>
-              </FormControl>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={field.value}
-                onSelect={field.onChange}
-                disabled={(date) =>
-                  date > new Date() || date < new Date("1900-01-01")
-                }
-                initialFocus
+      render={({ field }) => {
+        // Use useEffect for initializing the input value when field.value changes
+        useEffect(() => {
+          if (field.value && inputValue === "") {
+            setInputValue(format(field.value, "dd/MM/yyyy"));
+          }
+        }, [field.value, inputValue]);
+
+        return (
+          <FormItem className={cn("flex flex-col", className.container)}>
+            {label && (
+              <label
+                htmlFor={name}
+                className={cn("text-md text-black", className.label)}
+              >
+                {label}
+              </label>
+            )}
+            <div className="flex">
+              <Input
+                value={inputValue}
+                onChange={handleDateInput}
+                placeholder={placeholder}
+                className={cn(
+                  "rounded-r-none border-r-0 h-12",
+                  className.input
+                )}
               />
-            </PopoverContent>
-          </Popover>
-          <FormMessage />
-        </FormItem>
-      )}
+              <Popover open={isOpen} onOpenChange={setIsOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn("rounded-l-none px-3 h-12", className.button)}
+                    type="button"
+                    onClick={() => setIsOpen(true)}
+                  >
+                    <CalendarIcon className="h-5 w-5" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="end">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={(date) => {
+                      field.onChange(date);
+                      if (date) {
+                        setInputValue(format(date, "dd/MM/yyyy"));
+                      }
+                      setIsOpen(false);
+                    }}
+                    disabled={(date) =>
+                      date > new Date() || date < new Date("1900-01-01")
+                    }
+                    initialFocus
+                    components={{
+                      IconLeft: () => <ChevronLeft className="h-4 w-4" />,
+                      IconRight: () => <ChevronRight className="h-4 w-4" />,
+                    }}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 }

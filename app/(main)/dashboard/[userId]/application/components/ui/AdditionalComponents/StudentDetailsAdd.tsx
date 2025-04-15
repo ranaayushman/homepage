@@ -4,13 +4,63 @@ import { DateField } from "@/app/sections/form/ui/DateField";
 import { FileUploadField } from "@/app/sections/form/ui/FileUploadField";
 import InputField from "@/app/sections/form/ui/InputField";
 import RadioField from "@/app/sections/form/ui/RadioField";
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 const StudentDetailsAdd = () => {
   const {
     formState: { errors },
+    watch,
+    setValue,
   } = useFormContext();
+
+  // Watch the date of birth field
+  const dateOfBirth = watch("studentDetails.dateOfBirth");
+
+  // Calculate age whenever date of birth changes
+  useEffect(() => {
+    if (dateOfBirth) {
+      const calculateAge = (dob) => {
+        // Make sure we're working with a Date object
+        const birthDate = dob instanceof Date ? dob : new Date(dob);
+        const today = new Date();
+
+        // Check if the birth date is in the future
+        if (birthDate > today) {
+          console.log("Birth date is in the future");
+          return 0; // Return 0 for future dates
+        }
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        // Adjust age if birthday hasn't occurred yet this year
+        if (
+          monthDiff < 0 ||
+          (monthDiff === 0 && today.getDate() < birthDate.getDate())
+        ) {
+          age--;
+        }
+
+        return age;
+      };
+
+      try {
+        // Log the date for debugging
+        console.log("Date of birth:", dateOfBirth);
+
+        const age = calculateAge(dateOfBirth);
+        console.log("Calculated age:", age);
+
+        // Only update if the age is valid
+        if (!isNaN(age)) {
+          setValue("studentDetails.age", age.toString());
+        }
+      } catch (error) {
+        console.error("Error calculating age:", error);
+      }
+    }
+  }, [dateOfBirth, setValue]);
 
   return (
     <div className="grid gap-y-4">
@@ -41,7 +91,12 @@ const StudentDetailsAdd = () => {
           label="Date Of Birth:"
           placeholder="DOB"
         />
-        <InputField name="studentDetails.age" placeholder="Age" label="Age:" />
+        <InputField
+          name="studentDetails.age"
+          placeholder="Age"
+          label="Age:"
+          readOnly={true}
+        />
       </div>
       <div className="flex gap-x-4">
         <RadioField
