@@ -6,7 +6,14 @@ import { useFormOptions } from "@/app/utils/customHooks/useFormOptions";
 function AdmissionClass() {
   const { classOptions, sessionOptions, error,schoolOptions } = useFormOptions();
   useFormContext();
-
+  const schoolingModeOptions = [
+    { key: "Day School", label: "Day School", value: "Day School" },
+    {
+      key: "Day Boarding School",
+      label: "Day Boarding School",
+      value: "Day Boarding School",
+    },
+  ];
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -22,10 +29,7 @@ function AdmissionClass() {
           label="Mode of Schooling:"
           name="schoolingMode"
           placeholder="Select Schooling Mode"
-          options={[
-            { label: "Online", value: "online" },
-            { label: "Offline", value: "offline" },
-          ]}
+          options={schoolingModeOptions}
         />
         <SelectField
           label="Select The Admission Session You Would Like To Apply For:"

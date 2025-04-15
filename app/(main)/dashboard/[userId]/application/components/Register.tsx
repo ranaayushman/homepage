@@ -1,6 +1,8 @@
 import React from "react";
-import { useFormContext } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import type { RegisterFormValues } from "@/app/lib/validations/registerSchema";
+import { registerFormSchema } from "@/app/lib/validations/registerSchema";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,7 +14,6 @@ import {
 import AdmissionClass from "./ui/AdmissionClass";
 import StudentDetails from "./ui/StudentDetails";
 import PreviousAcademic from "./ui/PreviousAcademic";
-// import Guardian from "./ui/Guardian";
 import DownloadPDFButton from "@/app/(form)/registration/DownloadPDFButton";
 
 interface RegisterProps {
@@ -24,14 +25,26 @@ const Register = ({ onNext }: RegisterProps) => {
   const [formData, setFormData] = React.useState<RegisterFormValues | null>(
     null
   );
-  const { handleSubmit } = useFormContext<RegisterFormValues>();
+
+  const methods = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerFormSchema),
+    defaultValues: {
+      gender: "Male",
+      castCategory: "General",
+      specaillyAbled: "No",
+      lastSchoolAffiliated: "CBSE",
+    },
+    mode: "onBlur",
+  });
+
+  const { handleSubmit } = methods;
 
   const onSubmit = (data: RegisterFormValues) => {
     const formattedData = {
       ...data,
       dateOfBirth: new Date(data.dateOfBirth).toISOString(),
     };
-    console.log(formattedData);
+    // console.log(formattedData);
     setFormData(formattedData);
     setShowConfirmDialog(true);
   };
@@ -42,12 +55,11 @@ const Register = ({ onNext }: RegisterProps) => {
   };
 
   return (
-    <>
+    <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         <AdmissionClass />
         <StudentDetails />
         <PreviousAcademic />
-        {/* <Guardian /> */}
         <div className="flex gap-4">
           <Button type="submit" className="bg-[#789336] flex-1">
             Save & Continue
@@ -77,7 +89,7 @@ const Register = ({ onNext }: RegisterProps) => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>
+    </FormProvider>
   );
 };
 

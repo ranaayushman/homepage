@@ -13,18 +13,22 @@ const StudentDetails = () => {
   // Calculate age whenever date of birth changes
   useEffect(() => {
     if (dateOfBirth) {
-      const calculateAge = (dob) => {
+      interface DateInput {
+        dob: Date | string;
+      }
+
+      const calculateAge = (dob: DateInput['dob']): number => {
         // Ensure we're working with a Date object
-        const birthDate = dob instanceof Date ? dob : new Date(dob);
-        const today = new Date();
+        const birthDate: Date = dob instanceof Date ? dob : new Date(dob);
+        const today: Date = new Date();
         
         // Check if the birth date is in the future
         if (birthDate > today) {
           return 0; // Return 0 for future dates
         }
         
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
+        let age: number = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff: number = today.getMonth() - birthDate.getMonth();
         
         // Adjust age if birthday hasn't occurred yet this year
         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
