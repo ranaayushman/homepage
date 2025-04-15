@@ -1,10 +1,22 @@
 import CheckboxField from "@/app/sections/form/ui/CheckBoxField";
 import InputField from "@/app/sections/form/ui/InputField";
-// import { Checkbox } from "@/components/ui/checkbox";
-// import { Check } from "lucide-react";
 import React from "react";
+import { useFormContext } from "react-hook-form";
 
 const ParentsOrGuardian = () => {
+  const { watch, setValue } = useFormContext(); // Access form context
+
+  // Watch the checkbox and guardian address fields
+  const sameAddress = watch("sameAddress");
+  const guardianAddress = watch("parentsInfo.guardianResidentialAddress");
+
+  // Effect to sync mother’s address when checkbox is checked
+  React.useEffect(() => {
+    if (sameAddress) {
+      setValue("parentsInfo.motherResidentialAddress", guardianAddress);
+    }
+  }, [sameAddress, guardianAddress, setValue]);
+
   return (
     <div className="grid gap-y-4">
       <h2 className="text-md font-medium mb-[10px]">
@@ -37,8 +49,12 @@ const ParentsOrGuardian = () => {
           name="parentsInfo.motherResidentialAddress"
           placeholder="Enter Mother’s Residential Address"
           label="Mother’s Residential Address:"
+          readOnly={sameAddress} // Disable input when checkbox is checked
         />
-        {/* <CheckboxField name="sameAddress" label="Same Address" /> */}
+        <CheckboxField
+          name="sameAddress"
+          label="Same Address"
+        />
         <InputField
           name="parentsInfo.motherOccupation"
           placeholder="Enter Mother’s Occupation"

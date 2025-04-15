@@ -1,11 +1,26 @@
+"use client";
+
 import InputField from "@/app/sections/form/ui/InputField";
 import RadioField from "@/app/sections/form/ui/RadioField";
 import { SelectField } from "@/app/sections/form/ui/SelectField";
 import { useFormOptions } from "@/app/utils/customHooks/useFormOptions";
-import React from "react";
+import React, { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 
 const PreviousSchool = () => {
   const { classOptions } = useFormOptions();
+  const { watch, setValue } = useFormContext();
+
+  // Watch the lastSchoolAffiliated field
+  const lastSchoolAffiliated = watch("previousSchool.lastSchoolAffiliated");
+
+  // Clear otherAffiliation when lastSchoolAffiliated is not Other
+  useEffect(() => {
+    if (lastSchoolAffiliated !== "Other") {
+      setValue("previousSchool.otherAffiliation", "");
+    }
+  }, [lastSchoolAffiliated, setValue]);
+
   return (
     <div className="grid gap-y-6">
       <h2>Previous Academic Information</h2>
@@ -20,7 +35,7 @@ const PreviousSchool = () => {
             { value: "Other", label: "Other (please specify)" },
           ]}
         />
-        <div className="border-black border-l h-full "></div>
+        <div className="border-black border-l h-full"></div>
         <RadioField
           name="previousSchool.secondLanguage"
           label="Second Language"
@@ -30,6 +45,16 @@ const PreviousSchool = () => {
           ]}
         />
       </div>
+      {/* Conditionally render InputField for Other affiliation */}
+      {lastSchoolAffiliated === "Other" && (
+        <div className="w-1/2">
+          <InputField
+            name="previousSchool.otherAffiliation"
+            label="Specify Affiliation:"
+            placeholder="Enter Affiliation Details"
+          />
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4">
         <SelectField
           name="previousSchool.lastClassAttended"

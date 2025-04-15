@@ -38,59 +38,70 @@ const studentDetailsSchema = z.object({
 
 //PreviousSchool
 const previousSchoolSchema = z.object({
-  lastSchoolAffiliated:z.enum(["CBSE", "ICSE", "State Board", "Other"], {
+  lastSchoolAffiliated: z.enum(["CBSE", "ICSE", "State Board", "Other"], {
     errorMap: () => ({ message: "Last school affiliated is required" }),
   }),
-  secondLanguage:z.enum(["Bengali", "Hindi"], {
-    errorMap: () => ({ message: "Second language is required" })
+  secondLanguage: z.enum(["Bengali", "Hindi"], {
+    errorMap: () => ({ message: "Second language is required" }),
   }),
-  lastClassAttended:z.string().min(1, "Last class attended is required"),
-  lastSchool:z.string().min(1, "Last school is required"),
+  lastClassAttended: z.string().min(1, "Last class attended is required"),
+  lastSchool: z.string().min(1, "Last school is required"),
+  otherAffiliation: z.string().optional(),
 });
 
 //StudentOtherInformation
 const studentOtherInfoSchema = z.object({
-  height: z.string().min(1, "Height is required").transform((val) => {
-    if (val === "null" || !val) return null;
-    const num = parseFloat(val);
-    return isNaN(num) ? null : num;
-  }),
-  weight: z.string().min(1, "Weight is required").transform((val) => {
-    if (val === "null" || !val) return null;
-    const num = parseFloat(val);
-    return isNaN(num) ? null : num;
-  }),
+  height: z
+    .string()
+    .min(1, "Height is required")
+    .transform((val) => {
+      if (val === "null" || !val) return null;
+      const num = parseFloat(val);
+      return isNaN(num) ? null : num;
+    }),
+  weight: z
+    .string()
+    .min(1, "Weight is required")
+    .transform((val) => {
+      if (val === "null" || !val) return null;
+      const num = parseFloat(val);
+      return isNaN(num) ? null : num;
+    }),
   bloodGroup: z.string().min(1, "Blood group is required"),
   motherTongue: z.string().min(1, "Mother tongue is required"),
   religion: z.string().min(1, "Religion is required"),
 });
 //ParentsOrGuardian
 const parentsGuardianSchema = z.object({
-  guardianName:z.string().min(1, "Guardian name is required"),
-  guardianResidentialAddress:z.string().min(1, "Guardian residential address is required"),
-  guardianOccupation:z.string().min(1, "Guardian occupation is required"),
-  motherName:z.string().min(1, "Mother name is required"),
-  motherResidentialAddress:z.string().min(1, "Mother residential address is required"),
-  motherOccupation:z.string().min(1, "Mother occupation is required"),
+  guardianName: z.string().min(1, "Guardian name is required"),
+  guardianResidentialAddress: z
+    .string()
+    .min(1, "Guardian residential address is required"),
+  guardianOccupation: z.string().min(1, "Guardian occupation is required"),
+  motherName: z.string().min(1, "Mother name is required"),
+  motherResidentialAddress: z
+    .string()
+    .min(1, "Mother residential address is required"),
+  motherOccupation: z.string().min(1, "Mother occupation is required"),
 });
 
 //Communication Details
 const communicationDetailsSchema = z.object({
-  phoneNumber1:z.string().min(10, "Phone number 1 is required"),
-  phoneNumber2:z.string().min(10,"required"),
-  phoneNumber3:z.string().min(10,'required'),
-  email:z.string().email("Invalid email address"),
-  permanentAddress:z.string().min(1, "Permanent address is required"),
-  localAddress:z.string().min(1, "Local address is required"),
+  phoneNumber1: z.string().min(10, "Phone number 1 is required"),
+  phoneNumber2: z.string().min(10, "required"),
+  phoneNumber3: z.string().min(10, "required"),
+  email: z.string().email("Invalid email address"),
+  permanentAddress: z.string().min(1, "Permanent address is required"),
+  localAddress: z.string().min(1, "Local address is required"),
 });
 
 //EconomicProfile
 const economicProfileSchema = z.object({
-  relationWithGuardian:z.string(),
-  yearlyIncome:z.string(),
-  designation:z.string(),
-  dependentOnGuardian:z.string(),
-  earningMembers:z.string(),
+  relationWithGuardian: z.string(),
+  yearlyIncome: z.string(),
+  designation: z.string(),
+  dependentOnGuardian: z.string(),
+  earningMembers: z.string(),
 });
 
 //Documents

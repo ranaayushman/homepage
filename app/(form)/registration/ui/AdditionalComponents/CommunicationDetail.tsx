@@ -1,9 +1,22 @@
 import CheckboxField from "@/app/sections/form/ui/CheckBoxField";
 import InputField from "@/app/sections/form/ui/InputField";
-// import { Check } from "lucide-react";
 import React from "react";
+import { useFormContext } from "react-hook-form";
 
 const CommunicationDetail = () => {
+  const { watch, setValue } = useFormContext(); // Access form context
+
+  // Watch the checkbox and permanent address fields
+  const sameAsPermanentAddress = watch("sameAsPermanentAddress");
+  const permanentAddress = watch("communicationDetails.permanentAddress");
+
+  // Effect to sync local address when checkbox is checked
+  React.useEffect(() => {
+    if (sameAsPermanentAddress) {
+      setValue("communicationDetails.localAddress", permanentAddress);
+    }
+  }, [sameAsPermanentAddress, permanentAddress, setValue]);
+
   return (
     <div className="grid gap-y-4">
       <h2 className="text-md font-medium mb-[10px]">Communication Details</h2>
@@ -13,22 +26,23 @@ const CommunicationDetail = () => {
           <InputField
             name="communicationDetails.phoneNumber1"
             placeholder="Phone Number"
-            //   label="Phone Number:"
           />
           <InputField
             name="communicationDetails.phoneNumber2"
             placeholder="Phone Number"
-            //   label="Phone Number:"
           />
           <InputField
             name="communicationDetails.phoneNumber3"
             placeholder="Phone Number"
-            //   label="Phone Number:"
           />
         </div>
       </div>
-      <div className="w-1/2 grid grid-cols-1 gap-4 ">
-        <InputField name="communicationDetails.email" placeholder="Email" label="Email:" />
+      <div className="w-1/2 grid grid-cols-1 gap-4">
+        <InputField
+          name="communicationDetails.email"
+          placeholder="Email"
+          label="Email:"
+        />
         <InputField
           name="communicationDetails.permanentAddress"
           placeholder="Permanent Address"
@@ -40,8 +54,12 @@ const CommunicationDetail = () => {
           name="communicationDetails.localAddress"
           placeholder="Local Address"
           label="Local Address:"
+          readOnly={sameAsPermanentAddress} // Disable input when checkbox is checked
         />
-        {/* <CheckboxField name="sameAddress" label="Same as Permanent Address" /> */}
+        <CheckboxField
+          name="sameAsPermanentAddress"
+          label="Same as Permanent Address"
+        />
       </div>
       <hr className="my-5 border-black" />
     </div>
