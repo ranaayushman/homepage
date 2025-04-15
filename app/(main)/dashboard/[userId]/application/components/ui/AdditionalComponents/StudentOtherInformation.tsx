@@ -3,6 +3,40 @@ import { SelectField } from "@/app/sections/form/ui/SelectField";
 import React from "react";
 
 const StudentOtherInformation = () => {
+  const bloodGroupOptions = [
+    { label: "A+", value: "A+" },
+    { label: "A-", value: "A-" },
+    { label: "B+", value: "B+" },
+    { label: "B-", value: "B-" },
+    { label: "AB+", value: "AB+" },
+    { label: "AB-", value: "AB-" },
+    { label: "O+", value: "O+" },
+    { label: "O-", value: "O-" },
+  ];
+  const religionOptions = [
+    { label: "Hindu", value: "Hindu" },
+    { label: "Muslim", value: "Muslim" },
+    { label: "Christian", value: "Christian" },
+    { label: "Sikh", value: "Sikh" },
+    { label: "Buddhist", value: "Buddhist" },
+    { label: "Jain", value: "Jain" },
+    { label: "Parsi", value: "Parsi" },
+    { label: "Jewish", value: "Jewish" },
+    { label: "Other", value: "Other" },
+    { label: "Prefer not to say", value: "Prefer not to say" },
+  ];
+  const motherTongueOptions = [
+    { label: "Hindi", value: "Hindi" },
+    { label: "Bengali", value: "Bengali" },
+    { label: "Marathi", value: "Marathi" },
+    { label: "Telugu", value: "Telugu" },
+    { label: "Tamil", value: "Tamil" },
+    { label: "Gujarati", value: "Gujarati" },
+    { label: "Punjabi", value: "Punjabi" },
+    { label: "Malayalam", value: "Malayalam" },
+    { label: "Kannada", value: "Kannada" },
+    { label: "Urdu", value: "Urdu" },
+  ];
   return (
     <div>
       <h2>Student&apos;s Additional Information</h2>
@@ -23,19 +57,19 @@ const StudentOtherInformation = () => {
           name="studentOtherInfo.bloodGroup"
           label="Blood Group:"
           placeholder="Blood Group"
-          options={[{ label: "bloodGroup", value: "bloodGroup" }]}
+          options={bloodGroupOptions}
         />
         <SelectField
           name="studentOtherInfo.motherTongue"
           label="Mother Tongue:"
           placeholder="Mother Tongue"
-          options={[{ label: "Hindi", value: "hindi" }]}
+          options={motherTongueOptions}
         />
         <SelectField
           name="studentOtherInfo.religion"
           label="Religion:"
           placeholder="Religion"
-          options={[{ label: "Hindu", value: "hindu" }]}
+          options={religionOptions}
         />
       </div>
       <hr className="my-5 border-black" />
