@@ -19,7 +19,7 @@ const Dashboard = ({ userId }: DashboardProps) => {
         <Instructions />
         <Instructions />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </section>
   );
 };

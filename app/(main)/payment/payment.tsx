@@ -11,7 +11,7 @@ const payment = ({ userId }: PaymentProps) => {
       <div className="my-10">
         <Status />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </section>
   );
 };

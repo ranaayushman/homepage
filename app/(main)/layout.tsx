@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import Cookies from "js-cookie";
 import { useRouter, usePathname } from "next/navigation";
+import Footer from "../sections/Footer";
 
 export default function RootLayout({
   children,
@@ -23,12 +24,12 @@ export default function RootLayout({
       router.push("/");
     } else {
       // Extract userId from the pathname
-      const pathSegments = pathname.split('/');
-      
+      const pathSegments = pathname.split("/");
+
       // Look for userId in common patterns
       // This assumes routes follow patterns like /dashboard/[userId], /payment/[userId], etc.
       let extractedUserId = "";
-      
+
       for (let i = 0; i < pathSegments.length; i++) {
         // Check if this segment could be a MongoDB ObjectId (24 hex chars)
         if (pathSegments[i] && /^[0-9a-fA-F]{24}$/.test(pathSegments[i])) {
@@ -36,11 +37,11 @@ export default function RootLayout({
           break;
         }
       }
-      
+
       // Alternatively, you could extract userId from JWT token
       // const decodedToken = parseJWT(authToken);
       // extractedUserId = decodedToken.userId;
-      
+
       setUserId(extractedUserId);
       setIsLoading(false);
     }
@@ -58,19 +59,19 @@ export default function RootLayout({
   }
 
   return (
-    <div className="bg-gray-200 min-h-screen">
-      <div className="flex">
-        <div className="flex-shrink-0">
-          <Sidebar userId={userId} />
+    <div className="bg-gray-200 min-h-screen flex">
+      <div className="flex-shrink-0">
+        <Sidebar userId={userId} />
+      </div>
+      <div className="flex-1 flex flex-col min-h-screen">
+        <div className="w-full">
+          <Navbar />
         </div>
-        <div className="flex-1">
-          <div className="w-full">
-            <Navbar />
-          </div>
-          <div className="p-4 w-full">{children}</div>
-          <Toaster />
-        </div>
+        <main className="flex-1 p-4">{children}</main>
+        <Footer />
+        <Toaster />
       </div>
     </div>
   );
 }
+  
