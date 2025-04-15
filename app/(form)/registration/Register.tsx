@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import type { RegisterFormValues } from "@/app/lib/validations/registerSchema";
@@ -41,6 +43,15 @@ const Register = ({
       dateOfBirth: new Date(data.dateOfBirth).toISOString(),
     };
     setFormData(formattedData);
+
+    // Save to localStorage
+    try {
+      localStorage.setItem("registerFormData", JSON.stringify(formattedData));
+      console.log("Form data saved to localStorage:", formattedData);
+    } catch (error) {
+      console.error("Failed to save form data to localStorage:", error);
+    }
+
     setShowConfirmDialog(true);
   };
 
@@ -78,6 +89,24 @@ const Register = ({
       response = await sendStudentApplicationJSON(applicationData);
 
       if (response?.data?._id) {
+        // Update localStorage with response data
+        const updatedFormData = {
+          ...formData,
+          applicationId: response.data._id,
+          tempNo: response.data.tempNo,
+          parentId: response.data.parentId,
+          classId: response.data.classId,
+          schoolId: response.data.schoolId,
+          sessionId: response.data.sessionId,
+        };
+
+        try {
+          localStorage.setItem("registerFormData", JSON.stringify(updatedFormData));
+          console.log("Updated form data with response saved to localStorage:", updatedFormData);
+        } catch (error) {
+          console.error("Failed to update localStorage with response data:", error);
+        }
+
         toast({
           description:
             response.message || "Application submitted successfully!",
@@ -94,7 +123,7 @@ const Register = ({
       console.error("Register error:", message);
       toast({
         description: message,
-        variant: "destructive", // changed to destructive for error case
+        variant: "destructive",
       });
       onNext();
     } finally {

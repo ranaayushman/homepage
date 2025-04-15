@@ -6,6 +6,19 @@ import { useFormContext } from "react-hook-form";
 const EconomicProfile = () => {
   const { control } = useFormContext();
 
+  const noOfDependent = [
+{ label: "0", value: "0" },
+{ label: "1", value: "1" },
+{ label: "2", value: "2" },
+{ label: "3", value: "3" },
+{ label: "4", value: "4" },
+{ label: "5", value: "5" },
+{ label: "6", value: "6" },
+{ label: "7", value: "7" },
+{ label: "8", value: "8" },
+{ label: "9", value: "9" },
+{ label: "10", value: "10" },
+  ]
   return (
     <div className="grid gap-y-4">
       <h2>Economic Profile</h2>
@@ -32,10 +45,7 @@ const EconomicProfile = () => {
           name="economicProfile.dependentOnGuardian"
           placeholder="Select Number"
           label="No. of Dependents on the Guardians:"
-          options={[
-            { label: "0", value: "0" },
-            { label: "1", value: "1" },
-          ]}
+          options={noOfDependent}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -44,10 +54,7 @@ const EconomicProfile = () => {
           name="economicProfile.earningMembers"
           placeholder="Select Number"
           label="No. of Earning Members in the Family:"
-          options={[
-            { label: "0", value: "0" },
-            { label: "1", value: "1" },
-          ]}
+          options={noOfDependent}
         />
       </div>
       <hr className="my-4 border-black" />
