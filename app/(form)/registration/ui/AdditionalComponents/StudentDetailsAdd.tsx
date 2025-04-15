@@ -76,7 +76,7 @@ const StudentDetailsAdd = () => {
 
   return (
     <div className="grid gap-y-4">
-      <h2 className="mb-5">Student's Details</h2>
+      <h2 className="mb-5">Student&apos;s Details</h2>
       <div className="w-1/2 grid gap-y-4">
         <InputField
           name="studentDetails.fullName"
