@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
 
@@ -12,6 +12,24 @@ interface FormNavbarProps {
 }
 
 const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
+  const [tempNo, setTempNo] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedForm = localStorage.getItem("registerFormData"); // change key if different
+      if (storedForm) {
+        try {
+          const parsed = JSON.parse(storedForm);
+          if (parsed.tempNo) {
+            setTempNo(parsed.tempNo);
+          }
+        } catch (error) {
+          console.error("Error parsing formData from localStorage:", error);
+        }
+      }
+    }
+  }, []);
+
   const STEPS: Record<FormStep, { title: string; icon: string }> = {
     basic: { title: "Basic Details", icon: "/svg/step1.svg" },
     payment: { title: "Payment", icon: "/svg/step2.svg" },
@@ -22,31 +40,30 @@ const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
     const stepOrder = { basic: 1, payment: 2, additional: 3 };
     const maxStep = 3;
     const stepProgress = (stepOrder[currentStep] / maxStep) * 100;
-
     return Math.max(stepProgress, progress);
   };
 
-  // Helper function to determine if a step should be marked as completed
   const isStepCompleted = (step: FormStep) => {
     const stepOrder = { basic: 1, payment: 2, additional: 3 };
     return stepOrder[currentStep] > stepOrder[step];
   };
 
-  // Helper function to determine if a step is active
   const isActiveStep = (step: FormStep) => currentStep === step;
 
   return (
     <div className="w-full bg-white py-6 shadow-sm">
       <div className="flex flex-col sm:flex-row justify-between items-center max-w-5xl mx-auto gap-y-5 sm:gap-y-0  px-4">
-        <div className="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-y-5 sm:gap-y-0 sm:w-2/3">
-          <h2 className="font-semibold text-sm md:text-lg text-center sm:text-left">
-            Form- 2468
-          </h2>
+        <div className="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-y-2 sm:gap-y-0 sm:w-2/3">
+          {/* Conditionally render tempNo */}
+          {tempNo && (
+            <h2 className="font-semibold text-sm md:text-lg text-center sm:text-left">
+              Form - {tempNo}
+            </h2>
+          )}
           <h2 className="font-semibold text-sm md:text-lg text-center sm:text-left">
             Kalyani Public School, Barasat Registration Form
           </h2>
         </div>
-        {/* Empty div on larger screens */}
         <div className="w-24 sm:w-auto" />
       </div>
 

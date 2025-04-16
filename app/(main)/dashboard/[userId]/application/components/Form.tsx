@@ -81,7 +81,6 @@ const Form = ({ userId, applicationId }: FormProps) => {
       try {
         setLoading(true);
 
-        // Fetch application details
         const applicationResponse = await axios.get(
           `${API_URL}/get-student-application/${applicationId}`,
           {
@@ -95,7 +94,6 @@ const Form = ({ userId, applicationId }: FormProps) => {
         const appData = applicationResponse.data.data;
 
         if (appData) {
-          // Store application data for payment step
           setApplicationData({
             _id: appData._id,
             tempNo: appData.tempNo,
@@ -103,10 +101,9 @@ const Form = ({ userId, applicationId }: FormProps) => {
             schoolId: appData.schoolId,
             name: appData.name,
             formStatus: appData.formStatus,
-            // Add other fields as needed
           });
 
-          // Map API response fields to registerFormSchema fields
+          // Map API response to form data
           const registerData = {
             admissionClass: appData.classId || "",
             schoolingMode: appData.modeOfSchooling || "",
@@ -115,27 +112,37 @@ const Form = ({ userId, applicationId }: FormProps) => {
             gender: appData.gender || "",
             dateOfBirth: appData.dob ? new Date(appData.dob) : undefined,
             age: appData.age?.toString() || "",
-            castCategory: appData.castCategory || "General", // Default if not provided
-            specaillyAbled: appData.specaillyAbled || "No", // Default if not provided
+            castCategory: appData.castCategory || "General",
+            specaillyAbled: appData.specaillyAbled || "No",
             lastSchoolAffiliated: appData.lastSchoolAffiliatedBoard || "",
             lastClassAttended: appData.lastClassAttended || "",
             lastSchoolName: appData.lastSchoolAttended || "",
             admissionSchool: appData.schoolId || "",
           };
 
-          // Populate Register form
           registerMethods.reset(registerData);
 
-          // Check if all required fields for step 1 are filled
-          const isStep1Complete = Object.values(registerData).every(
-            (value) => value !== undefined && value !== null && value !== ""
+          // Check only required fields for step 1 completion
+          const requiredFields = [
+            "admissionClass",
+            "schoolingMode",
+            "admissionSession",
+            "name",
+            "gender",
+            "dateOfBirth",
+            "admissionSchool",
+          ];
+
+          const isStep1Complete = requiredFields.every(
+            (field) =>
+              registerData[field] !== undefined &&
+              registerData[field] !== null &&
+              registerData[field] !== ""
           );
 
-          // Check for payment transactions - safe approach
           let hasSuccessfulPayment = false;
 
           try {
-            // Use axios.get but catch any errors internally
             const paymentResponse = await axios.get(
               `${API_URL}/applications-transactions-by-student/${applicationId}`,
               {
@@ -143,53 +150,31 @@ const Form = ({ userId, applicationId }: FormProps) => {
                   "Content-Type": "application/json",
                   Authorization: `Bearer ${Cookies.get("authToken")}`,
                 },
-                // This prevents axios from throwing on 4xx responses
-                validateStatus: function (status) {
-                  return status < 500; // Accept any status code less than 500
-                },
+                validateStatus: (status) => status < 500,
               }
             );
 
-            // Only process if we got a successful response
             if (
               paymentResponse.status === 200 &&
               paymentResponse.data.success
             ) {
               const payments = paymentResponse.data.payments || [];
               setPaymentData(payments);
-
-              // Check if there's a successful payment
               hasSuccessfulPayment = payments.some(
                 (payment) => payment.paymentStatus === "success"
               );
-
-              // If there's payment data, populate the payment form
-              if (payments.length > 0) {
-                const latestPayment = payments[0]; // Assuming the first one is the latest
-                paymentMethods.reset({
-                  amount: latestPayment.paymentAmount,
-                  method: latestPayment.paymentMethod,
-                  // Add any other payment fields your form requires
-                });
-              }
             }
           } catch (paymentError) {
-            // Silently handle any errors - do not throw or display errors
-            console.log("Note: Payment transaction check skipped");
-            // We continue with hasSuccessfulPayment = false
+            console.log("Payment transaction check skipped");
           }
 
-          // Determine which step to show based on data completeness and payment status
+          // Now properly determine the step
           if (hasSuccessfulPayment) {
-            // If payment is successful, move to step 3 (additional info)
             setStep(3);
           } else if (isStep1Complete) {
-            // If step 1 is complete but no successful payment, go to step 2 (payment)
             setStep(2);
-          } else {
-            // Otherwise start at step 1
-            setStep(1);
           }
+          // Otherwise stay at step 1 (default)
         }
       } catch (e) {
         console.error("Error fetching application:", e);
