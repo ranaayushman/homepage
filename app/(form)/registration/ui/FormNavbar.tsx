@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
-
+import Cookies from "js-cookie";
 export type FormStep = "basic" | "payment" | "additional";
 
 interface FormNavbarProps {
@@ -49,6 +49,7 @@ const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
   };
 
   const isActiveStep = (step: FormStep) => currentStep === step;
+  const school = Cookies.get("schoolName");
 
   return (
     <div className="w-full bg-white py-6 shadow-sm">
@@ -61,7 +62,7 @@ const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
             </h2>
           )}
           <h2 className="font-semibold text-sm md:text-lg text-center sm:text-left">
-            Kalyani Public School, Barasat Registration Form
+            {school}, Registration Form
           </h2>
         </div>
         <div className="w-24 sm:w-auto" />

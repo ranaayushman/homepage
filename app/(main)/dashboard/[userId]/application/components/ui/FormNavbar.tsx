@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
+import Cookies from "js-cookie";
 
 export type FormStep = "basic" | "payment" | "additional";
 
@@ -35,6 +36,8 @@ const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
   // Helper function to determine if a step is active
   const isActiveStep = (step: FormStep) => currentStep === step;
 
+  const school = Cookies.get("schoolName");
+
   return (
     <div className="w-full bg-white py-6 shadow-sm">
       <div className="flex flex-col sm:flex-row justify-between items-center max-w-5xl mx-auto gap-y-5 sm:gap-y-0  px-4">
@@ -43,7 +46,7 @@ const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
             Form- 2468
           </h2>
           <h2 className="font-semibold text-sm md:text-lg text-center sm:text-left">
-            Kalyani Public School, Barasat Registration Form
+            {school} Registration Form
           </h2>
         </div>
         {/* Empty div on larger screens */}

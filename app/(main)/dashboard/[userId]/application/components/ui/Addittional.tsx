@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import ClassOpt from "./AdditionalComponents/ClassOpt";
 import StudentDetailsAdd from "./AdditionalComponents/StudentDetailsAdd";
@@ -18,6 +18,10 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { handleSubmitStudentApplication } from "@/app/utils/handlers/continueHandler";
 import { toast } from "@/hooks/use-toast";
+import axios from "axios";
+import Cookies from "js-cookie";
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const Additional = ({
   userId,
@@ -26,6 +30,8 @@ const Additional = ({
   userId: string;
   applicationId: string;
 }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const methods = useForm<AdditionalFormData>({
     resolver: zodResolver(additionalSchema),
     defaultValues: {
@@ -45,15 +51,125 @@ const Additional = ({
     },
     mode: "onBlur",
   });
-  // console.log(applicationId);
+
+  useEffect(() => {
+    if (applicationId) {
+      fetchApplicationData();
+    } else {
+      setIsLoading(false);
+    }
+  }, [applicationId]);
+
+  const fetchApplicationData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(
+        `${BASE_URL}/get-student-application/${applicationId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("authToken")}`,
+          },
+        }
+      );
+
+      if (response.data && response.data.data) {
+        const appData = response.data.data;
+
+        // Get current form values to preserve defaults for missing fields
+        const currentValues = methods.getValues();
+
+        // Safely parse the date to ensure it's valid
+        let dateOfBirth;
+        try {
+          if (appData.dob) {
+            const parsedDate = new Date(appData.dob);
+            // Check if the date is valid
+            if (!isNaN(parsedDate.getTime())) {
+              dateOfBirth = parsedDate;
+            } else {
+              // Fallback to current date if invalid
+              dateOfBirth = new Date();
+              console.warn(
+                "Invalid date from API, using current date as fallback"
+              );
+            }
+          } else {
+            // No date provided, use current date
+            dateOfBirth = new Date();
+          }
+        } catch (error) {
+          console.error("Error parsing date:", error);
+          dateOfBirth = new Date();
+        }
+
+        // Prepare the form data with existing application data
+        const formData: Partial<AdditionalFormData> = {
+          class: {
+            className: appData.classId || currentValues.class?.className || "",
+            modeOfSchooling:
+              appData.modeOfSchooling ||
+              currentValues.class?.modeOfSchooling ||
+              "",
+            admissionSession:
+              appData.selectAdmissionSession ||
+              currentValues.class?.admissionSession ||
+              "",
+          },
+          studentDetails: {
+            ...currentValues.studentDetails,
+            fullName: appData.name || "",
+            gender: appData.gender || "Male",
+            dateOfBirth: dateOfBirth,
+            age: appData.age?.toString() || "",
+          },
+          previousSchool: {
+            ...currentValues.previousSchool,
+            lastSchoolAffiliated: appData.lastSchoolAffiliatedBoard || "CBSE",
+            lastClassAttended: appData.lastClassAttended || "",
+            lastSchool: appData.lastSchoolAttended || "",
+          },
+          // Keep existing values for sections without API data
+          studentOtherInfo: currentValues.studentOtherInfo,
+          parentsInfo: currentValues.parentsInfo,
+          communicationDetails: currentValues.communicationDetails,
+          economicProfile: currentValues.economicProfile,
+          documents: currentValues.documents,
+        };
+
+        // Reset form with fetched data
+        methods.reset(formData as any);
+
+        toast({
+          description: "Existing application data loaded",
+          variant: "default",
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching application data:", error);
+      toast({
+        description: "Failed to load existing application data",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // // Usage within a useEffect
+  // useEffect(() => {
+  //   if (applicationId) {
+  //     fetchApplicationData();
+  //   } else {
+  //     setIsLoading(false);
+  //   }
+  // }, [applicationId]);
 
   const onSubmitFinal = async (data: AdditionalFormData) => {
-    // console.log("onSubmitFinal called with data:", data);
-    // console.log(methods.formState.errors);
     try {
       // Trigger validation for all fields first
       const isValid = await methods.trigger();
-  
+
       if (!isValid) {
         const errors = methods.formState.errors;
         console.log("Form errors:", errors);
@@ -63,12 +179,14 @@ const Additional = ({
         });
         return;
       }
-  
-      // console.log("No validation errors, proceeding to handler");
+
       // Pass applicationId along with data and userId
-      const result = await handleSubmitStudentApplication(data, userId, applicationId);
-      // console.log("Handler result:", result);
-  
+      const result = await handleSubmitStudentApplication(
+        data,
+        userId,
+        applicationId
+      );
+
       toast({
         description: result?.success
           ? result.message || "Application submitted successfully!"
@@ -83,6 +201,14 @@ const Additional = ({
       });
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[400px]">
+        Loading application data...
+      </div>
+    );
+  }
 
   return (
     <FormProvider {...methods}>
