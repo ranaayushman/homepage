@@ -74,7 +74,6 @@ const Status = ({ userId }: StatusProps) => {
     router.push(`/dashboard/${userId}/application/${applicationId}`);
   };
 
-
   const handleViewApplication = (applicationId: string) => {
     router.push(`/dashboard/${userId}/view/${applicationId}`);
   };
@@ -86,11 +85,11 @@ const Status = ({ userId }: StatusProps) => {
   if (error) {
     return <div>{error}</div>;
   }
-
+  const school = Cookies.get("schoolName");
   return (
     <div className="bg-[#FFFFFF] px-10 rounded-md mx-10 py-5">
       <div>
-        <h2 className="text-xl pb-5">Bright Future International School</h2>
+        <h2 className="text-xl pb-5">{school}</h2>
         <table className="w-full text-center">
           <thead>
             <tr>

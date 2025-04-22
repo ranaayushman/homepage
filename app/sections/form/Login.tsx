@@ -129,13 +129,38 @@ export default function Login() {
       // Log the full response to debug
       console.log("Full verification response:", verifyResponse);
 
-      if (verifyResponse.success) {
-        // Store just the auth token in cookies
+      if (verifyResponse.success && verifyResponse.user) {
+        // Store auth token in cookies
         Cookies.set("authToken", String(verifyResponse.token), {
           expires: 7,
           secure: true,
           sameSite: "strict",
         });
+
+        Cookies.set("userId", String(verifyResponse.user.id), {
+          expires: 7,
+          secure: true,
+          sameSite: "strict",
+        });
+        Cookies.set("userName", String(verifyResponse.user.name), {
+          expires: 7,
+          secure: true,
+          sameSite: "strict",
+        });
+
+        // Store school name in cookies
+        if (verifyResponse.user && verifyResponse.user.schoolName) {
+          Cookies.set("schoolName", verifyResponse.user.schoolName, {
+            expires: 7,
+            secure: true,
+            sameSite: "strict",
+          });
+          Cookies.set("schoolId", verifyResponse.user.schoolId._id, {
+            expires: 7,
+            secure: true,
+            sameSite: "strict",
+          });
+        }
 
         localStorage.removeItem("loginFormData");
         methods.reset({
