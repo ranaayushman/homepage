@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
 import Cookies from "js-cookie";
+
 export type FormStep = "basic" | "payment" | "additional";
 
 interface FormNavbarProps {
@@ -13,10 +14,11 @@ interface FormNavbarProps {
 
 const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
   const [tempNo, setTempNo] = useState<string | null>(null);
+  const [school, setSchool] = useState<string | null>(null); // ✅ added state for cookie
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedForm = localStorage.getItem("registerFormData"); // change key if different
+      const storedForm = localStorage.getItem("registerFormData");
       if (storedForm) {
         try {
           const parsed = JSON.parse(storedForm);
@@ -26,6 +28,11 @@ const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
         } catch (error) {
           console.error("Error parsing formData from localStorage:", error);
         }
+      }
+
+      const schoolCookie = Cookies.get("schoolName"); // ✅ get cookie on client
+      if (schoolCookie) {
+        setSchool(schoolCookie);
       }
     }
   }, []);
@@ -49,13 +56,11 @@ const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
   };
 
   const isActiveStep = (step: FormStep) => currentStep === step;
-  const school = Cookies.get("schoolName");
 
   return (
     <div className="w-full bg-white py-6 shadow-sm">
-      <div className="flex flex-col sm:flex-row justify-between items-center max-w-5xl mx-auto gap-y-5 sm:gap-y-0  px-4">
+      <div className="flex flex-col sm:flex-row justify-between items-center max-w-5xl mx-auto gap-y-5 sm:gap-y-0 px-4">
         <div className="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-y-2 sm:gap-y-0 sm:w-2/3">
-          {/* Conditionally render tempNo */}
           {tempNo && (
             <h2 className="font-semibold text-sm md:text-lg text-center sm:text-left">
               Form - {tempNo}
@@ -114,7 +119,6 @@ const FormNavbar: React.FC<FormNavbarProps> = ({ currentStep, progress }) => {
         ))}
       </div>
 
-      {/* Progress Bar */}
       <div className="max-w-4xl mx-auto mt-2">
         <Progress value={getStepProgress()} className="h-1 bg-gray-200" />
       </div>
