@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -23,9 +25,10 @@ interface PaymentFormData {
 interface PaymentProps {
   onNext: () => void;
   userId: string;
+  setPaymentId: (id: string) => void;
 }
 
-const Payment = ({ onNext, userId }: PaymentProps) => {
+const Payment = ({ onNext, userId, setPaymentId }: PaymentProps) => {
   const {
     register,
     handleSubmit,
@@ -43,7 +46,7 @@ const Payment = ({ onNext, userId }: PaymentProps) => {
       const applicationId = Cookies.get("applicationId");
       const schoolId = Cookies.get("schoolId");
       const classId = Cookies.get("classId");
-  
+
       const payload = {
         studentApplicationFormId: applicationId,
         schoolId,
@@ -54,37 +57,43 @@ const Payment = ({ onNext, userId }: PaymentProps) => {
         transactionId: data.transactionId || null,
         paymentMethodMeta: null,
       };
-  
+
       const token = Cookies.get("authToken");
       if (!token) {
         throw new Error("Authentication token is missing");
       }
-  
+
       const response = await axios.post(`${BASE_URL}/pay/cash`, payload, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       const responseData = response.data;
-  
-      if (response.status === 200 && responseData.success && responseData.payment?._id) {
+
+      if (
+        response.status === 200 &&
+        responseData.success &&
+        responseData.payment?._id
+      ) {
         const { _id, transactionId } = responseData.payment;
-        const tempNo = Cookies.get("tempNo"); // you might already have this from application step
-  
-        // ✅ Set cookies
-        if (transactionId) Cookies.set("transactionId", transactionId, { expires: 7 });
+        const tempNo = Cookies.get("tempNo");
+
+        if (transactionId)
+          Cookies.set("transactionId", transactionId, { expires: 7 });
         if (tempNo) Cookies.set("tempNo", tempNo, { expires: 7 });
-  
-        // ✅ Store payment ID in localStorage
+
         localStorage.setItem("paymentId", _id);
-  
+        setPaymentId(_id); // ✅ Pass payment ID to parent
+
         toast({
-          description: responseData.message || "Payment submitted successfully!",
+          description:
+            responseData.message || "Payment submitted successfully!",
           variant: "success",
         });
-        onNext(); // Move to Additional step
+
+        onNext();
       } else {
         throw new Error(responseData.message || "Payment failed");
       }
@@ -99,9 +108,7 @@ const Payment = ({ onNext, userId }: PaymentProps) => {
       setIsSubmitting(false);
     }
   };
-  
-  
-  
+
   return (
     <div className="space-y-6 p-6">
       <div>

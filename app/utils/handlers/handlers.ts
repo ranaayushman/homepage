@@ -57,6 +57,7 @@ interface StudentFormDetailsPayload {
   lastSchool: string;
   lastClassAttended: string;
   lastSchoolAffiliated: string;
+  studentApplicationPaymentDetailsId: string;
 }
 
 interface StudentDocumentPayload {
@@ -176,7 +177,8 @@ export const handleStudentApplication = async (
 
 export const handleStudentApplicationFormDetails = async (
   studentAppId: string,
-  formData: AdditionalFormData
+  formData: AdditionalFormData,
+  paymentId: string
 ): Promise<any> => {
   try {
     if (!studentAppId) return { success: false, error: "Missing student application ID" };
@@ -220,6 +222,7 @@ export const handleStudentApplicationFormDetails = async (
       lastSchool: formData.previousSchool.lastSchool,
       lastClassAttended: formData.previousSchool.lastClassAttended,
       lastSchoolAffiliated: formData.previousSchool.lastSchoolAffiliated,
+      studentApplicationPaymentDetailsId: paymentId,
     };
 
     console.log("Sending to /add-student-form-details:", data);
@@ -317,7 +320,8 @@ export const handleStudentApplicationAllId = async (
 
 export const handleSubmitStudentApplication = async (
   formData: AdditionalFormData,
-  parentId: string
+  parentId: string,
+  paymentId: string
 ): Promise<any> => {
   try {
     const allIds: AllIds = {
@@ -337,7 +341,7 @@ export const handleSubmitStudentApplication = async (
     };
     const studentAppId = applicationResult.data._id;
 
-    const formDetailsResult = await handleStudentApplicationFormDetails(studentAppId, formData);
+    const formDetailsResult = await handleStudentApplicationFormDetails(studentAppId, formData, paymentId);
     if (!formDetailsResult?._id) throw new Error("Failed to submit form details");
     allIds.studentApplicationFormDetails = { id: formDetailsResult._id, fullResponse: formDetailsResult };
 

@@ -23,8 +23,15 @@ import axios from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const Additional = ({ userId }: { userId: string }) => {
+const Additional = ({
+  userId,
+  paymentId,
+}: {
+  userId: string;
+  paymentId: string;
+}) => {
   const [isLoading, setIsLoading] = useState(true);
+  console.log(paymentId);
 
   const methods = useForm<AdditionalFormData>({
     resolver: zodResolver(additionalSchema),
@@ -172,7 +179,11 @@ const Additional = ({ userId }: { userId: string }) => {
 
       console.log("No validation errors, proceeding to handler");
       const applicationId = Cookies.get("applicationId");
-      const result = await handleSubmitStudentApplication(data, userId);
+      const result = await handleSubmitStudentApplication(
+        data,
+        userId,
+        paymentId
+      );
       console.log("Handler result:", result);
 
       if (result.success) {

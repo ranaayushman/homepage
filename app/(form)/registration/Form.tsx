@@ -16,6 +16,7 @@ interface FormProps {
 
 const Form = ({ userId }: FormProps) => {
   const [step, setStep] = useState(1);
+  const [paymentId, setPaymentId] = useState<string | null>(null);
 
   const registerMethods = useForm({
     resolver: zodResolver(registerFormSchema),
@@ -56,13 +57,17 @@ const Form = ({ userId }: FormProps) => {
 
       {step === 2 && (
         <FormProvider {...paymentMethods}>
-          <Payment onNext={handleNext} userId={userId} />
+          <Payment
+            onNext={handleNext}
+            userId={userId}
+            setPaymentId={setPaymentId}
+          />
         </FormProvider>
       )}
 
-      {step === 3 && (
+      {step === 3 && paymentId && (
         <FormProvider {...additionalMethods}>
-          <Additional userId={userId} />
+          <Additional userId={userId} paymentId={paymentId} />
         </FormProvider>
       )}
     </div>
